@@ -24,19 +24,23 @@ Any deviation from the prescribed evaluation protocols invalidates benchmark com
 
 ## 1. What is this Technology?
 
-**VEK (Verifiable Execution Kernel)** is a cycle-accurate, drift-free virtual machine and middleware layer designed to evaluate and mitigate non-determinism in critical software environments. In standard execution architectures, stochastic AI token generation, single-precision floating-point drifts across distributed consensus platforms, and external operating system anomalies make execution logs impossible to recreate or audit with precision.
+**VEK (Verifiable Execution Kernel)** is an architectural specification and deterministic execution framework designed to mitigate non-determinism in critical software environments. In standard execution architectures, stochastic AI token generation, single-precision floating-point drifts across distributed hardware platforms, and unsynchronized operating system cycles make execution logs impossible to recreate or audit with exact cryptographic precision.
 
-VEK is intended to enforce deterministic state-transitions. It implements deterministic constraints to capture instructions, registers, and memory boundaries on a cycle-by-cycle basis, providing verifiable execution artifacts (lightweight, cryptographically signed algebraic execution witnesses). These witnesses certify that execution occurred exactly as logged and in strict accordance with pre-registered safety invariants.
+The VEK reference suite demonstrates:
+* **Deterministic Replay**: In our reference enclaves (such as [`examples/replay_demo/demo.js`](examples/replay_demo/demo.js)), floating-point drift across heterogeneous virtual nodes (e.g., Apple M3 vs Intel Xeon) is isolated and resolved using integer-scaled arithmetic, keeping consensus stable.
+* **Cycle-Accurate CPU Emulation**: Our instruction register emulator ([`examples/hello_world/demo.js`](examples/hello_world/demo.js)) tracks program counters and isolated memory bounds on a instruction-by-instruction basis to prevent unverified execution paths.
+* **Inline Threat Containment (EGAF)**: The SCADA simulation ([`examples/constraint_demo/demo.js`](examples/constraint_demo/demo.js)) enforces boundary restrictions on external commands before state-stabilization, completely blocking violating values at the input gate.
 
 ---
 
 ## 2. Why is it Different?
 
-Unlike standard virtual runtimes or container sandboxes:
-* **Drift-Free Register Isolation**: Reconciles single-precision and double-precision transcendental floating-point deviations across replicated enclaves instantly.
-* **Algebraic Execution Proofs**: Maps state-transitions to algebraic constraint trees, enabling zero-knowledge proof (STARK-based) or canonical Ed25519-signed verification envelopes.
-* **Inline System-Call Interceptors**: Intercepts unauthenticated outbound network or system socket requests inside the execution sandbox without causing host-level resource leaks.
-* **Defensive Intellectual Property Architecture**: Corresponds directly to a broad portfolio of pending and issued U.S. patent applications, ensuring comprehensive intellectual property tracing.
+Rather than relying on generic black-box virtualization, VEK defines a structured, six-stage mathematical pipeline:
+
+* **Simulated Drift-Free Isolation**: Reconciles single-precision float deviations across replicated virtual nodes using integer-scaled state parameters (see [`docs/adr/0001-deterministic-runtime.md`](docs/adr/0001-deterministic-runtime.md)).
+* **Tamper-Evident Transaction Ledgers**: Compiles signed write-ahead log (WAL) blocks containing cycle registers, conforming to versioned schemas to prepare traces for future STARK/ZK verification (see [`schemas/audit_bundle_v1.json`](schemas/audit_bundle_v1.json)).
+* **Execution-Gated Assertions (EGAF)**: Mandates strict separation of candidate computation ($F$) and policy verification ($\Omega$) prior to permanent hardware/state stabilization ($\Sigma$) (see [`docs/adr/0004-egaf-separation.md`](docs/adr/0004-egaf-separation.md)).
+* **Defensive Intellectual Property Tracing**: Corresponds directly to our portfolio of pending U.S. patent applications, traced via our programmatic Claim-to-Implementation Matrix (CIM) (see [`evaluation-kit/traceability_matrix.md`](evaluation-kit/traceability_matrix.md)).
 
 ---
 

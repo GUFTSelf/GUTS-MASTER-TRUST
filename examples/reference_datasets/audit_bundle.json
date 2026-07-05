@@ -1,0 +1,32 @@
+{
+  "dataset_metadata": {
+    "name": "Audit Bundle Trace Log Vectors",
+    "version": "1.0.0",
+    "conformance_level": 1,
+    "description": "Standard mock transaction log block representing conforming data payloads for verification tests."
+  },
+  "test_vectors": [
+    {
+      "vector_id": "VEC-AUDIT-BUNDLE-01",
+      "expected_conforming_payload": {
+        "bundle_version": "1.0.0",
+        "epoch_id": 284,
+        "timestamp_utc": "2026-07-05T09:07:00.375Z",
+        "previous_block_hash": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "current_block_hash": "b0cfd9af6217f782088812d015055dad03dde157604947376bbbd391c5ebe3646aae284d0ba1729da5d61f785ff86c7db4c01466f0adc5ba85233fa11569ff72",
+        "trace_records": [
+          {
+            "cycle_count": 1,
+            "program_counter": 1004,
+            "opcode": "LOAD_IMM 0 100"
+          }
+        ],
+        "signature": {
+          "algorithm": "Ed25519",
+          "public_key": "ed25519_pk_748fbc2e77a119bc6c813a4bc03df9b47cf29f52b61ef0a",
+          "payload_signature": "Dp+6JXM5J5ktnXzDWS3OA8H28JB/KgN2b9786bJdWLyQXFx8NwrfgOWU/44Yc2fm6AwpkcgqVoPY/9nLrzHVTA=="
+        }
+      }
+    }
+  ]
+}

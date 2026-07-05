@@ -1,0 +1,38 @@
+{
+  "dataset_metadata": {
+    "name": "EGAF SCADA Interlock Violation Vectors",
+    "version": "1.0.0",
+    "conformance_level": 1,
+    "description": "Exposes test payloads designed to trigger the execution-gated safety interlocks when battery voltage limits are exceeded."
+  },
+  "test_vectors": [
+    {
+      "vector_id": "VEC-EGAF-SAFE-01",
+      "payload": {
+        "modbus_address": 40015,
+        "candidate_register_value": 4150,
+        "current_temperature_c": 25
+      },
+      "expected_outcome": "ACCEPT",
+      "expected_system_state": {
+        "is_grid_isolated": false,
+        "is_enclave_locked": false
+      }
+    },
+    {
+      "vector_id": "VEC-EGAF-FAIL-02",
+      "payload": {
+        "modbus_address": 40015,
+        "candidate_register_value": 4500,
+        "current_temperature_c": 25
+      },
+      "expected_outcome": "REJECT",
+      "triggered_invariant": "INVARIANT_01",
+      "expected_system_state": {
+        "is_grid_isolated": true,
+        "is_enclave_locked": true
+      },
+      "expected_emergency_hash_prefix": "16762e2554aaca85027332b9467a3a59"
+    }
+  ]
+}

@@ -89,11 +89,15 @@ Our **Reference Implementation** is fully executable and provides reproducible e
 * 🔌 **[examples/constraint_demo/demo.js](examples/constraint_demo/demo.js)**: SCADA Modbus interception and emergency safety interlocks.
 * 📜 **[examples/audit_bundle_demo/demo.js](examples/audit_bundle_demo/demo.js)**: Creation of signed, schema-compliant transaction logs.
 * 🗺️ **[examples/claim_graph_demo/demo.js](examples/claim_graph_demo/demo.js)**: Automated verification mappings linking source to patent application.
+* 💾 **[examples/reference_datasets/](examples/reference_datasets/)**: Complete set of reproducible JSON test vectors for validators.
 
 ---
 
 ## 6. Documentation Map
 
+* 📊 **[STATUS_MATRIX.md](STATUS_MATRIX.md)**: Live feature readiness matrix explicitly mapping implemented versus planned features.
+* 🎓 **[docs/CONFORMANCE_SPECIFICATION.md](docs/CONFORMANCE_SPECIFICATION.md)**: Establishes Level 1, 2, and 3 conformance levels for VEK-compliant runtimes.
+* 🏛️ **[docs/adr/](docs/adr/)**: Comprehensive Architecture Decision Records (ADRs 0001–0004) covering arithmetic, traceability, WAL formats, and safety gates.
 * 📑 **[LICENSE-EVALUATION.md](LICENSE-EVALUATION.md)**: Standard Evaluation License agreement. Outlines how to evaluate, compile, and run this repository safely.
 * 📋 **[licensing/licensing_packet_index.md](licensing/licensing_packet_index.md)**: Master Index & Dossier Mapping for Docs 1–26.
 * 📅 **[licensing/Development_Roadmap.md](licensing/Development_Roadmap.md)**: Official 24-week engineering roadmap, phase-by-phase milestones, and Version 1.0 exit criteria.

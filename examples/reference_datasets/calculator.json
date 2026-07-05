@@ -1,0 +1,35 @@
+{
+  "dataset_metadata": {
+    "name": "Deterministic Arithmetic Test Vectors",
+    "version": "1.0.0",
+    "conformance_level": 2,
+    "scale_factor": 1000000,
+    "description": "Validates that compilers scale floating-point metrics to integers to prevent IEEE 754 precision drift."
+  },
+  "test_vectors": [
+    {
+      "vector_id": "VEC-ARITH-01",
+      "inputs": {
+        "float_val_a": "42.1247205",
+        "float_val_b": "0.1500001"
+      },
+      "scaled_integers": {
+        "int_val_a": 42124721,
+        "int_val_b": 150000
+      },
+      "expected_output_hash": "c78fbc2e77a119bc6c813a4bc03df9b47cf29f52b61ef0a221fbc216b3f2e1a4"
+    },
+    {
+      "vector_id": "VEC-ARITH-02",
+      "inputs": {
+        "float_val_a": "100.000501",
+        "float_val_b": "200.999499"
+      },
+      "scaled_integers": {
+        "int_val_a": 100000501,
+        "int_val_b": 200999499
+      },
+      "expected_output_hash": "252fba4987cb2811a78ffbc2c129dfab87f12e12ac23bc8a76bc812dfb31ee2a"
+    }
+  ]
+}

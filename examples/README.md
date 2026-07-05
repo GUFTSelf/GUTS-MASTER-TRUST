@@ -48,3 +48,31 @@ To maintain clean cross-language and platform compatibility, all deliverables co
 2. 📂 **`claim_graph_v1.json`**: For tracing compliance evidence back to USPTO patent claims.
 3. 📂 **`execution_proof_v1.json`**: For validating cycle-by-cycle algebraic witness commitments.
 4. 📂 **`protocol_v1.json`**: For securing real-time inter-service consensus voter packets and Modbus interceptions.
+
+---
+
+## 💾 Reference Datasets & Test Vectors
+
+Reviewers can verify standard payloads and expected hash behaviors using our JSON test vectors:
+- 📂 **[`examples/reference_datasets/calculator.json`](/examples/reference_datasets/calculator.json)**: Verifies scaled fixed-point mathematical inputs.
+- 📂 **[`examples/reference_datasets/constraint_violation.json`](/examples/reference_datasets/constraint_violation.json)**: Payloads for testing safety-critical SCADA triggers.
+- 📂 **[`examples/reference_datasets/replay_success.json`](/examples/reference_datasets/replay_success.json)**: Consensus alignment and multi-node voter payloads.
+- 📂 **[`examples/reference_datasets/audit_bundle.json`](/examples/reference_datasets/audit_bundle.json)**: Valid, schema-compliant log payloads.
+
+---
+
+## 🏛️ Architecture Decision Records (ADRs)
+
+Our core design rationale is captured in high-fidelity architectural specifications:
+- 📘 **[`docs/adr/0001-deterministic-runtime.md`](/docs/adr/0001-deterministic-runtime.md)**: Scaling floating-point states to prevent consensus divergence.
+- 📘 **[`docs/adr/0002-claim-graph-traceability.md`](/docs/adr/0002-claim-graph-traceability.md)**: Tracing programmatic execution to USPTO patent claims.
+- 📘 **[`docs/adr/0003-audit-bundle-wal.md`](/docs/adr/0003-audit-bundle-wal.md)**: Light-weight, signature-signed write-ahead transaction ledgers.
+- 📘 **[`docs/adr/0004-egaf-separation.md`](/docs/adr/0004-egaf-separation.md)**: Isolating candidate computations from physical register commitment.
+
+---
+
+## 🎓 Conformance Specification
+
+What makes an implementation officially VEK-compliant? See our multi-tiered engineering guide:
+- 🗺️ **[`docs/CONFORMANCE_SPECIFICATION.md`](/docs/CONFORMANCE_SPECIFICATION.md)**: Specifies Level 1, 2, and 3 conformance checkpoints for reviewers.
+

@@ -1,0 +1,39 @@
+{
+  "dataset_metadata": {
+    "name": "Consensus Replay and Drift Isolation Vectors",
+    "version": "1.0.0",
+    "conformance_level": 2,
+    "description": "Validates multi-node consensus votes, ensuring divergent enclaves are correctly quarantined."
+  },
+  "test_vectors": [
+    {
+      "vector_id": "VEC-REPLAY-CONVERGE",
+      "cycle": 4821,
+      "enclaves": [
+        { "node_id": "Node_A_Intel_Xeon", "state_value": "42.1247205022" },
+        { "node_id": "Node_B_AMD_EPYC", "state_value": "42.1247205022" },
+        { "node_id": "Node_C_Apple_M3", "state_value": "42.1247205022" }
+      ],
+      "expected_outcome": {
+        "consensus_threshold_met": true,
+        "agreement_ratio": 1.0,
+        "active_quarantines": []
+      }
+    },
+    {
+      "vector_id": "VEC-REPLAY-DIVERGE",
+      "cycle": 4822,
+      "enclaves": [
+        { "node_id": "Node_A_Intel_Xeon", "state_value": "42.1247205022" },
+        { "node_id": "Node_B_AMD_EPYC", "state_value": "42.1247205022" },
+        { "node_id": "Node_C_Apple_M3", "state_value": "42.1247305022" }
+      ],
+      "expected_outcome": {
+        "consensus_threshold_met": true,
+        "agreement_ratio": 0.6667,
+        "active_quarantines": ["Node_C_Apple_M3"],
+        "reconciled_state_value": "42.1247205022"
+      }
+    }
+  ]
+}

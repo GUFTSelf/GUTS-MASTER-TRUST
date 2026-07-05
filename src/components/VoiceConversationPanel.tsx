@@ -64,6 +64,7 @@ interface VoiceConversationPanelProps {
   aiVoice: string;
   aiAvatar: string;
   onSpeakingChange?: (speaking: boolean) => void;
+  onActiveChange?: (active: boolean) => void;
 }
 
 export default function VoiceConversationPanel({
@@ -72,7 +73,8 @@ export default function VoiceConversationPanel({
   loading,
   aiVoice,
   aiAvatar,
-  onSpeakingChange
+  onSpeakingChange,
+  onActiveChange
 }: VoiceConversationPanelProps) {
   const [isSupported, setIsSupported] = useState<boolean>(true);
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -84,6 +86,12 @@ export default function VoiceConversationPanel({
       onSpeakingChange(status === "speaking");
     }
   }, [status, onSpeakingChange]);
+
+  useEffect(() => {
+    if (onActiveChange) {
+      onActiveChange(isActive);
+    }
+  }, [isActive, onActiveChange]);
   
   // Transcripts
   const [transcript, setTranscript] = useState<string>("");

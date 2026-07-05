@@ -8,7 +8,7 @@ import {
 import { VerificationReport, AuditRecord } from "../types";
 import OracleIdentityPanel from "./OracleIdentityPanel";
 import VoiceConversationPanel from "./VoiceConversationPanel";
-import OscillatorVisualizer from "./OscillatorVisualizer";
+import AudioVisualizer from "./AudioVisualizer";
 import { speakText, stopSpeaking } from "../lib/speakHelper";
 
 interface DashboardProps {
@@ -63,6 +63,7 @@ export default function Dashboard({
   const [isOutputSpeaking, setIsOutputSpeaking] = useState(false);
   const [isVoiceSpeaking, setIsVoiceSpeaking] = useState(false);
   const [isSandboxSpeaking, setIsSandboxSpeaking] = useState(false);
+  const [isVoiceActive, setIsVoiceActive] = useState(false);
 
   const isAiSpeaking = isOutputSpeaking || isVoiceSpeaking || isSandboxSpeaking;
 
@@ -240,9 +241,10 @@ export default function Dashboard({
           onSpeakingChange={setIsSandboxSpeaking}
         />
 
-        {/* Real-Time Oscillator and Frequency Visualizer */}
-        <OscillatorVisualizer 
+        {/* Real-Time Canvas & AnalyserNode Frequency Visualizer */}
+        <AudioVisualizer 
           isSpeaking={isAiSpeaking}
+          isVoiceActive={isVoiceActive}
           voiceName={aiVoice}
         />
 
@@ -254,6 +256,7 @@ export default function Dashboard({
           aiVoice={aiVoice}
           aiAvatar={aiAvatar}
           onSpeakingChange={setIsVoiceSpeaking}
+          onActiveChange={setIsVoiceActive}
         />
 
         {/* Dynamic Pipeline Progress Bar */}

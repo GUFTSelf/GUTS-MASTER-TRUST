@@ -1,34 +1,48 @@
 # VEK Console 2.4.0 (GUTS DETERMINISTIC TECHNOLOGY LLC)
 
-> **Verifiable Execution Kernel (VEK)**: A deterministic execution, replay-verification, and high-assurance policy enforcement platform for AI, distributed systems, and critical SCADA networks.
+> **VEK Console 2.4.0 is an engineering evaluation and deterministic execution verification platform.** It is provided solely for technical assessment, benchmarking, and licensing due diligence of the Verifiable Execution Kernel (VEK) architecture.
 
-[![IP Holding Entity](https://img.shields.io/badge/IP_Holder-GUTS_MASTER_TRUST-blue.svg)](#ip-holding-and-licensing-entity)
+[![IP Holding Entity](https://img.shields.io/badge/IP_Holder-GUTS_MASTER_TRUST-blue.svg)](#corporate-licensing--contact-information)
 [![Licensing](https://img.shields.io/badge/Licensing-Evaluation_Available-green.svg)](LICENSE-EVALUATION.md)
 [![Build Status](https://img.shields.io/badge/Automated_Replay_Verification-100%25_Match-emerald.svg)](BENCHMARKS.md)
 
 ---
 
+### 🔒 EVALUATION CONTRACT SURFACE
+
+Access to this repository and its associated software components constitutes permission for technical evaluation, due diligence, and verification auditing only. The system must be executed under controlled conditions defined in:
+* **[LICENSE-EVALUATION.md](LICENSE-EVALUATION.md)**
+* **[BENCHMARKS.md](BENCHMARKS.md)**
+* **[ARCHITECTURE.md](ARCHITECTURE.md)**
+
+Any deviation from the prescribed evaluation protocols invalidates benchmark comparability.
+
+> **🛑 NON-PRODUCTION NOTICE**
+> This system is not authorized for production deployment or commercial exploitation without a separate, written field-of-use commercial license agreement signed by Thoeun Thien, CEO of GUTS DETERMINISTIC TECHNOLOGY LLC. All runtime outputs, trace logs, and generated visual metrics are intended solely for evaluation and technical assessment purposes.
+
+---
+
 ## 1. What is this Technology?
 
-**VEK (Verifiable Execution Kernel)** is a cycle-accurate, drift-free virtual machine and middleware layer designed to solve the problem of non-determinism in critical software systems. In standard architectures, stochastic AI token generation, float-point drifts in distributed consensus, and external operating system anomalies make execution logs impossible to recreate or guarantee with absolute cryptographic precision. 
+**VEK (Verifiable Execution Kernel)** is a cycle-accurate, drift-free virtual machine and middleware layer designed to evaluate and mitigate non-determinism in critical software environments. In standard execution architectures, stochastic AI token generation, single-precision floating-point drifts across distributed consensus platforms, and external operating system anomalies make execution logs impossible to recreate or audit with precision.
 
-VEK enforces absolute deterministic state-transitions. It captures instructions, registers, and memory boundaries on a cycle-by-cycle basis, creating lightweight, cryptographically signed algebraic execution witnesses. These witnesses certify that execution occurred exactly as logged and in strict accordance with predefined safety invariants (e.g., aerospace safety bounds, SCADA interlocks).
+VEK is intended to enforce deterministic state-transitions. It implements deterministic constraints to capture instructions, registers, and memory boundaries on a cycle-by-cycle basis, providing verifiable execution artifacts (lightweight, cryptographically signed algebraic execution witnesses). These witnesses certify that execution occurred exactly as logged and in strict accordance with pre-registered safety invariants.
 
 ---
 
 ## 2. Why is it Different?
 
 Unlike standard virtual runtimes or container sandboxes:
-* **Zero Cycle Drift & Float Reconciliation**: Built-in Single-Instruction-Multiple-Data (SIMD) and floating-point registers reconcile single/double-precision deviations across replicated enclaves instantly.
-* **Algebraic Execution Proofs (Witnesses)**: Every state-transition is mapped to an algebraic constraint tree, enabling zero-knowledge proof (STARK-based) or canonical Ed25519-signed verification envelopes.
-* **Inline Threat Containment (Boundary Controller)**: Restricted input/output gates intercept unauthenticated outbound network or system socket requests inside the execution sandbox without causing host-level resource leakage.
-* **Direct USPTO Patent Alignment**: Our kernel design corresponds directly to a broad portfolio of pending and issued U.S. patent applications, ensuring full defensive and offensive intellectual property protection.
+* **Drift-Free Register Isolation**: Reconciles single-precision and double-precision transcendental floating-point deviations across replicated enclaves instantly.
+* **Algebraic Execution Proofs**: Maps state-transitions to algebraic constraint trees, enabling zero-knowledge proof (STARK-based) or canonical Ed25519-signed verification envelopes.
+* **Inline System-Call Interceptors**: Intercepts unauthenticated outbound network or system socket requests inside the execution sandbox without causing host-level resource leaks.
+* **Defensive Intellectual Property Architecture**: Corresponds directly to a broad portfolio of pending and issued U.S. patent applications, ensuring comprehensive intellectual property tracing.
 
 ---
 
 ## 3. Patent Portfolio & Claim Traceability
 
-The technology in this repository aligns with the GUTS MASTER TRUST patent portfolio. Below is a high-level summary of the patent mapping:
+The repository references a set of U.S. patent applications owned by GUTS MASTER TRUST. These references describe conceptual and technical relationships for evaluation purposes only and do not grant any rights under issued patents.
 
 | USPTO Application | Technology Family | Public Demonstration / Component | Reference Document |
 | :--- | :--- | :--- | :--- |
@@ -45,7 +59,22 @@ For complete claim-to-source-code mapping, please refer to the in-app **Claim-to
 
 ---
 
-## 4. Documentation Map
+## 4. Evaluation Workflow
+
+To perform a standardized evaluation of the VEK platform, engineering reviewers and compliance officers are instructed to execute the following sequence:
+
+1. **Clone Repository**: Fetch the master appraisal pack.
+2. **Install Dependencies**: Execute `npm install` to populate the local packages and runtimes.
+3. **Run Deterministic Build**: Compile the server-side proxy and client-side visualization components using `npm run build`.
+4. **Boot Administrative Console**: Run `npm run dev` to launch the interactive platform interface on `http://localhost:3000`.
+5. **Execute Benchmark Suite**: Navigate to the **Benchmarks** panel or audit `/BENCHMARKS.md` to evaluate latency overhead and floating-point drift thresholds.
+6. **Perform Replay Verification**: Run simulated execution traces inside the **Replay** panel to observe consensus drift isolation.
+7. **Inspect Claim Traceability (CIM)**: Open the **Licensing** tab to run automated in-browser unit tests verifying specific USPTO claims against underlying source code.
+8. **Generate Report**: Validate execution trace logs and download proof commitments for corporate compliance files.
+
+---
+
+## 5. Documentation Map
 
 * 📑 **[LICENSE-EVALUATION.md](LICENSE-EVALUATION.md)**: Standard Evaluation License agreement. Outlines how to evaluate, compile, and run this repository safely.
 * 📋 **[licensing/licensing_packet_index.md](licensing/licensing_packet_index.md)**: Master Index & Dossier Mapping for Docs 1–26.
@@ -62,26 +91,17 @@ For complete claim-to-source-code mapping, please refer to the in-app **Claim-to
 
 ---
 
-## 5. Evolving Your Evaluation
+## 6. Corporate Licensing & Contact Information
 
-Engineers, security auditors, and business executives can interactively explore the platform via the **VEK Console**:
+This system represents proprietary research and intellectual property available for commercial acquisition, field-of-use licensing, or strategic integration.
 
-1. **Dashboard & Metrics**: Monitor active memory usage, CPU benchmarks, real-time transaction signatures, and AI voice verification models.
-2. **Replay Validation**: Simulate distributed multi-threaded execution traces, intentionally trigger floating-point drifts, and watch the consensus nodes reconcile single-precision deviations.
-3. **Claim Verification**: Use the **Claim-to-Implementation Matrix (CIM)** inside the **Licensing** tab to trigger automated Cargo tests, compile source snippets, and simulate network boundary threats (like SCADA command injection) on the fly.
+* **IP Holding Entity**: GUTS MASTER TRUST
+* **Licensing Entity**: GUTS DETERMINISTIC TECHNOLOGY LLC
+* **Founder & CEO**: Thoeun Thien
+* **Unique Entity ID (UEI)**: FQJUJKVKSAS3
+* **CAGE Code**: 1ZMG9
+* **ORCID iD**: 0009-0008-8779-171X
+* **Corporate Headquarters**: Clearwater, Florida, USA
+* **Principal Email**: [apollothien@gmail.com](mailto:apollothien@gmail.com)
+* **Official Website**: [gdtsi.com](https://gdtsi.com)
 
----
-
-## 6. Corporate Directory & Contact Information
-
-This repository represents proprietary research and intellectual property available for commercial acquisition or field-of-use licensing.
-
-* **IP Holding Entity:** GUTS MASTER TRUST
-* **Licensing Entity:** GUTS DETERMINISTIC TECHNOLOGY LLC
-* **Founder & CEO:** Thoeun Thien
-* **Unique Entity ID (UEI):** FQJUJKVKSAS3
-* **CAGE Code:** 1ZMG9
-* **ORCID iD:** 0009-0008-8779-171X
-* **Corporate Headquarters:** Clearwater, Florida, USA
-* **Principal Email:** [apollothien@gmail.com](mailto:apollothien@gmail.com)
-* **Official Website:** [gdtsi.com](https://gdtsi.com)

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VEK_Audit_Bundle_Schema_v1",
+  "description": "JSON schema for validating VEK Write-Ahead Log (WAL) audit bundle logs and cryptographic ledger commitments.",
+  "type": "OBJECT",
+  "properties": {
+    "bundle_version": {
+      "type": "STRING",
+      "enum": ["1.0.0"]
+    },
+    "epoch_id": {
+      "type": "INTEGER",
+      "minimum": 0
+    },
+    "timestamp_utc": {
+      "type": "STRING",
+      "format": "date-time"
+    },
+    "previous_block_hash": {
+      "type": "STRING",
+      "pattern": "^[0-9a-fA-F]{128}$",
+      "description": "SHA-512 cryptographic hash of the preceding block ledger element."
+    },
+    "current_block_hash": {
+      "type": "STRING",
+      "pattern": "^[0-9a-fA-F]{128}$",
+      "description": "Salted SHA-512 hash chain commit sealing current execution registers and memory boundaries."
+    },
+    "trace_records": {
+      "type": "ARRAY",
+      "items": {
+        "type": "OBJECT",
+        "properties": {
+          "cycle_count": { "type": "INTEGER", "minimum": 0 },
+          "program_counter": { "type": "INTEGER", "minimum": 0 },
+          "opcode": { "type": "STRING" },
+          "registers": {
+            "type": "ARRAY",
+            "items": { "type": "INTEGER" },
+            "minItems": 32,
+            "maxItems": 32
+          },
+          "memory_mutation": {
+            "type": ["OBJECT", "NULL"],
+            "properties": {
+              "address": { "type": "INTEGER" },
+              "old_value": { "type": "INTEGER" },
+              "new_value": { "type": "INTEGER" }
+            },
+            "required": ["address", "old_value", "new_value"]
+          }
+        },
+        "required": ["cycle_count", "program_counter", "opcode", "registers"]
+      }
+    },
+    "signature": {
+      "type": "OBJECT",
+      "properties": {
+        "algorithm": { "type": "STRING", "enum": ["Ed25519"] },
+        "public_key": { "type": "STRING" },
+        "payload_signature": { "type": "STRING" }
+      },
+      "required": ["algorithm", "public_key", "payload_signature"]
+    }
+  },
+  "required": [
+    "bundle_version",
+    "epoch_id",
+    "timestamp_utc",
+    "previous_block_hash",
+    "current_block_hash",
+    "trace_records",
+    "signature"
+  ],
+  "additionalProperties": false
+}

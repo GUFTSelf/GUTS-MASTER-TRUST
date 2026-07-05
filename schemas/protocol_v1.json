@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VEK_Protocol_Schema_v1",
+  "description": "JSON schema for validating real-time inter-service communication protocols, consensus voting packets, and Modbus control frame interception events.",
+  "type": "OBJECT",
+  "properties": {
+    "protocol_type": {
+      "type": "STRING",
+      "enum": ["json_rpc_2_0", "modbus_intercept", "consensus_voter"]
+    },
+    "message_id": {
+      "type": "STRING"
+    },
+    "payload": {
+      "type": "OBJECT",
+      "properties": {
+        "event_type": { 
+          "type": "STRING", 
+          "enum": ["EXECUTE_JOB", "SYS_CALL_INTERCEPT", "FLOAT_DRIFT_DETECTED", "REG_SYNC_EMITTED"] 
+        },
+        "source_enclave_id": { "type": "STRING" },
+        "timestamp_ms": { "type": "INTEGER" },
+        "modbus_data": {
+          "type": "OBJECT",
+          "properties": {
+            "register_address": { "type": "INTEGER", "minimum": 0 },
+            "operation": { "type": "STRING", "enum": ["READ", "WRITE"] },
+            "raw_value": { "type": "INTEGER" },
+            "interceptor_action": { "type": "STRING", "enum": ["PASS", "BLOCK_EMERGENCY_HALT"] }
+          },
+          "required": ["register_address", "operation", "raw_value", "interceptor_action"]
+        },
+        "drift_diagnostics": {
+          "type": "OBJECT",
+          "properties": {
+            "diverging_node_id": { "type": "STRING" },
+            "cycle_index": { "type": "INTEGER" },
+            "expected_register_value": { "type": "STRING" },
+            "received_register_value": { "type": "STRING" },
+            "variance": { "type": "NUMBER" }
+          },
+          "required": ["diverging_node_id", "cycle_index", "expected_register_value", "received_register_value", "variance"]
+        }
+      },
+      "required": ["event_type", "source_enclave_id", "timestamp_ms"]
+    }
+  },
+  "required": ["protocol_type", "message_id", "payload"],
+  "additionalProperties": false
+}

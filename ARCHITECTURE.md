@@ -112,3 +112,119 @@ GUTS-MASTER-TRUST
 4. **Boundary Control**: If the sandboxed code tries to escape (e.g. executing an unauthorized TCP connect), `execution-service` intercepts the syscall and freezes the sandbox.
 5. **Drift Resolution**: The `Reconciler` in `replay-service` monitors parallel enclaves, matches their state hashes, and drops any node displaying single-precision deviation.
 6. **Console Visualization**: The administrative React console (in `/src`) displays all these real-time streams in an elegant, high-contrast dashboard with live, interactively triggerable simulations.
+
+---
+
+### 4. Structural Sequence & Data Flow Diagram
+
+This diagram maps out the end-to-end execution lifecycle, showing how visual operations on the Console trigger back-end execution, invariant checks, consensus reconciliation, and cryptographic storage.
+
+```
+┌────────────────────────────────────────────────────────┐
+│                        Console                         │
+│  (Trigger simulations, request audit metrics, monitor) │
+└───────────────────────────┬────────────────────────────┘
+                            │ (HTTPS / WebSocket Request)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                      Server API                        │
+│  (Express back-end routes: /api/execute, /api/logs)    │
+└───────────────────────────┬────────────────────────────┘
+                            │ (Dispatch Job Payload)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                       Scheduler                        │
+│  (Allocates jobs, synchronizes execution clock ticks)   │
+└───────────────────────────┬────────────────────────────┘
+                            │ (Instantiate Core Enclave)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                      VEK Runtime                       │
+│  (Cycle-accurate instruction execution and VM traces)  │
+└───────────────────────────┬────────────────────────────┘
+                            │ (Emit Raw Execution Trace)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                     Replay Engine                      │
+│  (Matches state hashes across nodes, isolates drift)   │
+└───────────────────────────┬────────────────────────────┘
+                            │ (Verify States Against Rules)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                         EGAF                           │
+│ (Execution-Gated Assertion Framework: check invariants)│
+└───────────────────────────┬────────────────────────────┘
+                            │ (Compile Proof Commitment)
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│                      Audit Bundle                      │
+│ (Write cryptographically signed WAL to disk ledger)   │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 5. Subsystem Interface Specifications
+
+These formal specifications define the contractual boundaries, expected behaviors, and fault-tolerance mechanics of the five core VEK components.
+
+#### A. VEK Runtime (Execution Kernel)
+* **Description**: The core cycle-accurate virtual machine executing virtual instructions inside secure hardware sandboxes.
+* **Inputs**:
+  * `program_bytes`: The binary payload to execute.
+  * `initial_registers`: Starting state of the 32-register array.
+  * `cycles_limit`: Hard maximum limit of CPU cycles before halting.
+* **Outputs**:
+  * `terminal_state_hash`: SHA-512 of final registers and memory space.
+  * `cycle_trace`: Chronological array of program counters, register logs, and memory delta records.
+* **Guarantees**: 100% architectural determinism; zero-entropy leakage; instruction evaluation is strictly sequence-bound.
+* **Failure Modes**:
+  * *OverflowHalt*: Triggers when `cycles_limit` is exceeded. Sandbox is frozen and current registers are serialized.
+  * *IllegalInstruction*: Halts instantly upon encountering an invalid op-code, locking the system state.
+
+#### B. Execution-Gated Assertion Framework (EGAF)
+* **Description**: Inline evaluation framework mapping system states directly to hard-coded mathematical constraints.
+* **Inputs**:
+  * `current_state`: Active register mappings, memory values, or Modbus signals.
+  * `invariant_rules`: Pre-compiled assertions mapping state limits (e.g. pressure $\le 4200$).
+* **Outputs**:
+  * `validation_status`: Boolean (Pass / Violate).
+  * `assertion_proof`: Diagnostic packet containing the program counter and register values causing any failure.
+* **Guarantees**: Invariant checks run on every single instruction cycle; no instruction can complete execution unless validation passes.
+* **Failure Modes**:
+  * *InvariantViolation*: Triggers immediate high-priority emergency rollback, locking register space and outputting a signature seal.
+
+#### C. Replay Engine (Consensus Reconciler)
+* **Description**: Monitors and reconciles parallel enclaves, isolating multi-platform CPU float and clock drift.
+* **Inputs**:
+  * `node_state_hashes`: Array of SHA-512 state commitments from multiple redundant executing nodes.
+  * `drift_threshold`: Allowed variance parameters (strictly zero for deterministic variables).
+* **Outputs**:
+  * `consensus_state_hash`: Approved master hash (requires $\ge 2/3$ agreement).
+  * `quarantine_list`: Array of platform IDs exhibiting divergent registers or float drift.
+* **Guarantees**: Identifies and isolates unaligned nodes within $0.25\text{ ms}$; guarantees downstream ledger determinism.
+* **Failure Modes**:
+  * *ConsensusFailure*: Occurs when less than 2/3 of nodes agree on a state hash. Triggers emergency system-wide halt.
+
+#### D. Scheduler (Task Orchestrator)
+* **Description**: Orchestrates job queues, binds virtual threads, and sets global clock cycles.
+* **Inputs**:
+  * `job_queue`: Ordered list of tasks ready for VM compilation.
+  * `system_clock`: Monotonic timing input regulating active enclaves.
+* **Outputs**:
+  * `allocated_enclaves`: Mappings of active tasks to isolated sandbox environments.
+  * `execution_orders`: Sequenced batches dispatched to individual execution pipes.
+* **Guarantees**: FIFO sequencing of high-priority transactions; enforces fair CPU cycles allotment.
+* **Failure Modes**:
+  * *ResourceStarvation*: Occurs if enclaves fail to spawn. Automatically rolls back pending queue.
+
+#### E. Storage System (Write-Ahead Log)
+* **Description**: Appends execution logs and cryptographic state proofs to binary log files on non-volatile storage.
+* **Inputs**:
+  * `audit_block`: Packed execution records, transaction signatures, and block hash chains.
+* **Outputs**:
+  * `committed_block_id`: Unique index representing durable write completion.
+  * `tamper_evidence_proof`: Salted SHA-512 chain link proving chronological order.
+* **Guarantees**: Immediate durability; sequential append-only locks prevent log truncation or retro-active edits.
+* **Failure Modes**:
+  * *WriteFailure (Disk Full)*: Instantly halts the associated execution pipe to prevent unlogged transactions.

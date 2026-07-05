@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VEK_Execution_Proof_Schema_v1",
+  "description": "JSON schema for validating cycle-by-cycle algebraic execution witnesses, polynomial commitments, and ZKP metadata.",
+  "type": "OBJECT",
+  "properties": {
+    "proof_type": {
+      "type": "STRING",
+      "enum": ["stark_witness", "signed_envelope"]
+    },
+    "kernel_version": {
+      "type": "STRING"
+    },
+    "trace_length_cycles": {
+      "type": "INTEGER",
+      "minimum": 0
+    },
+    "polynomial_commitments": {
+      "type": "OBJECT",
+      "properties": {
+        "merkle_root": { "type": "STRING", "pattern": "^0x[0-9a-fA-F]{64}$" },
+        "register_commitments": {
+          "type": "ARRAY",
+          "items": { "type": "STRING", "pattern": "^0x[0-9a-fA-F]{64}$" }
+        }
+      },
+      "required": ["merkle_root", "register_commitments"]
+    },
+    "verification_parameters": {
+      "type": "OBJECT",
+      "properties": {
+        "salt": { "type": "STRING" },
+        "digest_algorithm": { "type": "STRING", "enum": ["sha512", "poseidon"] }
+      },
+      "required": ["salt", "digest_algorithm"]
+    },
+    "witness_signature": {
+      "type": "STRING",
+      "description": "Base64-encoded signature of the compiler authority certifying the execution traces match the hardware enclave PCR registers."
+    }
+  },
+  "required": [
+    "proof_type",
+    "kernel_version",
+    "trace_length_cycles",
+    "polynomial_commitments",
+    "verification_parameters",
+    "witness_signature"
+  ],
+  "additionalProperties": false
+}

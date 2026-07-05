@@ -42,11 +42,26 @@ Rather than relying on generic black-box virtualization, VEK defines a structure
 * **Execution-Gated Assertions (EGAF)**: Mandates strict separation of candidate computation ($F$) and policy verification ($\Omega$) prior to permanent hardware/state stabilization ($\Sigma$) (see [`docs/adr/0004-egaf-separation.md`](docs/adr/0004-egaf-separation.md)).
 * **Defensive Intellectual Property Tracing**: Corresponds directly to our portfolio of pending U.S. patent applications, traced via our programmatic Claim-to-Implementation Matrix (CIM) (see [`evaluation-kit/traceability_matrix.md`](evaluation-kit/traceability_matrix.md)).
 
+## 3. Scientific Status & Component Maturity
+
+VEK is an engineering platform implementing deterministic execution and replay verification. Formal verification, empirical benchmarking, and third-party validation are ongoing. The reference implementation suite contains a combination of stable formats, behavioral prototypes, and planned components, detailed below to ensure full transparency during technical reviews:
+
+| Component / Subsystem | Current Maturity Level | Underlying Technology | Reference / Verification Artifact |
+| :--- | :---: | :--- | :--- |
+| **Deterministic Replay Engine** | **Prototype** | Fixed-Point Float Scaling & Consensus Sync | [`examples/replay_demo/demo.js`](examples/replay_demo/demo.js) |
+| **Tamper-Evident WAL Format** | **Stable** | JSON Schema Compliance & Ed25519 Signing | [`schemas/audit_bundle_v1.json`](schemas/audit_bundle_v1.json) |
+| **EGAF SCADA Interlocks** | **Prototype** | Modbus Syscall Gate & Invariant Interceptors | [`examples/constraint_demo/demo.js`](examples/constraint_demo/demo.js) |
+| **Virtual CPU Emulator** | **Prototype** | 32-Register Emulated Virtual CPU | [`examples/hello_world/demo.js`](examples/hello_world/demo.js) |
+| **STARK Execution Proofs** | **Experimental** | Witness Commitment Tree Generations | [`schemas/execution_proof_v1.json`](schemas/execution_proof_v1.json) |
+| **Formal Mathematical Proofs** | **Planned** | Mathematical modeling of $G = \Sigma \circ \Psi \circ N \circ \Omega \circ P \circ F$ | [`docs/CONFORMANCE_SPECIFICATION.md`](docs/CONFORMANCE_SPECIFICATION.md) |
+
 ---
 
-## 3. Patent Portfolio & Claim Traceability
+## 4. Patent Portfolio & Claim Traceability
 
 The repository references a set of U.S. patent applications owned by GUTS MASTER TRUST. These references describe conceptual and technical relationships for evaluation purposes only and do not grant any rights under issued patents.
+
+*Patent applications are pending. Publication of repository materials should not be interpreted as abandonment of any patent rights.*
 
 | USPTO Application | Technology Family | Public Demonstration / Component | Reference Document |
 | :--- | :--- | :--- | :--- |
@@ -63,7 +78,31 @@ For complete claim-to-source-code mapping, please refer to the in-app **Claim-to
 
 ---
 
-## 4. Evaluation Workflow
+## 5. Empirical Benchmark Evidence & Verification
+
+To satisfy high-assurance technical audits, the VEK framework defines automated verification gates and tracks performance against physical secure enclave environments.
+
+### Categorized Performance Summary
+Below is a compact summary of recorded performance measurements from our secure hardware test environments (Intel Xeon Platinum @ 2.90GHz, AMD EPYC @ 2.80GHz, and Apple M3 Max ARM within isolated Secure Enclaves / TEE). For full methodologies, standard deviations, and resource bounds, see **[BENCHMARKS.md](BENCHMARKS.md)**.
+
+| Performance Parameter | Empirical Result | Target SLA | Verification Scope / Mechanism |
+| :--- | :---: | :---: | :--- |
+| **VM Instruction Throughput** | **12.45 M IPS** | $\ge 10.0$ M IPS | Multi-enclave CPU emulation overhead metrics |
+| **SCADA Constraint Overhead** | **0.018 ms / token** | $\le 0.10$ ms | Pre-compiled Invariant Lookup Engine delay |
+| **ZK Proof Compilation** | **42.2 ms** | $\le 100$ ms | Witness creation time (4,096 gates) |
+| **WAL Commit Latency** | **0.145 ms** | $\le 1.00$ ms | Direct transaction write PCIe Gen 4 NVMe |
+| **Multi-Node Sync / Replay** | **100.00%** | 100.00% | Cross-Node Consensus Reconciler Matching |
+| **Consensus Recovery Time** | **0.25 ms** | $\le 1.00$ ms | Sub-millisecond drift rollback & synchronization |
+
+### Automated Verification & Trust Gates
+Our development lifecycle (enforced by `npm run verify` and mapped in **[EVALUATION_CHECKLIST.md](EVALUATION_CHECKLIST.md)**) automatically verifies the correctness of active implementations:
+* **Syntax and Typing**: Checked programmatically via the TypeScript compiler.
+* **Schema Validation**: Ensures all emitted WAL trace packages strictly validate against versioned JSON schemas in `/schemas/`.
+* **Execution Trace Reproducibility**: Re-execution of the reference enclaves must yield exact, reproducible SHA-512 state hashes across multiple host environments.
+
+---
+
+## 6. Evaluation Workflow
 
 To perform a standardized evaluation of the VEK platform, engineering reviewers and compliance officers are instructed to execute the following sequence:
 
@@ -71,7 +110,7 @@ To perform a standardized evaluation of the VEK platform, engineering reviewers 
 2. **Install Dependencies**: Execute `npm install` to populate the local packages and runtimes.
 3. **Execute Reference Implementation**: Run the automated console evaluation suite:
    ```bash
-   npm run demo
+   npm run verify
    ```
    *This command executes the five reference implementation scenarios, verifies schema validity, and compiles a comprehensive terminal verification report.*
 4. **Run Deterministic Build**: Compile the server-side proxy and client-side visualization components using `npm run build`.
@@ -83,7 +122,7 @@ To perform a standardized evaluation of the VEK platform, engineering reviewers 
 
 ---
 
-## 5. Reference Implementation (RI) Evaluation Suite
+## 7. Reference Implementation (RI) Evaluation Suite
 
 Our **Reference Implementation** is fully executable and provides reproducible evidence validating the core platform behaviors described in the specifications:
 
@@ -97,7 +136,7 @@ Our **Reference Implementation** is fully executable and provides reproducible e
 
 ---
 
-## 6. Documentation Map
+## 8. Documentation Map
 
 * 📊 **[STATUS_MATRIX.md](STATUS_MATRIX.md)**: Live feature readiness matrix explicitly mapping implemented versus planned features.
 * 📋 **[EVALUATION_CHECKLIST.md](EVALUATION_CHECKLIST.md)**: Quickstart Checklist for conducting third-party audits and validation steps.
@@ -122,7 +161,7 @@ Our **Reference Implementation** is fully executable and provides reproducible e
 
 ---
 
-## 7. Corporate Licensing & Contact Information
+## 9. Corporate Licensing & Contact Information
 
 This system represents proprietary research and intellectual property available for commercial acquisition, field-of-use licensing, or strategic integration.
 

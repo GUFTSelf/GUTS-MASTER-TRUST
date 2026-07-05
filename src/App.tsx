@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import Dashboard from "./components/Dashboard";
 import Benchmarks from "./components/Benchmarks";
+import Specification from "./components/Specification";
 import { VerificationReport, AuditRecord } from "./types";
 import { AVATAR_PRESETS, getSvgDataUrl } from "./lib/avatarPresets";
 
@@ -116,7 +117,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-tight uppercase leading-tight text-white font-mono flex items-center gap-1.5">
-              VEK Console 2.3.0
+              VEK Console 2.4.0
             </h1>
             <p className="text-[10px] text-blue-500 uppercase tracking-[0.15em] font-medium">
               Verifiable Execution Kernel
@@ -126,7 +127,7 @@ export default function App() {
 
         {/* Navigation Tabs */}
         <div className="hidden lg:flex items-center space-x-1.5 text-[11px] uppercase font-semibold tracking-wider font-mono">
-          {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Benchmarks", "Licensing", "API", "Settings"].map((tab) => (
+          {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Benchmarks", "Specification", "Licensing", "API", "Settings"].map((tab) => (
             <button
               key={tab}
               id={`nav-tab-${tab.toLowerCase()}`}
@@ -153,7 +154,7 @@ export default function App() {
 
       {/* MOBILE TABS MENU BAR */}
       <div className="lg:hidden bg-[#0c0c0e] border-b border-[#27272a] p-2 flex overflow-x-auto gap-1 scrollbar-none shrink-0 font-mono text-[10px] uppercase">
-        {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Benchmarks", "Licensing", "API", "Settings"].map((tab) => (
+        {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Benchmarks", "Specification", "Licensing", "API", "Settings"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -498,6 +499,11 @@ export default function App() {
         {/* TAB 6: BENCHMARKS */}
         {activeTab === "Benchmarks" && (
           <Benchmarks />
+        )}
+
+        {/* TAB SPECIFICATION */}
+        {activeTab === "Specification" && (
+          <Specification />
         )}
 
         {/* TAB 7: LICENSING */}

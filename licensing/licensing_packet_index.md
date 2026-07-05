@@ -40,6 +40,14 @@ The table below catalogs every document in the package, its primary classificati
 
 ---
 
+## 📅 Multi-Phase Engineering Roadmap
+
+To transition this technology assessment platform into production, the evaluation package contains a detailed **24-Week Engineering Roadmap** mapping milestones, deliverables, and Version 1.0 exit criteria across seven key phases.
+
+* **Reference Document**: 📅 **[/licensing/Development_Roadmap.md](/licensing/Development_Roadmap.md)**
+
+---
+
 ## 🛠️ Verification and Due Diligence Protocol
 
 Counsel and evaluators are instructed to perform their verification in accordance with **Doc 14 (Standard Non-Disclosure Agreement)** and **Doc 13 (CIM)**. 

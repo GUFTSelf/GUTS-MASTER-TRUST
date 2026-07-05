@@ -78,6 +78,7 @@ To perform a standardized evaluation of the VEK platform, engineering reviewers 
 
 * 📑 **[LICENSE-EVALUATION.md](LICENSE-EVALUATION.md)**: Standard Evaluation License agreement. Outlines how to evaluate, compile, and run this repository safely.
 * 📋 **[licensing/licensing_packet_index.md](licensing/licensing_packet_index.md)**: Master Index & Dossier Mapping for Docs 1–26.
+* 📅 **[licensing/Development_Roadmap.md](licensing/Development_Roadmap.md)**: Official 24-week engineering roadmap, phase-by-phase milestones, and Version 1.0 exit criteria.
 * ✍️ **[licensing/NDA.md](licensing/NDA.md)**: Technology Evaluation Non-Disclosure & Evaluation Agreement template.
 * 🚀 **[licensing/Enterprise_Pitch_Bundle.md](licensing/Enterprise_Pitch_Bundle.md)**: Commercial Opportunity & Pricing structure.
 * 🧬 **[licensing/Docs_8_11_Reconstruction.md](licensing/Docs_8_11_Reconstruction.md)**: Technical reconstruction of missing portfolio documents 8–11.

@@ -40,6 +40,7 @@ Review these documents to verify execution throughput, hardware secure enclave m
 #### 💼 C. Legal Agreements & Business Case Evidence
 Understand our standard evaluation guidelines, commercial procurement frameworks, and real-world submission studies:
 * 🗂️ **[Dossier Master Index (Docs 1–26)](/licensing/licensing_packet_index.md)**: The structural index organizing all twenty-six compliance and auditing documents in our evaluation package.
+* 📅 **[Engineering Development Roadmap](/licensing/Development_Roadmap.md)**: Establishes the official 24-week engineering plan, phase milestones, and Version 1.0 release specifications.
 * ✍️ **[Evaluation Non-Disclosure Agreement (NDA)](/licensing/NDA.md)**: Establishes mutual trade secret protection, evaluation limitations, and Pinellas County, Florida legal jurisdiction.
 * 🚀 **[Enterprise Pitch Bundle](/licensing/Enterprise_Pitch_Bundle.md)**: Product-market fit comparisons, operational onboarding phases, and commercial field-of-use pricing guides.
 * 🌐 **[Devpost Hackathon Submission Case](/licensing/Devpost_Response.md)**: Summary of how the interactive VEK React Console serves as a live administrative visual head-unit to execute verification loops.

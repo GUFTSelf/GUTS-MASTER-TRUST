@@ -14,6 +14,7 @@
     "demo": "node examples/run_all.js",
     "verify": "bash evaluation-kit/verify_all.sh",
     "benchmark": "node examples/run_benchmarks.js",
+    "stress-test": "node examples/run_stress_tests.js",
     "test": "node examples/run_all.js",
     "evidence": "cat docs/EVIDENCE.md",
     "lint": "tsc --noEmit"

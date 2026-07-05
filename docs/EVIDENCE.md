@@ -44,7 +44,13 @@ Executes the micro-benchmark harness on your native CPU, reporting IPS throughpu
 npm run benchmark
 ```
 
-### Step 4: Validate Active Visual Interfaces
+### Step 4: Run Robustness & Adversarial Stress Tests
+Subjects the state machine to high-volume fuzzing, integer overflows, bit-flip injections, and node drifts:
+```bash
+npm run stress-test
+```
+
+### Step 5: Validate Active Visual Interfaces
 Renders the real-time SVG visualizers, state vectors, and physical SCADA interlocking animations:
 ```bash
 npm run dev
@@ -58,5 +64,6 @@ Every successful validation run generates signed envelopes matching the official
 * **WAL Audit Hash**: `schemas/audit_bundle_v1.json`
 * **Claim Graph Spec**: `schemas/claim_graph_v1.json`
 * **Execution Proofs**: `schemas/execution_proof_v1.json`
+* **Robustness Evidence**: `evaluation-kit/stress_report.json`
 
 *Certified by the VEK Governance Board.*

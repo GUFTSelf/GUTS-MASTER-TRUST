@@ -1,0 +1,37 @@
+{
+  "timestamp": "2026-07-05T16:59:06.156Z",
+  "results": {
+    "determinism": {
+      "passed": true,
+      "iterations": 500000,
+      "durationMs": 18.071979,
+      "memoryDeltaKB": 41,
+      "hashes": [
+        "86b00328bd5d9398a889a48ee42d421f7e9cd6690f6313688bd848d576afba1c58b3435238775c35f2f61201c955087841ffe76d9843b741fcb99bf1650cf778",
+        "86b00328bd5d9398a889a48ee42d421f7e9cd6690f6313688bd848d576afba1c58b3435238775c35f2f61201c955087841ffe76d9843b741fcb99bf1650cf778"
+      ]
+    },
+    "tamper": {
+      "passed": true,
+      "detectedViolationIndex": 2
+    },
+    "integerLimits": {
+      "passed": true,
+      "casesTested": 7
+    },
+    "fuzzing": {
+      "passed": true,
+      "fuzzCycles": 10000,
+      "rejectCount": 10000,
+      "crashCount": 0
+    },
+    "faultInjection": {
+      "passed": true,
+      "quarantined": [
+        "Node_C_Apple_M3"
+      ],
+      "latencyMs": 0.576286
+    }
+  },
+  "allPassed": true
+}

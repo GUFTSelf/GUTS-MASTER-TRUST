@@ -29,6 +29,22 @@ fi
 echo -e "${PURPLE}[1/2] Executing Reference Enclaves Simulation Matrix...${NC}"
 node examples/run_all.js
 
+# Check for --stress-test flag
+RUN_STRESS=false
+for arg in "$@"; do
+  if [ "$arg" = "--stress-test" ]; then
+    RUN_STRESS=true
+  fi
+done
+
+if [ "$RUN_STRESS" = true ]; then
+  echo ""
+  echo -e "${YELLOW}==============================================================================${NC}"
+  echo -e "${PURPLE}Executing Advanced Adversarial Stress & Rollback Simulation Suite...${NC}"
+  echo -e "${YELLOW}==============================================================================${NC}"
+  node examples/run_stress_tests.js
+fi
+
 echo ""
 echo -e "${PURPLE}[2/2] Validating Core Schemas Integrity...${NC}"
 

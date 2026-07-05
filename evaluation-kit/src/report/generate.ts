@@ -9,6 +9,8 @@ import { runLockedBenchmark } from './benchmark';
 import { generatePDF } from '../../../src/report/pdf_renderer';
 import { signReport } from '../../../src/crypto/report_signer';
 import { runClusterConsensus } from '../../../src/cluster/consensus';
+import { generateHardwareAttestation } from '../../../src/crypto/hardware_attestation';
+import { generateSTARKProof } from '../../../src/zk/stark_prover';
 
 // Resolve directory paths
 const __filename = fileURLToPath(import.meta.url);
@@ -166,6 +168,13 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
   console.log("Evaluating multi-node consensus verification...");
   const clusterConsensus = await runClusterConsensus();
 
+  // Generate ZK proof and Hardware Attestation
+  console.log("Constructing mathematical Zero-Knowledge execution proof (STARK)...");
+  const zkProof = generateSTARKProof(traces);
+
+  console.log("Creating Hardware Root of Trust attestation...");
+  const hardwareAttestation = generateHardwareAttestation(signedManifestHash);
+
   // Build the unified schema-compliant evaluation report
   const evaluationReport = {
     report_id: `VEK-RPT-${computeHash(timestamp).slice(0, 16).toUpperCase()}`,
@@ -198,7 +207,9 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
       benchmarks_hash: benchmarksHash,
       state_root_hash: stateRootHash,
       report_signature: signedManifestHash,
-      consensus: clusterConsensus
+      consensus: clusterConsensus,
+      hardware_attestation: hardwareAttestation,
+      zk_proof: zkProof
     },
     environment_evidence: {
       node_version: process.version,

@@ -65,8 +65,34 @@
       "required": ["trace_hash", "state_root_hash"],
       "properties": {
         "trace_hash": { "type": "string" },
+        "benchmarks_hash": { "type": "string" },
         "state_root_hash": { "type": "string" },
-        "report_signature": { "type": "string" }
+        "report_signature": { "type": "string" },
+        "hardware_attestation": {
+          "type": "object",
+          "properties": {
+            "tpm_signed_hash": { "type": "string" },
+            "tpm_public_key": { "type": "string" },
+            "hardware_id": { "type": "string" },
+            "tee_status": {
+              "type": "object",
+              "properties": {
+                "sgx": { "type": "boolean" },
+                "tdx": { "type": "boolean" },
+                "secureEnclave": { "type": "boolean" }
+              }
+            }
+          }
+        },
+        "zk_proof": {
+          "type": "object",
+          "properties": {
+            "witness_root": { "type": "string" },
+            "execution_steps": { "type": "number" },
+            "commitment_chain": { "type": "string" },
+            "proof_type": { "type": "string" }
+          }
+        }
       }
     },
     "environment_evidence": {

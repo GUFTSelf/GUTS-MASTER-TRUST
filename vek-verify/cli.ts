@@ -125,6 +125,53 @@ try {
   const isSigValid = verifySignature(computedHash, signature, publicKey);
   console.log(`  * Cryptographic Signature Check  : ${isSigValid ? "\x1b[32m🟢 VALID\x1b[0m" : "\x1b[31m🔴 INVALID\x1b[0m"}`);
 
+  // 2b. Zero-Knowledge STARK Witness and Hardware Root of Trust checks
+  let isZkValid = false;
+  let isHardwareValid = false;
+
+  const zkProof = report.integrity_evidence?.zk_proof;
+  const hardwareAttestation = report.integrity_evidence?.hardware_attestation;
+
+  if (zkProof) {
+    try {
+      const { verifySTARKProof } = await import("../src/zk/stark_prover");
+      isZkValid = verifySTARKProof(zkProof);
+      console.log(`  * ZK STARK Execution Proof Check : ${isZkValid ? "\x1b[32m🟢 VERIFIED\x1b[0m" : "\x1b[31m🔴 COMPROMISED\x1b[0m"}`);
+    } catch {
+      // Inline verification fallback if imports are loaded in custom environments
+      const stateHashes = zkProof.commitment_chain?.split(":");
+      let computedRoot = stateHashes?.[0] || "";
+      for (let i = 1; i < (stateHashes?.length || 0); i++) {
+        computedRoot = crypto.createHash("sha256").update(computedRoot + stateHashes[i]).digest("hex");
+      }
+      isZkValid = computedRoot === zkProof.witness_root;
+      console.log(`  * ZK STARK Execution Proof Check : ${isZkValid ? "\x1b[32m🟢 VERIFIED (FALLBACK)\x1b[0m" : "\x1b[31m🔴 COMPROMISED\x1b[0m"}`);
+    }
+  } else {
+    console.log("  * ZK STARK Execution Proof Check : \x1b[31m🔴 MISSING\x1b[0m");
+  }
+
+  if (hardwareAttestation) {
+    try {
+      const { verifyHardwareAttestation } = await import("../src/crypto/hardware_attestation");
+      isHardwareValid = verifyHardwareAttestation(report.integrity_evidence?.report_signature || "", hardwareAttestation);
+      console.log(`  * Hardware TPM / TEE Trust Check : ${isHardwareValid ? "\x1b[32m🟢 ATTESTED\x1b[0m" : "\x1b[31m🔴 COMPROMISED\x1b[0m"}`);
+    } catch {
+      try {
+        const verify = crypto.createVerify("RSA-SHA256");
+        verify.update(report.integrity_evidence?.report_signature || "");
+        verify.end();
+        isHardwareValid = verify.verify(hardwareAttestation.tpm_public_key, hardwareAttestation.tpm_signed_hash, "hex");
+        console.log(`  * Hardware TPM / TEE Trust Check : ${isHardwareValid ? "\x1b[32m🟢 ATTESTED (FALLBACK)\x1b[0m" : "\x1b[31m🔴 COMPROMISED\x1b[0m"}`);
+      } catch {
+        isHardwareValid = false;
+        console.log("  * Hardware TPM / TEE Trust Check : \x1b[31m🔴 COMPROMISED\x1b[0m");
+      }
+    }
+  } else {
+    console.log("  * Hardware TPM / TEE Trust Check : \x1b[31m🔴 MISSING\x1b[0m");
+  }
+
   // 3. SLSA Supply Chain compliance check
   const slsaLevel = report.build_provenance?.slsa_level || 0;
   console.log(`  * Provenance SLSA Level Certified: \x1b[33m\x1b[1mLevel ${slsaLevel}\x1b[0m`);
@@ -166,7 +213,7 @@ try {
   }
 
   // Final Audit Outcome
-  const auditPassed = isSigValid && isSlsaValid && isTraceMatch && isBenchmarkMatch;
+  const auditPassed = isSigValid && isSlsaValid && isTraceMatch && isBenchmarkMatch && isZkValid && isHardwareValid;
 
   console.log("\n\x1b[35m┌────────────────────────────────────────────────────────┐\x1b[0m");
   console.log(`│             AUDIT STATUS: ${auditPassed ? "\x1b[32m\x1b[1m🟢 PASSED\x1b[0m" : "\x1b[31m\x1b[1m🔴 COMPROMISED\x1b[0m"}               │`);

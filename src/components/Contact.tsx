@@ -68,6 +68,19 @@ export default function Contact() {
               </div>
 
               <div className="flex items-center justify-between p-2 bg-black rounded border border-zinc-900">
+                <span className="text-zinc-500 uppercase font-semibold">ORCID iD</span>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-white font-extrabold select-all">0009-0008-8779-171X</span>
+                  <button 
+                    onClick={() => handleCopy("0009-0008-8779-171X", "ORCID iD")}
+                    className="text-zinc-500 hover:text-zinc-300 transition"
+                  >
+                    <Copy className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-2 bg-black rounded border border-zinc-900">
                 <span className="text-zinc-500 uppercase font-semibold">IP Holding Trust</span>
                 <span className="text-blue-400 font-bold uppercase">GUTS MASTER TRUST</span>
               </div>
@@ -98,14 +111,14 @@ export default function Contact() {
 
             <div className="border-t border-zinc-900 pt-3 space-y-2 text-[10px]">
               <a 
-                href="mailto:thoeunceo@gdtsi.com" 
+                href="mailto:apollothien@gmail.com" 
                 className="flex items-center justify-between p-2 bg-black rounded border border-zinc-900 hover:border-zinc-700 transition text-zinc-300 hover:text-white"
               >
                 <span className="text-zinc-500 uppercase font-semibold flex items-center gap-1.5">
                   <Mail className="w-3.5 h-3.5 text-purple-400" />
                   Principal Email
                 </span>
-                <span className="font-bold">thoeunceo@gdtsi.com</span>
+                <span className="font-bold">apollothien@gmail.com</span>
               </a>
 
               <a 

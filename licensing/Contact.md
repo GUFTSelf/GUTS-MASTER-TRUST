@@ -9,8 +9,9 @@ For all field-of-use licensing, commercial evaluations, government defense acqui
 * **Founder & CEO:** Thoeun Thien
 * **Unique Entity ID (UEI):** FQJUJKVKSAS3
 * **CAGE Code:** 1ZMG9
-* **Corporate Headquarters:** Clearwater, Florida
-* **Principal Email:** [thoeunceo@gdtsi.com](mailto:thoeunceo@gdtsi.com)
+* **ORCID iD:** 0009-0008-8779-171X
+* **Corporate Headquarters:** Clearwater, Florida, USA
+* **Principal Email:** [apollothien@gmail.com](mailto:apollothien@gmail.com)
 * **Official Website:** [gdtsi.com](https://gdtsi.com)
 
 ---

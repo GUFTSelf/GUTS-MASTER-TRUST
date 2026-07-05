@@ -48,6 +48,11 @@ For complete claim-to-source-code mapping, please refer to the in-app **Claim-to
 ## 4. Documentation Map
 
 * 📑 **[LICENSE-EVALUATION.md](LICENSE-EVALUATION.md)**: Standard Evaluation License agreement. Outlines how to evaluate, compile, and run this repository safely.
+* 📋 **[licensing/licensing_packet_index.md](licensing/licensing_packet_index.md)**: Master Index & Dossier Mapping for Docs 1–26.
+* ✍️ **[licensing/NDA.md](licensing/NDA.md)**: Technology Evaluation Non-Disclosure & Evaluation Agreement template.
+* 🚀 **[licensing/Enterprise_Pitch_Bundle.md](licensing/Enterprise_Pitch_Bundle.md)**: Commercial Opportunity & Pricing structure.
+* 🧬 **[licensing/Docs_8_11_Reconstruction.md](licensing/Docs_8_11_Reconstruction.md)**: Technical reconstruction of missing portfolio documents 8–11.
+* 🌐 **[licensing/Devpost_Response.md](licensing/Devpost_Response.md)**: Detailed Devpost hackathon & submission validation case.
 * 🛠️ **[TECHNOLOGY_OVERVIEW.md](TECHNOLOGY_OVERVIEW.md)**: Detailed conceptual deep-dive into the VEK core architecture, execution cycle, and policy contract layers.
 * ⚙️ **[ARCHITECTURE.md](ARCHITECTURE.md)**: Comprehensive source-file, project-crate structure, and deployment diagrams showing how components interact.
 * 📊 **[BENCHMARKS.md](BENCHMARKS.md)**: Real performance metrics, transaction throughput (TPS) scaling, drift margins, and proof generation latency logs.
@@ -76,6 +81,7 @@ This repository represents proprietary research and intellectual property availa
 * **Founder & CEO:** Thoeun Thien
 * **Unique Entity ID (UEI):** FQJUJKVKSAS3
 * **CAGE Code:** 1ZMG9
-* **Corporate Headquarters:** Clearwater, Florida
-* **Principal Email:** [thoeunceo@gdtsi.com](mailto:thoeunceo@gdtsi.com)
+* **ORCID iD:** 0009-0008-8779-171X
+* **Corporate Headquarters:** Clearwater, Florida, USA
+* **Principal Email:** [apollothien@gmail.com](mailto:apollothien@gmail.com)
 * **Official Website:** [gdtsi.com](https://gdtsi.com)

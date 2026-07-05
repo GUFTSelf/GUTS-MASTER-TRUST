@@ -36,6 +36,15 @@ To ensure maximum transparency for technical reviewers, investors, and potential
 
 ---
 
+## 🎯 Repository Scope
+
+This evaluation package is structured to prioritize independent verification and peer audit:
+* **Included**: Production-ready schemas, reference implementations (TypeScript & Node.js enclaves), automated verification suites (`npm run verify`), comprehensive benchmarking harnesses, and claim-traceability mapping.
+* **Prototype/Reference**: The virtual CPU emulator and Modbus boundary interlock modules are high-fidelity behavioral prototypes designed to demonstrate theoretical and engineering feasibility.
+* **Out of Scope**: This package does not constitute a complete, production-grade operating system kernel or a general-purpose, hypervisor-level virtualization product.
+
+---
+
 ## 1. What is this Technology?
 
 **VEK (Verifiable Execution Kernel)** is an architectural specification and deterministic execution framework designed to mitigate non-determinism in critical software environments. In standard execution architectures, stochastic AI token generation, single-precision floating-point drifts across distributed hardware platforms, and unsynchronized operating system cycles make execution logs impossible to recreate or audit with exact cryptographic precision.

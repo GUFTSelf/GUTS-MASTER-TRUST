@@ -11,12 +11,13 @@ import Protocol from "./components/Protocol";
 import Platform from "./components/Platform";
 import Workspace from "./components/Workspace";
 import CimMatrix from "./components/CimMatrix";
+import Contact from "./components/Contact";
 import { VerificationReport, AuditRecord } from "./types";
 import { AVATAR_PRESETS, getSvgDataUrl } from "./lib/avatarPresets";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>("Dashboard");
-  const [licensingSubTab, setLicensingSubTab] = useState<"cim" | "profiles">("cim");
+  const [licensingSubTab, setLicensingSubTab] = useState<"cim" | "profiles" | "contact">("cim");
   const [latestReport, setLatestReport] = useState<VerificationReport | null>(null);
   const [ledger, setLedger] = useState<AuditRecord[]>([]);
   const [loadingLedger, setLoadingLedger] = useState(false);
@@ -561,12 +562,24 @@ export default function App() {
                 >
                   License Profiles & Files
                 </button>
+                <button
+                  onClick={() => setLicensingSubTab("contact")}
+                  className={`px-3 py-1.5 rounded uppercase font-bold transition-all ${
+                    licensingSubTab === "contact"
+                      ? "bg-blue-950/20 text-blue-400 border border-blue-500/20"
+                      : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  Contact & Credentials
+                </button>
               </div>
             </div>
 
-            {licensingSubTab === "cim" ? (
+            {licensingSubTab === "cim" && (
               <CimMatrix />
-            ) : (
+            )}
+
+            {licensingSubTab === "profiles" && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
                 
                 {/* License Option 1 */}
@@ -628,6 +641,10 @@ export default function App() {
                 </div>
 
               </div>
+            )}
+
+            {licensingSubTab === "contact" && (
+              <Contact />
             )}
           </div>
         )}

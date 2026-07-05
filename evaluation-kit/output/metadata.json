@@ -1,0 +1,73 @@
+{
+  "generator_version": "1.0.0",
+  "timestamp": "2026-07-05T17:15:17.433Z",
+  "environment": {
+    "platform": "linux",
+    "arch": "x64",
+    "node_version": "v22.23.0",
+    "git_commit": "untracked_dev_build",
+    "lockfile_sha256": "355f862fc4dafed8442d271a2f4e7f5d0bb5624f777c9be07d52120057831e0c"
+  },
+  "compliance_frameworks": {
+    "NIST_SP_800_53_REV5": {
+      "controls_aligned": [
+        {
+          "control": "AU-2",
+          "name": "Audit Event Generation",
+          "status": "COMPLIANT",
+          "evidence": "Deterministic trace logs recording every virtual instruction and state alteration."
+        },
+        {
+          "control": "SI-7",
+          "name": "Software & Information Integrity",
+          "status": "COMPLIANT",
+          "evidence": "SHA-256 block hash verification and cryptographically-signed audit bundles."
+        },
+        {
+          "control": "CM-8",
+          "name": "Information System Component Inventory",
+          "status": "COMPLIANT",
+          "evidence": "Automated CycloneDX Software Bill of Materials (SBOM) release tracing."
+        }
+      ]
+    },
+    "NIST_SP_800_218_SSDF": {
+      "tasks_aligned": [
+        {
+          "task": "PW-1.1",
+          "name": "Verify Component Integrity",
+          "status": "COMPLIANT",
+          "evidence": "Dependency hash locking and verification in continuous integration."
+        },
+        {
+          "task": "RV-1.1",
+          "name": "Review Code Changes",
+          "status": "COMPLIANT",
+          "evidence": "Strict TypeScript compiler gates enforcing static type invariants."
+        }
+      ]
+    },
+    "NIST_SP_800_207_ZTA": {
+      "trust_signals": {
+        "platform_fingerprint": "linux:x64",
+        "node_runtime": "v22.23.0",
+        "enclave_status_simulated": "ACTIVE_SANDBOX"
+      }
+    },
+    "SLSA_SUPPLY_CHAIN_SECURITY": {
+      "current_target_level": "SLSA_LEVEL_2",
+      "indicators": {
+        "scripted_build": true,
+        "provenance_generated": true,
+        "reproducible_build_paths": true,
+        "isolated_execution_supported": true
+      }
+    }
+  },
+  "provenance_signature": "4047254797660ac3321fdb261905f2fb8898545905f7b4c5f58f55f067850fa9",
+  "file_hashes": {
+    "trace.jsonl": "64892ece97cddc2e4c03ad0261a011e7795b2023da01b9a904d7f02df6fd79d8",
+    "benchmarks.csv": "8b66462e9e0599e825ff4e38a41628ddf7f76352dacde9aab547d0358f4f80ce",
+    "compliance_ledger.md": "d97562503241037bfa647e0e2f4d9c5e3293dc7505b039f715690f3cdeb6d7f7"
+  }
+}

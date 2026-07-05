@@ -19,6 +19,7 @@ The table below outlines the definitive mappings of system claims to physical, e
 | **REQ-006: Fixed-Point Math** | Floating-point operations scale deterministic integer representation. | `/docs/adr/0001-deterministic-runtime.md` | `npm run benchmark` | Integer-scaled emulator ensuring perfect cross-microprocessor parity. |
 | **REQ-007: Attestation Boundaries**| Hardware-isolated secure enclaves block host-level memory injections. | `/docs/adr/0004-egaf-separation.md`, `/SECURITY.md` | Audit Matrix Review | Multi-layer sandbox separating computational and commitment pipelines. |
 | **REQ-008: Host Threat Mitigation**| Active verification before mutation limits local privilege escalations. | `/SECURITY.md` | Security Audit Review | Threat model detailing specific vectors and defensive locks. |
+| **REQ-009: Secure Supply Chain** | Reproducible builds and verified dependency lockfile mapping under secure frameworks. | `/evaluation-kit/src/report/generate.ts` | `npm run report` | NIST SP 800-53/800-218 and SLSA Level 2 compliant `evaluation-manifest.zip` with audit trail. |
 
 ---
 

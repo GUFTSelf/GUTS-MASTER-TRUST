@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VEK Evaluation Report",
+  "type": "object",
+  "required": [
+    "report_id",
+    "timestamp",
+    "system_identity",
+    "build_provenance",
+    "performance_evidence",
+    "integrity_evidence",
+    "environment_evidence",
+    "verification_evidence",
+    "compliance_mapping"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "system_identity": {
+      "type": "object",
+      "required": ["hostname", "os", "kernel", "cpu"],
+      "properties": {
+        "hostname": { "type": "string" },
+        "os": { "type": "string" },
+        "kernel": { "type": "string" },
+        "cpu": {
+          "type": "object",
+          "required": ["model", "cores", "arch"],
+          "properties": {
+            "model": { "type": "string" },
+            "cores": { "type": "number" },
+            "arch": { "type": "string" }
+          }
+        }
+      }
+    },
+    "build_provenance": {
+      "type": "object",
+      "required": ["git_commit", "dependency_hash", "build_hash"],
+      "properties": {
+        "git_commit": { "type": "string" },
+        "dependency_hash": { "type": "string" },
+        "build_hash": { "type": "string" },
+        "slsa_level": { "type": "number", "minimum": 1, "maximum": 3 }
+      }
+    },
+    "performance_evidence": {
+      "type": "object",
+      "required": ["iterations", "mean_ms", "p95_ms", "p99_ms"],
+      "properties": {
+        "iterations": { "type": "number" },
+        "mean_ms": { "type": "number" },
+        "p95_ms": { "type": "number" },
+        "p99_ms": { "type": "number" },
+        "raw_samples_hash": { "type": "string" }
+      }
+    },
+    "integrity_evidence": {
+      "type": "object",
+      "required": ["trace_hash", "state_root_hash"],
+      "properties": {
+        "trace_hash": { "type": "string" },
+        "state_root_hash": { "type": "string" },
+        "report_signature": { "type": "string" }
+      }
+    },
+    "environment_evidence": {
+      "type": "object",
+      "required": ["node_version", "runtime", "ci", "sandbox"],
+      "properties": {
+        "node_version": { "type": "string" },
+        "runtime": { "type": "string" },
+        "ci": { "type": "string" },
+        "sandbox": {
+          "type": "object",
+          "properties": {
+            "containerized": { "type": "boolean" },
+            "tee_enabled": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "verification_evidence": {
+      "type": "object",
+      "properties": {
+        "tla_plus_status": { "type": "string" },
+        "lean_proof_status": { "type": "string" },
+        "verification_artifacts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "compliance_mapping": {
+      "type": "object",
+      "required": ["nist_800_53", "nist_800_218", "slsa"],
+      "properties": {
+        "nist_800_53": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "nist_800_218": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "slsa": {
+          "type": "object",
+          "properties": {
+            "target_level": { "type": "number" },
+            "achieved_level": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}

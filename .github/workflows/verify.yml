@@ -32,6 +32,18 @@ jobs:
     - name: [Audit] Run Reproducible Benchmark Harness
       run: npm run benchmark
 
+    - name: [Audit] Generate Deterministic Evaluation Snapshot
+      run: |
+        npm run report
+        node scripts/validate_schema.js
+        node scripts/slsa_grade.js
+        if [ -f "evaluation-kit/output/evaluation-manifest.zip" ]; then
+          echo "Evaluation bundle snapshot compiled successfully."
+        else
+          echo "Error: Snapshotted evaluation-manifest.zip is missing!"
+          exit 1
+        fi
+
     - name: [Audit] Validate SBOM Configuration Integrity
       run: |
         if [ -f "releases/v1.0.0/sbom.json" ]; then

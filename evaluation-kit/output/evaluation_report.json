@@ -1,0 +1,66 @@
+{
+  "report_id": "VEK-RPT-003C6132F4E7CDB1",
+  "timestamp": "2026-07-05T17:17:47.306Z",
+  "system_identity": {
+    "hostname": "localhost",
+    "os": "linux",
+    "kernel": "4.19.0-gvisor",
+    "cpu": {
+      "model": "unknown",
+      "cores": 2,
+      "arch": "x64"
+    }
+  },
+  "build_provenance": {
+    "git_commit": "untracked_dev_build",
+    "dependency_hash": "355f862fc4dafed8442d271a2f4e7f5d0bb5624f777c9be07d52120057831e0c",
+    "build_hash": "80743b96b8954da9ea85f0fb0960d3470233c67e685a5544dbf278c87d024a25",
+    "slsa_level": 2
+  },
+  "performance_evidence": {
+    "iterations": 500000,
+    "mean_ms": 0.000007,
+    "p95_ms": 0.000007,
+    "p99_ms": 0.000008,
+    "raw_samples_hash": "9aec8d1e42a57a3b1489df411e30eef3be4c769a857c778aae33435f3df3f2e4"
+  },
+  "integrity_evidence": {
+    "trace_hash": "64892ece97cddc2e4c03ad0261a011e7795b2023da01b9a904d7f02df6fd79d8",
+    "state_root_hash": "5112262cab7846c2f0bed48c49daaf980905c1b21ef511877c22c2730ac59356",
+    "report_signature": "3564436393d09fa796039225512388bf5299c33ce45965ff0f0060a131751479"
+  },
+  "environment_evidence": {
+    "node_version": "v22.23.0",
+    "runtime": "NodeJS",
+    "ci": "Local-Shell",
+    "sandbox": {
+      "containerized": true,
+      "tee_enabled": false
+    }
+  },
+  "verification_evidence": {
+    "tla_plus_status": "VERIFIED",
+    "lean_proof_status": "ADVISORY",
+    "verification_artifacts": [
+      "/schemas/protocol_v1.json",
+      "/schemas/audit_bundle_v1.json",
+      "/schemas/claim_graph_v1.json",
+      "/schemas/execution_proof_v1.json"
+    ]
+  },
+  "compliance_mapping": {
+    "nist_800_53": [
+      "AU-2: Audit Event Generation (trace.jsonl)",
+      "SI-7: Software and Information Integrity (adversarial mutation safeguards)",
+      "CM-8: Information System Component Inventory (release sbom.json)"
+    ],
+    "nist_800_218": [
+      "PW-1.1: Verify Component Integrity (locked package checksum mapping)",
+      "RV-1.1: Review Code Changes (Strict static type and lint gates)"
+    ],
+    "slsa": {
+      "target_level": 3,
+      "achieved_level": 2
+    }
+  }
+}

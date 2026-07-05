@@ -15,7 +15,11 @@ export function speakText(
   }
 
   // Cancel any running speech to avoid queuing overlaps
-  window.speechSynthesis.cancel();
+  try {
+    window.speechSynthesis.cancel();
+  } catch (err) {
+    console.warn("Speech synthesis cancel not supported or blocked by iframe sandbox:", err);
+  }
 
   // Strip markdown, bullet points, headers for clean pronunciation
   const cleanText = text
@@ -49,39 +53,46 @@ export function speakText(
   }
 
   // Load voices and match gender and language (en)
-  const voices = window.speechSynthesis.getVoices();
+  let voices: SpeechSynthesisVoice[] = [];
+  try {
+    voices = window.speechSynthesis.getVoices() || [];
+  } catch (err) {
+    console.warn("Speech synthesis getVoices blocked or not supported:", err);
+  }
   let matchedVoice = null;
 
-  if (lowerName.includes("aria") || lowerName.includes("hera")) {
-    // Look for female/soft/natural voices
-    matchedVoice = voices.find(v => 
-      v.lang.startsWith("en") && 
-      (v.name.toLowerCase().includes("female") || 
-       v.name.toLowerCase().includes("zira") || 
-       v.name.toLowerCase().includes("samantha") || 
-       v.name.toLowerCase().includes("hazel") ||
-       v.name.toLowerCase().includes("google us english") ||
-       v.name.toLowerCase().includes("moira"))
-    );
-  } else if (lowerName.includes("cortex") || lowerName.includes("atlas")) {
-    // Look for deep/male/monotone voices
-    matchedVoice = voices.find(v => 
-      v.lang.startsWith("en") && 
-      (v.name.toLowerCase().includes("male") || 
-       v.name.toLowerCase().includes("david") || 
-       v.name.toLowerCase().includes("george") ||
-       v.name.toLowerCase().includes("google uk english male") ||
-       v.name.toLowerCase().includes("ravi"))
-    );
-  }
+  if (voices.length > 0) {
+    if (lowerName.includes("aria") || lowerName.includes("hera")) {
+      // Look for female/soft/natural voices
+      matchedVoice = voices.find(v => 
+        v.lang.startsWith("en") && 
+        (v.name.toLowerCase().includes("female") || 
+         v.name.toLowerCase().includes("zira") || 
+         v.name.toLowerCase().includes("samantha") || 
+         v.name.toLowerCase().includes("hazel") ||
+         v.name.toLowerCase().includes("google us english") ||
+         v.name.toLowerCase().includes("moira"))
+      );
+    } else if (lowerName.includes("cortex") || lowerName.includes("atlas")) {
+      // Look for deep/male/monotone voices
+      matchedVoice = voices.find(v => 
+        v.lang.startsWith("en") && 
+        (v.name.toLowerCase().includes("male") || 
+         v.name.toLowerCase().includes("david") || 
+         v.name.toLowerCase().includes("george") ||
+         v.name.toLowerCase().includes("google uk english male") ||
+         v.name.toLowerCase().includes("ravi"))
+      );
+    }
 
-  // If no gender voice was matched, try to find any English voice
-  if (!matchedVoice) {
-    matchedVoice = voices.find(v => v.lang.startsWith("en"));
-  }
+    // If no gender voice was matched, try to find any English voice
+    if (!matchedVoice) {
+      matchedVoice = voices.find(v => v.lang.startsWith("en"));
+    }
 
-  if (matchedVoice) {
-    utterance.voice = matchedVoice;
+    if (matchedVoice) {
+      utterance.voice = matchedVoice;
+    }
   }
 
   // Bind callbacks
@@ -89,17 +100,31 @@ export function speakText(
   if (onEnd) {
     utterance.onend = onEnd;
     utterance.onerror = (e) => {
-      console.error("Speech synthesis error occurred:", e);
+      console.warn("Speech synthesis notice (expected in sandboxed iframes):", e.error || e);
       onEnd();
     };
   }
 
-  window.speechSynthesis.speak(utterance);
+  try {
+    window.speechSynthesis.speak(utterance);
+  } catch (err) {
+    console.warn("Speech synthesis speak call blocked or failed:", err);
+    if (onEnd) {
+      // Fallback: immediately call onEnd so that states resolve naturally without freezing
+      setTimeout(() => {
+        onEnd();
+      }, 50);
+    }
+  }
   return utterance;
 }
 
 export function stopSpeaking() {
   if (typeof window !== "undefined" && window.speechSynthesis) {
-    window.speechSynthesis.cancel();
+    try {
+      window.speechSynthesis.cancel();
+    } catch (err) {
+      console.warn("Speech synthesis cancel failed on stop:", err);
+    }
   }
 }

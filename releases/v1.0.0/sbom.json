@@ -1,0 +1,89 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:6ca8df72-9b2f-410a-ba24-8b83ff72cde0",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-07-05T07:24:00Z",
+    "tools": [
+      {
+        "vendor": "GUTS DETERMINISTIC TECHNOLOGY LLC",
+        "name": "VEK SBOM Compiler",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "Verifiable Execution Kernel (VEK)",
+      "version": "1.0.0",
+      "description": "Deterministic, specification-driven, and audit-verifiable execution substrate.",
+      "licenses": [
+        {
+          "license": {
+            "id": "VEK-Evaluation-1.0",
+            "name": "VEK Evaluation & Licensing Agreement v1.0",
+            "url": "https://vek.io/licenses/EVALUATION-1.0.txt"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "express",
+      "version": "4.21.2",
+      "description": "Fast, unopinionated, minimalist web framework for node.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/express@4.21.2"
+    },
+    {
+      "type": "library",
+      "name": "@google/genai",
+      "version": "2.4.0",
+      "description": "Google GenAI SDK.",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "purl": "pkg:npm/%40google/genai@2.4.0"
+    },
+    {
+      "type": "library",
+      "name": "react",
+      "version": "19.0.1",
+      "description": "React is a JavaScript library for building user interfaces.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/react@19.0.1"
+    },
+    {
+      "type": "library",
+      "name": "motion",
+      "version": "12.23.24",
+      "description": "A lightweight, high-performance animation library.",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "purl": "pkg:npm/motion@12.23.24"
+    }
+  ]
+}

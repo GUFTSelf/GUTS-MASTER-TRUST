@@ -161,6 +161,9 @@ Our **Reference Implementation** is fully executable and provides reproducible e
 
 ## 8. Documentation Map
 
+* 📚 **[docs/ENGINEERING_STANDARD.md](docs/ENGINEERING_STANDARD.md)**: **Master Engineering Standard (Volumes I–VIII)** indexing the entire documentation corpus.
+* 📊 **[docs/EVIDENCE.md](docs/EVIDENCE.md)**: **Empirical Evidence Dashboard (REQ-001 through REQ-008)** compiling verified proof.
+* 🗺️ **[docs/RTM.md](docs/RTM.md)**: **Requirements Traceability Matrix** mapping requirements to test vectors.
 * 📊 **[STATUS_MATRIX.md](STATUS_MATRIX.md)**: Live feature readiness matrix explicitly mapping implemented versus planned features.
 * 📋 **[EVALUATION_CHECKLIST.md](EVALUATION_CHECKLIST.md)**: Quickstart Checklist for conducting third-party audits and validation steps.
 * 📄 **[vek.manifest.json](vek.manifest.json)**: Machine-readable system, protocol, and compatibility schema manifest.

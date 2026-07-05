@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "platform": "linux",
+    "arch": "x64",
+    "nodeVersion": "v22.23.0",
+    "timestamp": "2026-07-05T14:25:20.065Z"
+  },
+  "results": {
+    "vmThroughput": {
+      "instructionsRun": 1000000,
+      "durationMs": 7.96,
+      "ips": 125683972
+    },
+    "constraintOverhead": [
+      {
+        "blockSize": 100,
+        "durationMs": 0.1927,
+        "averageMsPerToken": 0.001927,
+        "violatedCount": 6
+      },
+      {
+        "blockSize": 1000,
+        "durationMs": 0.0303,
+        "averageMsPerToken": 0.00003,
+        "violatedCount": 82
+      },
+      {
+        "blockSize": 10000,
+        "durationMs": 0.5133,
+        "averageMsPerToken": 0.000051,
+        "violatedCount": 672
+      },
+      {
+        "blockSize": 50000,
+        "durationMs": 1.629,
+        "averageMsPerToken": 0.000033,
+        "violatedCount": 3308
+      }
+    ],
+    "driftReconciliation": {
+      "latencyMs": 0.09581
+    }
+  }
+}

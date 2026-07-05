@@ -5,6 +5,7 @@ import {
   ChevronRight, ArrowRight, Zap, Code, ShieldAlert, BookOpen, FileText, Download, Check
 } from "lucide-react";
 import Dashboard from "./components/Dashboard";
+import TrustDashboard from "./components/TrustDashboard";
 import Benchmarks from "./components/Benchmarks";
 import Specification from "./components/Specification";
 import Protocol from "./components/Protocol";
@@ -133,7 +134,7 @@ export default function App() {
 
         {/* Navigation Tabs */}
         <div className="hidden lg:flex items-center space-x-1.5 text-[11px] uppercase font-semibold tracking-wider font-mono">
-          {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
+          {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
             <button
               key={tab}
               id={`nav-tab-${tab.toLowerCase()}`}
@@ -160,7 +161,7 @@ export default function App() {
 
       {/* MOBILE TABS MENU BAR */}
       <div className="lg:hidden bg-[#0c0c0e] border-b border-[#27272a] p-2 flex overflow-x-auto gap-1 scrollbar-none shrink-0 font-mono text-[10px] uppercase">
-        {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
+        {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -500,6 +501,11 @@ export default function App() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* TAB 5.5: TRUST STACK */}
+        {activeTab === "Trust Stack" && (
+          <TrustDashboard />
         )}
 
         {/* TAB 6: BENCHMARKS */}

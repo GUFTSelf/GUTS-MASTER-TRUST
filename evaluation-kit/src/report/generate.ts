@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 import { computeHash, computeFileHash } from './hash';
 import { generateDeterministicTraces, serializeTraceToJsonl } from './trace';
 import { runLockedBenchmark } from './benchmark';
+import { generatePDF } from '../../../src/report/pdf_renderer';
+import { signReport } from '../../../src/crypto/report_signer';
+import { runClusterConsensus } from '../../../src/cluster/consensus';
 
 // Resolve directory paths
 const __filename = fileURLToPath(import.meta.url);
@@ -159,6 +162,10 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
   // Determine CI Status
   const isCI = !!process.env.GITHUB_ACTIONS;
 
+  // Execute multi-node cluster verification and consensus
+  console.log("Evaluating multi-node consensus verification...");
+  const clusterConsensus = await runClusterConsensus();
+
   // Build the unified schema-compliant evaluation report
   const evaluationReport = {
     report_id: `VEK-RPT-${computeHash(timestamp).slice(0, 16).toUpperCase()}`,
@@ -189,7 +196,8 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
     integrity_evidence: {
       trace_hash: traceHash,
       state_root_hash: stateRootHash,
-      report_signature: signedManifestHash
+      report_signature: signedManifestHash,
+      consensus: clusterConsensus
     },
     environment_evidence: {
       node_version: process.version,
@@ -227,9 +235,25 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
     }
   };
 
+  // Sign the evaluation report using RSA-2048 secure keys
+  console.log("Sealing report with RSA-2048 cryptographic attestation key...");
+  const signedResult = signReport(evaluationReport);
+  (evaluationReport.integrity_evidence as any).signature = signedResult.signature;
+  (evaluationReport.integrity_evidence as any).public_key = signedResult.publicKey;
+
   // Write evaluation report JSON conforming to schemas/evaluation_report.schema.json
   fs.writeFileSync(reportPath, JSON.stringify(evaluationReport, null, 2));
-  console.log("  - Generated trace.jsonl, benchmarks.csv, compliance_ledger.md, evaluation_report.json inside output/.");
+
+  // Generate PDF report
+  const pdfPath = path.join(outputDir, 'summary.pdf');
+  try {
+    await generatePDF(evaluationReport, pdfPath);
+    console.log("  - Generated summary.pdf inside output/.");
+  } catch (pdfError: any) {
+    console.error("\x1b[31m[ERROR] Failed to generate PDF report:\x1b[0m", pdfError.message);
+  }
+
+  console.log("  - Generated trace.jsonl, benchmarks.csv, compliance_ledger.md, evaluation_report.json, and summary.pdf inside output/.");
 
   // 6. Packaging files into evaluation-manifest.zip
   console.log("Packaging evaluation artifacts into archive...");
@@ -244,7 +268,7 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
   try {
     // Attempt standard 'zip' packaging
     // Using -j (junk paths) to store files directly without parent directory hierarchies
-    execSync(`zip -q -j "${zipPath}" "${tracePath}" "${benchmarksPath}" "${complianceLedgerPath}" "${reportPath}"`);
+    execSync(`zip -q -j "${zipPath}" "${tracePath}" "${benchmarksPath}" "${complianceLedgerPath}" "${reportPath}" "${pdfPath}"`);
     packedSuccessfully = true;
     console.log(`\x1b[32m[SUCCESS] evaluation-manifest.zip constructed successfully.\x1b[0m`);
   } catch (zipError) {
@@ -252,7 +276,7 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
     try {
       const tarPath = path.join(outputDir, 'evaluation-manifest.tar.gz');
       if (fs.existsSync(tarPath)) fs.unlinkSync(tarPath);
-      execSync(`tar -czf "${tarPath}" -C "${outputDir}" trace.jsonl benchmarks.csv compliance_ledger.md evaluation_report.json`);
+      execSync(`tar -czf "${tarPath}" -C "${outputDir}" trace.jsonl benchmarks.csv compliance_ledger.md evaluation_report.json summary.pdf`);
       console.log(`\x1b[33m[WARN] 'zip' command not found. Fallback: packaged as evaluation-manifest.tar.gz instead.\x1b[0m`);
       // Copy tar to zip file descriptor for conforming with requested filename output
       fs.copyFileSync(tarPath, zipPath);

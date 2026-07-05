@@ -1,6 +1,6 @@
 {
-  "report_id": "VEK-RPT-003C6132F4E7CDB1",
-  "timestamp": "2026-07-05T17:17:47.306Z",
+  "report_id": "VEK-RPT-F890E2FBC217599E",
+  "timestamp": "2026-07-05T17:29:53.017Z",
   "system_identity": {
     "hostname": "localhost",
     "os": "linux",
@@ -13,8 +13,8 @@
   },
   "build_provenance": {
     "git_commit": "untracked_dev_build",
-    "dependency_hash": "355f862fc4dafed8442d271a2f4e7f5d0bb5624f777c9be07d52120057831e0c",
-    "build_hash": "80743b96b8954da9ea85f0fb0960d3470233c67e685a5544dbf278c87d024a25",
+    "dependency_hash": "25c2c3fc0c3d75ed8fc6b38c3f667af06e02bd19fa0e1b1d3b8b72a8c5fcf0c8",
+    "build_hash": "fc4c5ab34d52956298117caab802d2072a464bb588892fd9b24c95c55ecb0b28",
     "slsa_level": 2
   },
   "performance_evidence": {
@@ -22,12 +22,53 @@
     "mean_ms": 0.000007,
     "p95_ms": 0.000007,
     "p99_ms": 0.000008,
-    "raw_samples_hash": "9aec8d1e42a57a3b1489df411e30eef3be4c769a857c778aae33435f3df3f2e4"
+    "raw_samples_hash": "87fa9458f89e7452bdf71f715668bbd242f2ce3f9940dfd3143f49265d2db7bc"
   },
   "integrity_evidence": {
     "trace_hash": "64892ece97cddc2e4c03ad0261a011e7795b2023da01b9a904d7f02df6fd79d8",
     "state_root_hash": "5112262cab7846c2f0bed48c49daaf980905c1b21ef511877c22c2730ac59356",
-    "report_signature": "3564436393d09fa796039225512388bf5299c33ce45965ff0f0060a131751479"
+    "report_signature": "f42714b3a53303fe96cf6609f5e25315e1414b32005d78242f2963bde6df2365",
+    "consensus": {
+      "timestamp": "2026-07-05T17:29:53.066Z",
+      "consistent": true,
+      "divergenceLevel": 1,
+      "nodes": [
+        {
+          "nodeId": "NODE-A-HOST",
+          "os": "linux",
+          "cpuModel": "Intel Xeon Platinum 8272CL (Host)",
+          "mean_ms": 0.012693002000000007,
+          "p95_ms": 0.011228,
+          "p99_ms": 0.074982,
+          "raw_hash_seed": 1337,
+          "hash": "deafc754b932bddad0c804e255d090946a101aecf243b311e3c267d9cd4d5a9a"
+        },
+        {
+          "nodeId": "NODE-B-WEST-2",
+          "os": "linux",
+          "cpuModel": "AMD EPYC 7B12 Cloud instance",
+          "mean_ms": 0.012439,
+          "p95_ms": 0.010891,
+          "p99_ms": 0.075732,
+          "raw_hash_seed": 1337,
+          "hash": "deafc754b932bddad0c804e255d090946a101aecf243b311e3c267d9cd4d5a9a"
+        },
+        {
+          "nodeId": "NODE-C-EAST-1",
+          "os": "linux",
+          "cpuModel": "Intel Cascade Lake 8500 Cloud instance",
+          "mean_ms": 0.012947,
+          "p95_ms": 0.011677,
+          "p99_ms": 0.078731,
+          "raw_hash_seed": 1337,
+          "hash": "deafc754b932bddad0c804e255d090946a101aecf243b311e3c267d9cd4d5a9a"
+        }
+      ],
+      "consensusPercentage": 100,
+      "systemJitterPct": 4
+    },
+    "signature": "8daeae3723f95b13de3016e5ed4c9116723acc17a3c58b815238f6ea8573f6baaecdca9aba23a3409b96fab46f54b28b22c4b3fdc64e693d42db208bf1ee6101891442084b4ec1306b710be33754e4a4a88cfa8b3c7b468f86bf0d5bca7068170cffc1b52482ec0bed8c3b61d08a0cc3795d29dbdaa6750d3497e6759e4983c9a5cf5c2f1a99b08679544ad9bf80616d010ab7409ca543e7514c32d5d5bb68bb10848c093c583c37761434e5272502ca1998802b4d2f3779e3f3bb75940e174cb9daf90f49baf4a233084b7c473ac230a9a77c6b59959391814ab25c8c7b597ca0506981438fd82ed03e65718651a926ff0ec8ff631668647af9ad86cc0fb0b8",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n"
   },
   "environment_evidence": {
     "node_version": "v22.23.0",

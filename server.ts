@@ -1,9 +1,15 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import crypto from "crypto";
 import dotenv from "dotenv";
+import { exec } from "child_process";
+import { promisify } from "util";
 import { GoogleGenAI } from "@google/genai";
 import { createServer as createViteServer } from "vite";
+import { verifyReportSignature } from "./src/crypto/report_signer";
+
+const execAsync = promisify(exec);
 
 dotenv.config();
 
@@ -104,6 +110,80 @@ function getAi(): GoogleGenAI | null {
 // REST API Endpoints
 app.get("/api/ledger", (req, res) => {
   res.json({ ledger: auditLedger });
+});
+
+app.get("/api/evaluation-report", (req, res) => {
+  const reportPath = path.join(process.cwd(), "evaluation-kit/output/evaluation_report.json");
+  if (fs.existsSync(reportPath)) {
+    try {
+      const reportData = fs.readFileSync(reportPath, "utf-8");
+      res.json(JSON.parse(reportData));
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to parse report: " + err.message });
+    }
+  } else {
+    res.status(404).json({ error: "Evaluation report not found. Run 'npm run report' to generate it." });
+  }
+});
+
+app.get("/api/evaluation-pdf", (req, res) => {
+  const pdfPath = path.join(process.cwd(), "evaluation-kit/output/summary.pdf");
+  if (fs.existsSync(pdfPath)) {
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=summary.pdf");
+    res.sendFile(pdfPath);
+  } else {
+    res.status(404).json({ error: "PDF report not found. Run 'npm run report' to generate it." });
+  }
+});
+
+app.get("/api/verify-signature", (req, res) => {
+  const reportPath = path.join(process.cwd(), "evaluation-kit/output/evaluation_report.json");
+  if (fs.existsSync(reportPath)) {
+    try {
+      const report = JSON.parse(fs.readFileSync(reportPath, "utf-8"));
+      const sig = report.integrity_evidence?.signature;
+      const pubKey = report.integrity_evidence?.public_key;
+
+      if (!sig || !pubKey) {
+        return res.json({
+          valid: false,
+          error: "Report does not contain cryptographic signature and public key."
+        });
+      }
+
+      const isValid = verifyReportSignature(report, sig, pubKey);
+      res.json({
+        valid: isValid,
+        report_id: report.report_id,
+        timestamp: report.timestamp,
+        signature: sig,
+        public_key: pubKey
+      });
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to verify signature: " + err.message });
+    }
+  } else {
+    res.status(404).json({ error: "Evaluation report not found." });
+  }
+});
+
+app.post("/api/rebuild-report", async (req, res) => {
+  try {
+    console.log("[VEK Server] Triggering deterministic report generation...");
+    await execAsync("npm run report");
+    
+    const reportPath = path.join(process.cwd(), "evaluation-kit/output/evaluation_report.json");
+    if (fs.existsSync(reportPath)) {
+      const reportData = fs.readFileSync(reportPath, "utf-8");
+      res.json(JSON.parse(reportData));
+    } else {
+      res.status(500).json({ error: "Failed to locate generated report." });
+    }
+  } catch (err: any) {
+    console.error("[VEK Server] Rebuild failed:", err);
+    res.status(500).json({ error: "Failed to generate report: " + err.message });
+  }
 });
 
 app.post("/api/verify", async (req, res) => {

@@ -9,7 +9,7 @@
  * 4. Preventing thermal runaway or invalid register state transition by halting execution.
  */
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 class ExecutionGatedAssertionEngine {
   constructor() {

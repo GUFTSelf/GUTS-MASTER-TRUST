@@ -9,7 +9,7 @@
  * 4. Exporting a verifiable audit bundle ready for auditing logs.
  */
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 function generateSaltedHash(data, salt) {
   return crypto.createHash('sha512').update(data + salt).digest('hex');

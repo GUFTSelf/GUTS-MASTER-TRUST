@@ -8,7 +8,7 @@
  * 3. Producing a verified claim trace.
  */
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 const CLAIM_GRAPH = {
   matrix_version: "1.0.0",

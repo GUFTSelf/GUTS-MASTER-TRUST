@@ -8,7 +8,7 @@
  * 3. Calculating cryptographic state commitments.
  */
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 class MockVEK_VM {
   constructor() {

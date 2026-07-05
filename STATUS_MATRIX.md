@@ -9,6 +9,7 @@ This document provides a transparent, engineering-grade audit of the Verifiable 
 | Subsystem Component | Implementation Phase | Current Status | Code / Spec Location | Verification Evidence |
 | :--- | :---: | :---: | :--- | :--- |
 | **Console Administration UI** | Phase 5 | **✅ Implemented** | `/src/App.tsx`, `/src/components/` | Active dev server on port `3000` executing real-time SVG visualizers. |
+| **VEK Semantic Core Spec (VEK-SCS)** | Phase 1 | **✅ Implemented** | `/docs/VEK_SEMANTIC_CORE_SPECIFICATION.md` | Formal mathematical state transitions and invariants D1-D6. |
 | **JSON Schema Specifications** | Phase 1 | **✅ Implemented** | `/schemas/` | Validated schemas for `audit_bundle`, `claim_graph`, `execution_proof`, and `protocol`. |
 | **Reference Execution Runner** | Phase 1 | **✅ Implemented** | `/examples/run_all.js` | Execution of five core simulation enclaves yielding verified terminal hashes (`npm run demo`). |
 | **Integer-Scaled Virtual CPU** | Phase 2 | **🚧 Prototype (RI)** | `examples/hello_world/demo.js` | 32-register emulator tracking program counters and instruction cycles. |

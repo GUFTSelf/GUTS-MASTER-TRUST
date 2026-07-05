@@ -10,11 +10,13 @@ import Specification from "./components/Specification";
 import Protocol from "./components/Protocol";
 import Platform from "./components/Platform";
 import Workspace from "./components/Workspace";
+import CimMatrix from "./components/CimMatrix";
 import { VerificationReport, AuditRecord } from "./types";
 import { AVATAR_PRESETS, getSvgDataUrl } from "./lib/avatarPresets";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>("Dashboard");
+  const [licensingSubTab, setLicensingSubTab] = useState<"cim" | "profiles">("cim");
   const [latestReport, setLatestReport] = useState<VerificationReport | null>(null);
   const [ledger, setLedger] = useState<AuditRecord[]>([]);
   const [loadingLedger, setLoadingLedger] = useState(false);
@@ -526,77 +528,107 @@ export default function App() {
 
         {/* TAB 7: LICENSING */}
         {activeTab === "Licensing" && (
-          <div className="space-y-6">
-            <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5">
-              <h2 className="text-sm font-extrabold text-white uppercase tracking-widest font-mono mb-1">
-                Enterprise Licensing & Regulatory Claims
-              </h2>
-              <p className="text-xs text-zinc-400 max-w-3xl leading-relaxed">
-                Review verified platform deployment configurations, claim maps, system validation packages, and developer repository access credentials.
-              </p>
+          <div className="space-y-6 animate-fadeIn">
+            <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-1">
+                <h2 className="text-sm font-extrabold text-white uppercase tracking-widest font-mono mb-1">
+                  Enterprise Licensing & Regulatory Claims
+                </h2>
+                <p className="text-xs text-zinc-400 max-w-3xl leading-relaxed">
+                  Review verified platform deployment configurations, claim maps, system validation packages, and developer repository access credentials.
+                </p>
+              </div>
+
+              {/* Sub-tab selection */}
+              <div className="flex bg-black border border-[#27272a] rounded p-1 text-[10px] font-mono shrink-0">
+                <button
+                  onClick={() => setLicensingSubTab("cim")}
+                  className={`px-3 py-1.5 rounded uppercase font-bold transition-all ${
+                    licensingSubTab === "cim"
+                      ? "bg-blue-950/20 text-blue-400 border border-blue-500/20"
+                      : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  Claim-to-Implementation Matrix (CIM)
+                </button>
+                <button
+                  onClick={() => setLicensingSubTab("profiles")}
+                  className={`px-3 py-1.5 rounded uppercase font-bold transition-all ${
+                    licensingSubTab === "profiles"
+                      ? "bg-blue-950/20 text-blue-400 border border-blue-500/20"
+                      : "text-zinc-500 hover:text-zinc-300"
+                  }`}
+                >
+                  License Profiles & Files
+                </button>
+              </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
-              
-              {/* License Option 1 */}
-              <div className="bg-[#0c0c0e] border border-[#27272a] p-5 rounded-lg space-y-4">
-                <div className="flex justify-between items-center pb-2 border-b border-[#27272a]">
-                  <span className="font-bold text-zinc-300 uppercase tracking-widest">Enterprise Premium</span>
-                  <span className="text-[10px] bg-blue-950/20 text-blue-400 border border-blue-500/10 px-2 py-0.5 rounded font-bold">Active License</span>
+            {licensingSubTab === "cim" ? (
+              <CimMatrix />
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono text-xs">
+                
+                {/* License Option 1 */}
+                <div className="bg-[#0c0c0e] border border-[#27272a] p-5 rounded-lg space-y-4">
+                  <div className="flex justify-between items-center pb-2 border-b border-[#27272a]">
+                    <span className="font-bold text-zinc-300 uppercase tracking-widest">Enterprise Premium</span>
+                    <span className="text-[10px] bg-blue-950/20 text-blue-400 border border-blue-500/10 px-2 py-0.5 rounded font-bold">Active License</span>
+                  </div>
+                  <p className="text-zinc-400 leading-relaxed">
+                    Allows deployment inside private cloud infrastructure (Google Cloud, AWS, Azure). Full multi-threaded deterministic replay guarantees and priority compliance logging.
+                  </p>
+                  <div className="bg-black p-3 rounded text-[11px] text-zinc-500 space-y-1.5">
+                    <div className="flex justify-between"><span>Max TPS:</span><span className="text-zinc-300 font-bold">12,000 / sec</span></div>
+                    <div className="flex justify-between"><span>Node Isolation:</span><span className="text-emerald-400 font-bold uppercase">SECURED</span></div>
+                    <div className="flex justify-between"><span>Replay Rate:</span><span className="text-emerald-400 font-bold">100% Guaranteed</span></div>
+                  </div>
                 </div>
-                <p className="text-zinc-400 leading-relaxed">
-                  Allows deployment inside private cloud infrastructure (Google Cloud, AWS, Azure). Full multi-threaded deterministic replay guarantees and priority compliance logging.
-                </p>
-                <div className="bg-black p-3 rounded text-[11px] text-zinc-500 space-y-1.5">
-                  <div className="flex justify-between"><span>Max TPS:</span><span className="text-zinc-300 font-bold">12,000 / sec</span></div>
-                  <div className="flex justify-between"><span>Node Isolation:</span><span className="text-emerald-400 font-bold uppercase">SECURED</span></div>
-                  <div className="flex justify-between"><span>Replay Rate:</span><span className="text-emerald-400 font-bold">100% Guaranteed</span></div>
+
+                {/* License Option 2 */}
+                <div className="bg-[#0c0c0e] border border-[#27272a] p-5 rounded-lg space-y-4">
+                  <div className="flex justify-between items-center pb-2 border-b border-[#27272a]">
+                    <span className="font-bold text-zinc-400 uppercase tracking-widest">Government / DoD</span>
+                    <span className="text-[10px] bg-[#18181b] text-zinc-500 border border-[#27272a] px-2 py-0.5 rounded font-bold">Available Upgrade</span>
+                  </div>
+                  <p className="text-zinc-400 leading-relaxed">
+                    Configured for air-gapped secure facility servers. High levels of tamper resistance, compliant with aerospace safety DO-178C, and nuclear automation SCADA directives.
+                  </p>
+                  <div className="bg-black p-3 rounded text-[11px] text-zinc-500 space-y-1.5">
+                    <div className="flex justify-between"><span>Regulatory Directives:</span><span className="text-zinc-300 font-bold">DO-178C, ISO-26262</span></div>
+                    <div className="flex justify-between"><span>Airgapped:</span><span className="text-zinc-300 font-bold">Yes</span></div>
+                    <div className="flex justify-between"><span>FIPS Compliance:</span><span className="text-zinc-300 font-bold">140-3 Level 4</span></div>
+                  </div>
                 </div>
+
+                {/* Claim Mapping Documentation */}
+                <div className="bg-[#0c0c0e] border border-[#27272a] p-5 rounded-lg space-y-4 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 pb-2 border-b border-[#27272a] mb-3">Claim Mapping Documents</h3>
+                    <ul className="space-y-2.5">
+                      {[
+                        { name: "DO-178C Compliance Mapping.pdf", size: "2.4 MB" },
+                        { name: "ISO-26262 System Verification.pdf", size: "1.8 MB" },
+                        { name: "Audit Integrity Ledger Rules.pdf", size: "850 KB" }
+                      ].map((doc, idx) => (
+                        <li key={idx} className="flex items-center justify-between text-zinc-300 bg-black p-2 rounded border border-[#27272a]/60">
+                          <span className="truncate max-w-[150px]">{doc.name}</span>
+                          <button className="text-blue-500 hover:text-blue-400 font-bold flex items-center gap-1 shrink-0">
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Download</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#27272a] text-[10px] text-zinc-500">
+                    Engineering documentation updated: Today, 15:00 UTC.
+                  </div>
+                </div>
+
               </div>
-
-              {/* License Option 2 */}
-              <div className="bg-[#0c0c0e] border border-[#27272a] p-5 rounded-lg space-y-4">
-                <div className="flex justify-between items-center pb-2 border-b border-[#27272a]">
-                  <span className="font-bold text-zinc-400 uppercase tracking-widest">Government / DoD</span>
-                  <span className="text-[10px] bg-[#18181b] text-zinc-500 border border-[#27272a] px-2 py-0.5 rounded font-bold">Available Upgrade</span>
-                </div>
-                <p className="text-zinc-400 leading-relaxed">
-                  Configured for air-gapped secure facility servers. High levels of tamper resistance, compliant with aerospace safety DO-178C, and nuclear automation SCADA directives.
-                </p>
-                <div className="bg-black p-3 rounded text-[11px] text-zinc-500 space-y-1.5">
-                  <div className="flex justify-between"><span>Regulatory Directives:</span><span className="text-zinc-300 font-bold">DO-178C, ISO-26262</span></div>
-                  <div className="flex justify-between"><span>Airgapped:</span><span className="text-zinc-300 font-bold">Yes</span></div>
-                  <div className="flex justify-between"><span>FIPS Compliance:</span><span className="text-zinc-300 font-bold">140-3 Level 4</span></div>
-                </div>
-              </div>
-
-              {/* Claim Mapping Documentation */}
-              <div className="bg-[#0c0c0e] border border-[#27272a] p-5 rounded-lg space-y-4 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 pb-2 border-b border-[#27272a] mb-3">Claim Mapping Documents</h3>
-                  <ul className="space-y-2.5">
-                    {[
-                      { name: "DO-178C Compliance Mapping.pdf", size: "2.4 MB" },
-                      { name: "ISO-26262 System Verification.pdf", size: "1.8 MB" },
-                      { name: "Audit Integrity Ledger Rules.pdf", size: "850 KB" }
-                    ].map((doc, idx) => (
-                      <li key={idx} className="flex items-center justify-between text-zinc-300 bg-black p-2 rounded border border-[#27272a]/60">
-                        <span className="truncate max-w-[150px]">{doc.name}</span>
-                        <button className="text-blue-500 hover:text-blue-400 font-bold flex items-center gap-1 shrink-0">
-                          <Download className="w-3.5 h-3.5" />
-                          <span>Download</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="pt-3 border-t border-[#27272a] text-[10px] text-zinc-500">
-                  Engineering documentation updated: Today, 15:00 UTC.
-                </div>
-              </div>
-
-            </div>
+            )}
           </div>
         )}
 

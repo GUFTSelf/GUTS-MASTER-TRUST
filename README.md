@@ -96,6 +96,8 @@ Our **Reference Implementation** is fully executable and provides reproducible e
 ## 6. Documentation Map
 
 * 📊 **[STATUS_MATRIX.md](STATUS_MATRIX.md)**: Live feature readiness matrix explicitly mapping implemented versus planned features.
+* 📋 **[EVALUATION_CHECKLIST.md](EVALUATION_CHECKLIST.md)**: Quickstart Checklist for conducting third-party audits and validation steps.
+* 📄 **[vek.manifest.json](vek.manifest.json)**: Machine-readable system, protocol, and compatibility schema manifest.
 * 🎓 **[docs/CONFORMANCE_SPECIFICATION.md](docs/CONFORMANCE_SPECIFICATION.md)**: Establishes Level 1, 2, and 3 conformance levels for VEK-compliant runtimes.
 * 📋 **[docs/EGVS.md](docs/EGVS.md)**: Engineering Governance & Verification Specification establishing change classes, development lifecycle rules, and release gates.
 * 🏛️ **[docs/adr/](docs/adr/)**: Comprehensive Architecture Decision Records (ADRs 0001–0004) covering arithmetic, traceability, WAL formats, and safety gates.

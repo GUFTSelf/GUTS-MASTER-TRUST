@@ -1,0 +1,52 @@
+{
+  "manifest_metadata": {
+    "name": "Verifiable Execution Kernel (VEK)",
+    "specification_version": "3.3.0",
+    "release_tag": "v3.3.0-RC1",
+    "license": "GUTS Technology Evaluation License v1.0",
+    "authority": "GUTS DETERMINISTIC LLC / Thoeun Thien (CEO)",
+    "timestamp_utc": "2026-07-05T09:32:00Z"
+  },
+  "supported_conformance": {
+    "level_1_schemas": true,
+    "level_2_deterministic_replay": true,
+    "level_3_hardware_isolation": false
+  },
+  "capabilities": {
+    "deterministic_virtual_cpu": {
+      "status": "prototype",
+      "engine": "javascript-mock-vm",
+      "word_size_bits": 32,
+      "registers": 32,
+      "cycle_accurate": true
+    },
+    "consensus_drift_reconciler": {
+      "status": "prototype",
+      "redundant_nodes": 3,
+      "voting_threshold": 0.6667,
+      "float_drift_injection_cycle": 4822
+    },
+    "egaf_scada_interlocks": {
+      "status": "prototype",
+      "protocol": "Modbus-TCP",
+      "monitored_registers": [40010, 40015, 40016],
+      "active_invariants": ["INVARIANT_01"]
+    },
+    "audit_bundle_wal": {
+      "status": "implemented",
+      "serialization_format": "JSON",
+      "signature_algorithm": "Ed25519",
+      "schema_compliance": "schemas/audit_bundle_v1.json"
+    },
+    "claim_graph_traceability": {
+      "status": "implemented",
+      "schema_compliance": "schemas/claim_graph_v1.json",
+      "active_patent_claims_mapped": 75
+    }
+  },
+  "verification_entrypoints": {
+    "command_runner": "npm run verify",
+    "test_suite": "node examples/run_all.js",
+    "validation_script": "evaluation-kit/verify_all.sh"
+  }
+}

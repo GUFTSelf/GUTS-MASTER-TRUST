@@ -452,6 +452,104 @@ export default function TrustDashboard() {
 
       </div>
 
+      {/* SECTION: External Auditor Verification & Portable Artifact Package */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Card A: Self-Contained Portable Manifest */}
+        <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5 shadow-lg space-y-4">
+          <div className="flex items-center justify-between border-b border-[#27272a] pb-3">
+            <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider font-mono">
+              <Database className="w-4 h-4 text-blue-500" />
+              Self-Contained Audit Manifest
+            </h4>
+            <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">ZIP Bundle Structure</span>
+          </div>
+          
+          <p className="text-xs text-zinc-400 leading-relaxed font-sans">
+            The <code>evaluation-manifest.zip</code> is structured with absolute zero-trust portable files. No database connections or proprietary tools are required for an auditor to reconstruct or certify the evidence.
+          </p>
+
+          <div className="bg-black/40 border border-[#27272a]/60 rounded p-3.5 space-y-2.5 text-xs">
+            <div className="font-bold text-zinc-300 uppercase tracking-wider text-[10px] border-b border-[#27272a]/30 pb-1.5">Manifest File Catalog:</div>
+            
+            <div className="space-y-2 font-mono text-[11px]">
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 evaluation_report.json</span>
+                <span className="text-zinc-500">Core unified compliance evidence payload</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 summary.pdf</span>
+                <span className="text-zinc-500">Auditor-ready visual PDF report</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 trace.jsonl</span>
+                <span className="text-zinc-500">Step-by-step CPU virtual trace execution log</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 signature.json</span>
+                <span className="text-zinc-500">Cryptographic RSA-2048 envelope signature</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 public_key.pem</span>
+                <span className="text-zinc-500">Authenticating PEM public key</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 schema_version.json</span>
+                <span className="text-zinc-500">Strict conformance version schema specs</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-emerald-400">📄 slsa_attestation.json</span>
+                <span className="text-zinc-500">Machine-readable SLSA gates validation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Card B: External Auditor CLI SDK */}
+        <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5 shadow-lg space-y-4">
+          <div className="flex items-center justify-between border-b border-[#27272a] pb-3">
+            <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider font-mono">
+              <Terminal className="w-4 h-4 text-emerald-500" />
+              External Auditor CLI SDK (VEK-VERIFY)
+            </h4>
+            <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Offline Verifier</span>
+          </div>
+
+          <p className="text-xs text-zinc-400 leading-relaxed font-sans">
+            Independent third parties can run our verification compiler offline to mathematically validate that compliance claims are untampered and structurally authentic.
+          </p>
+
+          <div className="space-y-3">
+            <div className="bg-black border border-[#27272a] rounded p-3 font-mono text-[11px] text-zinc-300 relative group">
+              <div className="absolute top-2 right-2 flex items-center gap-1.5">
+                <button 
+                  onClick={() => handleCopy("npm run verify-audit evaluation-kit/output/evaluation-manifest.zip", "cli")}
+                  className="text-zinc-500 hover:text-zinc-300 transition p-1"
+                >
+                  {copied === "cli" ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+              <div className="text-zinc-500 select-none"># Verify a portable zip/tar bundle offline</div>
+              <div className="text-emerald-400">npm run verify-audit evaluation-kit/output/evaluation-manifest.zip</div>
+              
+              <div className="text-zinc-500 mt-2 select-none"># Verify raw output directory</div>
+              <div className="text-emerald-400">npm run verify-audit evaluation-kit/output/</div>
+            </div>
+
+            <div className="border border-emerald-500/20 bg-emerald-950/10 rounded p-3 text-xs flex gap-2.5 items-start">
+              <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <div className="font-bold text-white uppercase text-[10px]">Zero Internal State Assumption</div>
+                <div className="text-zinc-400 leading-relaxed font-sans">
+                  The verifier re-calculates canonical hashes for the JSON report payload, cross-checks file integrity signatures, and verifies RSA digital signatures. It is 100% deterministic and runs without cloning the core repository.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   );
 }

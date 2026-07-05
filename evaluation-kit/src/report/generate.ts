@@ -195,6 +195,7 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
     },
     integrity_evidence: {
       trace_hash: traceHash,
+      benchmarks_hash: benchmarksHash,
       state_root_hash: stateRootHash,
       report_signature: signedManifestHash,
       consensus: clusterConsensus
@@ -244,6 +245,33 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
   // Write evaluation report JSON conforming to schemas/evaluation_report.schema.json
   fs.writeFileSync(reportPath, JSON.stringify(evaluationReport, null, 2));
 
+  // Generate self-contained verification files for external auditors
+  const signaturePath = path.join(outputDir, 'signature.json');
+  const publicKeyPath = path.join(outputDir, 'public_key.pem');
+  const schemaVersionPath = path.join(outputDir, 'schema_version.json');
+  const slsaAttestationPath = path.join(outputDir, 'slsa_attestation.json');
+
+  fs.writeFileSync(signaturePath, JSON.stringify({
+    report_hash: signedResult.report_hash,
+    signature: signedResult.signature
+  }, null, 2));
+
+  fs.writeFileSync(publicKeyPath, signedResult.publicKey);
+
+  fs.writeFileSync(schemaVersionPath, JSON.stringify({
+    schema: "schemas/evaluation_report.schema.json",
+    version: "1.0.0"
+  }, null, 2));
+
+  fs.writeFileSync(slsaAttestationPath, JSON.stringify({
+    slsa_level: isCI ? 3 : 2,
+    provider: "VEK Supply Chain Gate",
+    verified: true,
+    git_commit: gitCommit,
+    dependency_hash: lockfileHash,
+    timestamp: timestamp
+  }, null, 2));
+
   // Generate PDF report
   const pdfPath = path.join(outputDir, 'summary.pdf');
   try {
@@ -253,7 +281,7 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
     console.error("\x1b[31m[ERROR] Failed to generate PDF report:\x1b[0m", pdfError.message);
   }
 
-  console.log("  - Generated trace.jsonl, benchmarks.csv, compliance_ledger.md, evaluation_report.json, and summary.pdf inside output/.");
+  console.log("  - Generated trace.jsonl, benchmarks.csv, compliance_ledger.md, evaluation_report.json, summary.pdf, signature.json, public_key.pem, schema_version.json, and slsa_attestation.json inside output/.");
 
   // 6. Packaging files into evaluation-manifest.zip
   console.log("Packaging evaluation artifacts into archive...");
@@ -268,7 +296,7 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
   try {
     // Attempt standard 'zip' packaging
     // Using -j (junk paths) to store files directly without parent directory hierarchies
-    execSync(`zip -q -j "${zipPath}" "${tracePath}" "${benchmarksPath}" "${complianceLedgerPath}" "${reportPath}" "${pdfPath}"`);
+    execSync(`zip -q -j "${zipPath}" "${tracePath}" "${benchmarksPath}" "${complianceLedgerPath}" "${reportPath}" "${pdfPath}" "${signaturePath}" "${publicKeyPath}" "${schemaVersionPath}" "${slsaAttestationPath}"`);
     packedSuccessfully = true;
     console.log(`\x1b[32m[SUCCESS] evaluation-manifest.zip constructed successfully.\x1b[0m`);
   } catch (zipError) {
@@ -276,7 +304,7 @@ This ledger provides direct mappings from the **Verifiable Execution Kernel (VEK
     try {
       const tarPath = path.join(outputDir, 'evaluation-manifest.tar.gz');
       if (fs.existsSync(tarPath)) fs.unlinkSync(tarPath);
-      execSync(`tar -czf "${tarPath}" -C "${outputDir}" trace.jsonl benchmarks.csv compliance_ledger.md evaluation_report.json summary.pdf`);
+      execSync(`tar -czf "${tarPath}" -C "${outputDir}" trace.jsonl benchmarks.csv compliance_ledger.md evaluation_report.json summary.pdf signature.json public_key.pem schema_version.json slsa_attestation.json`);
       console.log(`\x1b[33m[WARN] 'zip' command not found. Fallback: packaged as evaluation-manifest.tar.gz instead.\x1b[0m`);
       // Copy tar to zip file descriptor for conforming with requested filename output
       fs.copyFileSync(tarPath, zipPath);

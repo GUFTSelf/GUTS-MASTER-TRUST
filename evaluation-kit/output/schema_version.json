@@ -1,0 +1,4 @@
+{
+  "schema": "schemas/evaluation_report.schema.json",
+  "version": "1.0.0"
+}

@@ -1,5 +1,5 @@
 Metric,Value,Unit
 cycles_executed,500000,count
-benchmark_duration_ms,3.479,ms
-throughput_ips,143701657,instructions/sec
-drift_reconciliation_delay,0.046559,ms
+benchmark_duration_ms,3.446,ms
+throughput_ips,145110923,instructions/sec
+drift_reconciliation_delay,0.040146,ms

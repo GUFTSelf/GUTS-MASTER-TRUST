@@ -13,6 +13,7 @@
     "clean": "rm -rf dist server.js",
     "demo": "node examples/run_all.js",
     "verify": "bash evaluation-kit/verify_all.sh",
+    "verify-audit": "tsx vek-verify/cli.ts",
     "benchmark": "node examples/run_benchmarks.js",
     "stress-test": "node examples/run_stress_tests.js",
     "report": "tsx evaluation-kit/src/report/generate.ts",

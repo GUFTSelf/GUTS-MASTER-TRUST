@@ -1,0 +1,10 @@
+{
+  "name": "VEK Console 2.3.0",
+  "description": "Verifiable Execution Kernel (VEK) Console - Deterministic AI Verification Platform engineering workspace.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

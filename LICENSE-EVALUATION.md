@@ -1,78 +1,82 @@
 # LICENSE-EVALUATION.md
 
-## Technology Evaluation & Non-Disclosure Agreement (NDA)
+## GUTS MASTER TRUST Technology Evaluation & Licensing Framework
 
-**Licensor:** GUTS DETERMINISTIC TECHNOLOGY LLC  
-**IP Holder:** GUTS MASTER TRUST  
-**Revision Date:** July 4, 2026  
-**Document Ref:** VEK-EVAL-v2.4.0
-
----
-
-### 1. Purpose of Evaluation
-This repository, including the Verifiable Execution Kernel (VEK) source files, specifications, simulation scripts, and visual console applet, is provided strictly to designated evaluators for assessing GUTS MASTER TRUST's technology, code quality, performance benchmarks, and patent claims.
-
-Any commercial distribution, production deployment, secondary copying, decompilation, or unauthorized disclosure of this proprietary codebase is strictly prohibited unless authorized under a separate **Field-of-Use Licensing Agreement**.
+**Licensing Representative:** GUTS DETERMINISTIC TECHNOLOGY LLC  
+**Intellectual Property Holder:** GUTS MASTER TRUST  
+**Founder & CEO:** Thoeun Thien  
+**Current Revision Date:** July 4, 2026  
+**Document Reference:** GUTS-VEK-LIC-v2.4.0  
 
 ---
 
-### 2. Permitted Uses & Scope
-Under this Evaluation License, the Evaluator is granted a temporary, non-exclusive, non-transferable, revocable right to:
-1. **Clone & Compile**: Download, compile, and run the VEK Console in an isolated staging/local environment for verification purposes.
-2. **Execute Assertions**: Trigger automated Cargo tests and simulation playgrounds inside the Console to audit claim boundaries.
-3. **Reproduce Benchmarks**: Run local clock accuracy, floating-point reconciliation, and zero-knowledge witness latency tests.
+### 1. The Licensing Framework Overview
 
-**PROHIBITED ACTIONS**:
-* Reverse-engineering or extracting cryptographic keys.
-* Disclosing benchmarks or security reports to third parties without prior written consent from Thoeun Thien (CEO).
-* Committing proprietary source snippets to public repositories or AI model training sets.
+The **GUTS MASTER TRUST** licensing framework regulates access, technical verification, and commercial field-of-use authorization for our proprietary intellectual property (IP) portfolio, including the **Verifiable Execution Kernel (VEK)**, drift-free middleware, and identity-locked operating systems.
+
+No commercial rights, patent grants, or code distribution permissions are conveyed by accessing this repository or running the VEK Console unless explicitly executed under a written **Field-of-Use Licensing Agreement** signed by Thoeun Thien, CEO of GUTS DETERMINISTIC TECHNOLOGY LLC.
+
+To facilitate corporate due diligence and audit compliance, we organize our operational materials into three primary evaluation bundles:
 
 ---
 
-### 3. Verification & Compliance Auditing
-GUTS DETERMINISTIC TECHNOLOGY LLC reserves the right to request proof of compliance with the evaluation conditions. All code execution logs, write-ahead logs, and signed attestation quotes generated during evaluation remain the joint property of GUTS MASTER TRUST and GUTS DETERMINISTIC TECHNOLOGY LLC.
+### 2. Consolidated Document Directory & Resource Links
+
+#### 🔍 A. Patent Claim Traceability Logs
+Use these references to audit how our physical source code and registers align directly with active USPTO patent applications:
+* 📑 **[Patent Claim Traceability Matrix](/patents/claim_traceability.md)**: Explains individual USPTO independent and dependent claims alongside code assertions and unit test references.
+* 📋 **[Patent Portfolio Catalog](/patents/portfolio.md)**: A comprehensive directory listing all eight active patent families, application numbers, and technical scopes.
+* 🗺️ **[Application-to-Crate Map](/patents/application_mapping.md)**: Straightforward technical mapping linking USPTO application filings to specific folders and rust-crates within the VEK architecture.
+
+#### 📊 B. Benchmark Evidence & Technical Proofs
+Review these documents to verify execution throughput, hardware secure enclave measurement parameters, and consensus drift isolation under heavy workloads:
+* 📈 **[Performance Benchmarks Engine](/BENCHMARKS.md)**: Invariant execution logs, STARK-based witness compilation speed metrics, and physical transaction throughput calculations.
+* 🧬 **[Doc 8–11 Technical Reconstruction](/licensing/Docs_8_11_Reconstruction.md)**: Bridges advanced technical domains:
+  * *Doc 8*: Software-defined single-precision floating-point drift mitigation procedures.
+  * *Doc 9*: Trusted Execution Environment (TEE) hardware onboarding sequence.
+  * *Doc 10*: Ephemeral Ed25519 Platform Configuration Register (PCR) lifecycle and emergency key revocation triggers.
+  * *Doc 11*: Inline Modbus/TCP & DNP3 industrial SCADA interlocks mapping.
+
+#### 💼 C. Legal Agreements & Business Case Evidence
+Understand our standard evaluation guidelines, commercial procurement frameworks, and real-world submission studies:
+* 🗂️ **[Dossier Master Index (Docs 1–26)](/licensing/licensing_packet_index.md)**: The structural index organizing all twenty-six compliance and auditing documents in our evaluation package.
+* ✍️ **[Evaluation Non-Disclosure Agreement (NDA)](/licensing/NDA.md)**: Establishes mutual trade secret protection, evaluation limitations, and Pinellas County, Florida legal jurisdiction.
+* 🚀 **[Enterprise Pitch Bundle](/licensing/Enterprise_Pitch_Bundle.md)**: Product-market fit comparisons, operational onboarding phases, and commercial field-of-use pricing guides.
+* 🌐 **[Devpost Hackathon Submission Case](/licensing/Devpost_Response.md)**: Summary of how the interactive VEK React Console serves as a live administrative visual head-unit to execute verification loops.
 
 ---
 
-### 4. Step-by-Step Evaluation Routine
-To verify the physical implementations of our patented claims, follow the standard reproducibility routine below:
+### 3. Step-by-Step Staging Routine
 
-#### Step A: System Prerequisites
-* Node.js v18+ or later
-* Rust toolchain (stable compiler `rustc`/`cargo`)
-* Git (version 2.30+)
+Designed for systems engineers, security auditors, and business executives to compile and explore the platform locally:
 
-#### Step B: Installation & Dev Server Boot
-1. Clone this repository locally.
-2. Install base visual applet dependencies:
-   ```bash
-   npm install
-   ```
-3. Initialize environmental overrides:
-   ```bash
-   cp .env.example .env.local
-   # Provide your standard evaluation key parameters
-   ```
-4. Launch the local development console:
-   ```bash
-   npm run dev
-   ```
-5. Open your local browser to `http://localhost:3000` to interact with the VEK Console interface.
+```
+  Step 1: Install Node.js (v18+) and Rust stable compiler.
+    │
+    ▼
+  Step 2: Clone this repository and run 'npm install' to compile dependencies.
+    │
+    ▼
+  Step 3: Boot local console with 'npm run dev' to access http://localhost:3000.
+    │
+    ▼
+  Step 4: Go to the 'Licensing' tab to run automated Cargo verification tests.
+```
 
-#### Step C: Executing Unit Test Verification
-To verify code-level embodiments against USPTO claims:
-1. In the VEK Console, navigate to the **Licensing** tab.
-2. Ensure you are on the **Claim-to-Implementation Matrix (CIM)** sub-tab.
-3. Select any desired Claim (e.g., *19/541,415 - Claim 1* or *19/679,674 - Claim 2*).
-4. Review the supporting source files and associated implementation snippets.
-5. Click **Verify Claim** to trigger the simulated Cargo test suite.
+*For complete instructions on configuring hardware-assisted secure enclaves or deploying testing containers, refer to the in-app **Licensing Portal** or audit the [Docs 8–11 Technical Reconstruction Package](/licensing/Docs_8_11_Reconstruction.md).*
 
 ---
 
-### 5. Inquiries & Official Submissions
-If your compliance, security, or legal team requires a customized Evaluation Agreement with strict air-gapped guarantees, please contact the licensing office directly.
+### 4. Primary Corporate Directory
 
-* **Contact Person:** Thoeun Thien, Founder & CEO
-* **Email:** [thoeunceo@gdtsi.com](mailto:thoeunceo@gdtsi.com)
-* **Direct Office Phone:** +1 (727) 555-0199 *(Enterprise Licensing Hotline)*
-* **Mailing Address:** Clearwater, Florida
+All formal inquiries regarding license acquisition, federal government/DoD CAGE procurement, or source-code auditing access must be directed to:
+
+* **Licensing Representative:** GUTS DETERMINISTIC TECHNOLOGY LLC
+* **IP Holding Entity:** GUTS MASTER TRUST
+* **Founder & CEO:** Thoeun Thien
+* **Unique Entity ID (UEI):** FQJUJKVKSAS3
+* **CAGE Code:** 1ZMG9
+* **ORCID iD:** 0009-0008-8779-171X
+* **Corporate Address:** Clearwater, Florida, USA
+* **Principal Email:** [apollothien@gmail.com](mailto:apollothien@gmail.com)
+* **Official Website:** [gdtsi.com](https://gdtsi.com)

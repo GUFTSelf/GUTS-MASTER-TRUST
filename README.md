@@ -97,6 +97,7 @@ Our **Reference Implementation** is fully executable and provides reproducible e
 
 * 📊 **[STATUS_MATRIX.md](STATUS_MATRIX.md)**: Live feature readiness matrix explicitly mapping implemented versus planned features.
 * 🎓 **[docs/CONFORMANCE_SPECIFICATION.md](docs/CONFORMANCE_SPECIFICATION.md)**: Establishes Level 1, 2, and 3 conformance levels for VEK-compliant runtimes.
+* 📋 **[docs/EGVS.md](docs/EGVS.md)**: Engineering Governance & Verification Specification establishing change classes, development lifecycle rules, and release gates.
 * 🏛️ **[docs/adr/](docs/adr/)**: Comprehensive Architecture Decision Records (ADRs 0001–0004) covering arithmetic, traceability, WAL formats, and safety gates.
 * 📑 **[LICENSE-EVALUATION.md](LICENSE-EVALUATION.md)**: Standard Evaluation License agreement. Outlines how to evaluate, compile, and run this repository safely.
 * 📋 **[licensing/licensing_packet_index.md](licensing/licensing_packet_index.md)**: Master Index & Dossier Mapping for Docs 1–26.

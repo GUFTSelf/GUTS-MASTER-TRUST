@@ -40,11 +40,13 @@ The table below catalogs every document in the package, its primary classificati
 
 ---
 
-## 📅 Multi-Phase Engineering Roadmap
+## 📅 Multi-Phase Engineering Roadmap & Governance
 
-To transition this technology assessment platform into production, the evaluation package contains a detailed **24-Week Engineering Roadmap** mapping milestones, deliverables, and Version 1.0 exit criteria across seven key phases.
-
-* **Reference Document**: 📅 **[/licensing/Development_Roadmap.md](/licensing/Development_Roadmap.md)**
+To transition this technology assessment platform into production, the evaluation package contains:
+1. **24-Week Engineering Roadmap**: Maps milestones, deliverables, and Version 1.0 exit criteria across seven key phases.
+   - **Reference Document**: 📅 **[/licensing/Development_Roadmap.md](/licensing/Development_Roadmap.md)**
+2. **Engineering Governance & Verification Specification (EGVS)**: Outlines our strict change control, development lifecycle, release gates, and feature conformance mapping.
+   - **Reference Document**: 📋 **[/docs/EGVS.md](/docs/EGVS.md)**
 
 ---
 

@@ -1,2 +1,16 @@
 #!/usr/bin/env bash
-npx tsx scripts/verify-bundle.ts "$@"
+
+COMMAND=$1
+shift
+
+if [ "$COMMAND" = "run" ]; then
+  npx tsx scripts/execute.ts "$@"
+elif [ "$COMMAND" = "verify" ]; then
+  npx tsx scripts/verify-bundle.ts "$@"
+else
+  echo -e "\x1b[31mError: Unknown command '$COMMAND'\x1b[0m"
+  echo "Usage:"
+  echo "  ./vek run <input_spec_or_dir>"
+  echo "  ./vek verify <epo_or_report_path>"
+  exit 1
+fi

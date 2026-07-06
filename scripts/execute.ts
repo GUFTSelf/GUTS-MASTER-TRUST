@@ -9,7 +9,8 @@ console.log("\x1b[36m┌──────────────────�
 console.log("\x1b[36m│              VEK CLEAN-ROOM EXECUTION ENGINE           │\x1b[0m");
 console.log("\x1b[36m└────────────────────────────────────────────────────────┘\x1b[0m");
 
-const inputPath = process.argv[2];
+let inputPath = process.argv[2];
+let outputDir: string | null = null;
 
 if (!inputPath) {
   console.log("\x1b[33mNo input file specified. Creating a default sample: 'sample-input.json'...\x1b[0m");
@@ -38,8 +39,19 @@ if (!inputPath) {
 
 try {
   if (!fs.existsSync(inputPath)) {
-    console.error(`\x1b[31m[ERROR] Input specification file not found: ${inputPath}\x1b[0m`);
+    console.error(`\x1b[31m[ERROR] Input specification file or directory not found: ${inputPath}\x1b[0m`);
     process.exit(1);
+  }
+
+  // Handle directory scenario
+  if (fs.statSync(inputPath).isDirectory()) {
+    outputDir = inputPath;
+    const directInputPath = path.join(inputPath, "input.json");
+    if (!fs.existsSync(directInputPath)) {
+      console.error(`\x1b[31m[ERROR] input.json not found inside directory: ${inputPath}\x1b[0m`);
+      process.exit(1);
+    }
+    inputPath = directInputPath;
   }
 
   const rawInput = fs.readFileSync(inputPath, "utf-8");
@@ -93,6 +105,11 @@ try {
   const traceFile = "trace.json";
   fs.writeFileSync(traceFile, JSON.stringify(trace, null, 2));
   console.log(`\n\x1b[32m✔ Deterministic trace log written to: ${traceFile}\x1b[0m`);
+  
+  if (outputDir) {
+    fs.writeFileSync(path.join(outputDir, "trace.json"), JSON.stringify(trace, null, 2));
+    console.log(`\x1b[32m✔ Deterministic trace log written to directory: ${path.join(outputDir, "trace.json")}\x1b[0m`);
+  }
 
   // Write Execution Proof Object (EPO v1) out to epo_v1.json and evaluation-kit/output/epo_v1.json
   if (trace.epo) {
@@ -103,6 +120,15 @@ try {
     fs.mkdirSync("evaluation-kit/output", { recursive: true });
     fs.writeFileSync("evaluation-kit/output/epo_v1.json", JSON.stringify(trace.epo, null, 2));
     console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) cloned to: evaluation-kit/output/epo_v1.json\x1b[0m`);
+
+    if (outputDir) {
+      fs.writeFileSync(path.join(outputDir, "epo.json"), JSON.stringify(trace.epo, null, 2));
+      console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) written to directory: ${path.join(outputDir, "epo.json")}\x1b[0m`);
+      
+      // Also write expected_epo.json and expected_trace.json just in case
+      fs.writeFileSync(path.join(outputDir, "expected_epo.json"), JSON.stringify(trace.epo, null, 2));
+      fs.writeFileSync(path.join(outputDir, "expected_trace.json"), JSON.stringify(trace, null, 2));
+    }
   }
 
   // Format high-fidelity report and sign cryptographically

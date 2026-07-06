@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { createRequire } from "module";
+if (typeof (globalThis as any).require === "undefined") {
+  (globalThis as any).require = createRequire(import.meta.url);
+}
 import { verifyReportSignature, hashReport } from "../src/crypto/report_signer";
 import { verifyEpoV1 } from "../src/lib/kernel";
 

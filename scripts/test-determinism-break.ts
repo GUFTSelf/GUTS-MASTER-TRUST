@@ -1,5 +1,9 @@
 import fs from "fs";
 import path from "path";
+import { createRequire } from "module";
+if (typeof (globalThis as any).require === "undefined") {
+  (globalThis as any).require = createRequire(import.meta.url);
+}
 import { verifyEpoV1, executeVek, canonicalJsonStringify, sha256Sync } from "../src/lib/kernel";
 
 console.log("\x1b[35m┌────────────────────────────────────────────────────────┐\x1b[0m");
@@ -21,7 +25,7 @@ const rawInput = fs.readFileSync(goldenInputPath, "utf-8");
 const baseInput = JSON.parse(rawInput);
 
 let passedTests = 0;
-let totalTests = 3;
+let totalTests = 4;
 
 // --- Test 1: Change 1 byte / 1 field in EPO input/trace -> verify must FAIL ---
 console.log("\x1b[33m[TEST 1] Modifying 1 byte in Portable Truth Container (EPO)... \x1b[0m");
@@ -83,11 +87,30 @@ if (hash1 && hash2 && hash1 === hash2) {
   console.error("\x1b[31m  🔴 FAIL: Dual runs did not produce identical hashes!\x1b[0m");
 }
 
+// --- Test 4: Tampering with cryptographic signature / public key seal -> verify must FAIL ---
+console.log("\n\x1b[33m[TEST 4] Tampering with Cryptographic Signature / Public Key Seal... \x1b[0m");
+const tamperedEpo4 = JSON.parse(JSON.stringify(baseEpo));
+if (tamperedEpo4.signature) {
+  // Flip the last character of the signature string to invalidate it
+  const sigLen = tamperedEpo4.signature.length;
+  const lastChar = tamperedEpo4.signature[sigLen - 1];
+  const newChar = lastChar === "a" ? "b" : "a";
+  tamperedEpo4.signature = tamperedEpo4.signature.substring(0, sigLen - 1) + newChar;
+}
+
+const verificationResult4 = verifyEpoV1(tamperedEpo4);
+if (!verificationResult4.success) {
+  console.log("\x1b[32m  🟢 PASS: Tampered signature successfully detected and rejected! Reason: " + verificationResult4.reason + "\x1b[0m");
+  passedTests++;
+} else {
+  console.error("\x1b[31m  🔴 FAIL: Verification succeeded despite tampered cryptographic signature seal!\x1b[0m");
+}
+
 console.log("\n\x1b[35m┌────────────────────────────────────────────────────────┐\x1b[0m");
-console.log(`│             OVERALL STATUS: ${passedTests === totalTests ? "\x1b[32m\x1b[1mALL TESTS PASSED\x1b[0m" : "\x1b[31m\x1b[1mFAILURES DETECTED\x1b[0m"}              │`);
+console.log(`│             OVERALL STATUS: ${passedTests === 4 ? "\x1b[32m\x1b[1mALL TESTS PASSED\x1b[0m" : "\x1b[31m\x1b[1mFAILURES DETECTED\x1b[0m"}              │`);
 console.log("\x1b[35m└────────────────────────────────────────────────────────┘\x1b[0m\n");
 
-if (passedTests === totalTests) {
+if (passedTests === 4) {
   process.exit(0);
 } else {
   process.exit(1);

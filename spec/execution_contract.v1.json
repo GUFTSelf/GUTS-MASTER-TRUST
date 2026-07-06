@@ -1,0 +1,43 @@
+{
+  "contract_version": "1.0",
+  "name": "VEK Canonical Execution Constitution",
+  "rules": {
+    "serialization": {
+      "format": "JSON",
+      "sorting": "lexicographical",
+      "spacing": "none (no whitespace variance)",
+      "numbers": "fixed-point or canonical string representation",
+      "encoding": "UTF-8"
+    },
+    "determinism_constraints": {
+      "forbidden_sources": [
+        "system_time (Date.now, performance.now, external NTP clocks)",
+        "hardware_entropy (/dev/random, Math.random, crypto.randomBytes without seed)",
+        "unordered_iteration (native Object.keys/Object.entries iteration without deterministic key sorting)",
+        "floating_point_non_determinism (platform-dependent floating-point rounding drifts)",
+        "network_io (external API requests, remote server synchronizations)",
+        "disk_io_during_transition (file reads/writes inside transition function)"
+      ],
+      "allowable_sources": [
+        "deterministic_lcg_rng (Linear Congruential Generator parameterized by cryptographic seed + tick)",
+        "sequential_tick_monotonic_integer"
+      ]
+    },
+    "state_transition": {
+      "formula": "State(n+1) = F(State(n), Input(n), Seed, Tick)",
+      "pure_function_enforcement": true,
+      "state_cloning": "deep copy on entry, freeze inputs"
+    },
+    "verification_enforcement": {
+      "pass_fail_binary": "binary pass/fail only, no partial passing allowed",
+      "adversarial_resilience": "any single-byte modification of input, payload, state, or trace elements results in complete validation failure"
+    }
+  },
+  "allowed_operations": [
+    "INITIALIZE_FLIGHT_STATE",
+    "SET_ALTITUDE",
+    "CHECK_LIDAR_PROXIMITY",
+    "VALIDATE_BATTERY_CHARGE",
+    "CHECK_GPS_SIGNAL"
+  ]
+}

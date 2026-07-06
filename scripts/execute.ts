@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
-import { executeVek, DOMAIN_CONSTRAINTS, sha256Sync } from "../src/lib/kernel";
+import { executeVek, DOMAIN_CONSTRAINTS, sha256Sync, verifyEpoV1 } from "../src/lib/kernel";
 import { signReport } from "../src/crypto/report_signer";
 
 // Print neat ASCII header
@@ -64,16 +64,48 @@ try {
     process.exit(1);
   }
 
+  // === PIPELINE STEP 1: CONTRACT VALIDATION (hard gate) ===
+  console.log("[CONTRACT] Reading Execution Constitution from /spec/execution_contract.v1.json...");
+  const contractPath = path.join(process.cwd(), "spec/execution_contract.v1.json");
+  if (!fs.existsSync(contractPath)) {
+    console.error("\x1b[31m[CONTRACT ERROR] Execution contract definition file not found.\x1b[0m");
+    process.exit(1);
+  }
+  const contract = JSON.parse(fs.readFileSync(contractPath, "utf-8"));
+  
+  // Validate domain against allowed domains / rules
+  if (domain !== "uas-route") {
+    console.error(`\x1b[31m[CONTRACT VIOLATION] Domain '${domain}' violates the VEK Execution Constitution.\x1b[0m`);
+    process.exit(1);
+  }
+
+  // Validate instructions against allowed operations list
+  const allowedOps = contract.allowed_operations || [];
+  for (const inst of instructions) {
+    if (!allowedOps.includes(inst.instruction)) {
+      console.error(`\x1b[31m[CONTRACT VIOLATION] Operation '${inst.instruction}' is NOT permitted under the current VEK Execution Constitution.\x1b[0m`);
+      process.exit(1);
+    }
+  }
+
+  // Check seed safety - forbid dynamic or unstable randomness
+  if (seed === undefined || seed === null || seed === "" || String(seed).toLowerCase().includes("math.random")) {
+    console.error(`\x1b[31m[CONTRACT VIOLATION] Seed '${seed}' is forbidden. Seed must be a stable, deterministic value.\x1b[0m`);
+    process.exit(1);
+  }
+
+  console.log("\x1b[32m✔ [CONTRACT VALIDATION] All input operations and domain constraints are fully compliant with the constitution.\x1b[0m");
+
   console.log(`[EXECUTE] Loading domain spec: \x1b[1m${domain.toUpperCase()}\x1b[0m`);
   console.log(`[EXECUTE] Seeding kernel entropy filter: \x1b[35m${seed}\x1b[0m`);
   if (adversarialFault && adversarialFault !== "none") {
     console.log(`[EXECUTE] Injecting adversarial testing fault: \x1b[31m\x1b[1m${adversarialFault}\x1b[0m`);
   }
 
-  // Run the verifiable execution kernel
+  // === PIPELINE STEP 2: EXECUTION KERNEL ===
   const trace = executeVek(domain, inputs, seed, instructions, adversarialFault || "none");
 
-  // Output execution logs
+  // === PIPELINE STEP 3: TRACE GENERATION ===
   console.log("\n\x1b[32m[SUCCESS] Kernel Execution Completed. Generating state transition traces:\x1b[0m");
   trace.steps.forEach((step) => {
     const isPass = step.status === "PASS";
@@ -88,7 +120,6 @@ try {
   console.log("\n\x1b[34m[SYSTEM] Evaluated Active Telemetry Constraints:\x1b[0m");
   const constraints = DOMAIN_CONSTRAINTS[domain] || [];
   constraints.forEach((c) => {
-    // Check if any step failed for this domain boundary
     const violated = trace.steps.some((s) => s.status === "FAIL" && s.description.toLowerCase().includes(c.label.toLowerCase()));
     const statusText = violated ? "\x1b[31m🔴 BREACHED\x1b[0m" : "\x1b[32m🟢 COMPLIANT\x1b[0m";
     console.log(`  - ${c.label.padEnd(30)} : ${statusText} (${c.threshold})`);
@@ -100,6 +131,15 @@ try {
   console.log(`  - Replay Fidelity        : \x1b[1m${(trace.metrics.replayFidelity * 100).toFixed(1)}%\x1b[0m`);
   console.log(`  - Constraint Violation   : \x1b[1m${(trace.metrics.constraintViolationRate * 100).toFixed(1)}%\x1b[0m`);
   console.log(`  - State Divergence Index : \x1b[1m${(trace.metrics.stateDivergenceIndex * 100).toFixed(1)}%\x1b[0m`);
+
+  // === PIPELINE STEP 4: EPO SEALING ===
+  if (trace.epo) {
+    console.log("[SECURITY] Cryptographically signing Portable Truth Container (EPO v1)...");
+    const { signature, publicKey } = signReport({ proof_hash: trace.epo.proof_hash });
+    trace.epo.signature = signature;
+    trace.epo.publicKey = publicKey;
+    console.log("\x1b[32m✔ [EPO SEAL] RSA signature seal appended to verification payload.\x1b[0m");
+  }
 
   // Write trace out to trace.json
   const traceFile = "trace.json";
@@ -128,6 +168,20 @@ try {
       // Also write expected_epo.json and expected_trace.json just in case
       fs.writeFileSync(path.join(outputDir, "expected_epo.json"), JSON.stringify(trace.epo, null, 2));
       fs.writeFileSync(path.join(outputDir, "expected_trace.json"), JSON.stringify(trace, null, 2));
+    }
+  }
+
+  // === PIPELINE STEP 5: VERIFY CLI CHECKPOINT (not optional runtime gate) ===
+  if (trace.epo) {
+    console.log("\n\x1b[35m┌────────────────────────────────────────────────────────┐\x1b[0m");
+    console.log("\x1b[35m│            RUN-TIME INTEGRITY VERIFY GATE              │\x1b[0m");
+    console.log("\x1b[35m└────────────────────────────────────────────────────────┘\x1b[0m");
+    const checkResult = verifyEpoV1(trace.epo);
+    if (checkResult.success) {
+      console.log(`\x1b[32m🟢 [PASS] Run-time integrity verify gate successful. Deterministic replay and cryptographic signature verified.\x1b[0m\n`);
+    } else {
+      console.error(`\x1b[31m🔴 [FAIL] Run-time integrity verify gate failed! Reason: ${checkResult.reason}\x1b[0m\n`);
+      process.exit(1);
     }
   }
 

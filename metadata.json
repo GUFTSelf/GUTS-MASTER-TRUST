@@ -1,6 +1,6 @@
 {
   "name": "VEK Console 2.3.0",
-  "description": "Verifiable Execution Kernel (VEK) Console - Deterministic AI Verification Platform engineering workspace.",
+  "description": "Verifiable Execution Kernel (VEK) Console - Deterministic AI Verification Platform, featuring real-time AI auditing, voice mode, and interactive cryptographic trace inspection.",
   "requestFramePermissions": [
     "microphone"
   ],

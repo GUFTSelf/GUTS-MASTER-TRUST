@@ -13,6 +13,7 @@ import Platform from "./components/Platform";
 import Workspace from "./components/Workspace";
 import CimMatrix from "./components/CimMatrix";
 import Contact from "./components/Contact";
+import VekAiConsole from "./components/VekAiConsole";
 import { VerificationReport, AuditRecord } from "./types";
 import { AVATAR_PRESETS, getSvgDataUrl } from "./lib/avatarPresets";
 import { exportAuditReceipt, ProgressStep, MASTER_AUDIT_RECEIPT } from "./lib/pdfGenerator";
@@ -170,10 +171,10 @@ export default function App() {
 
         {/* Navigation Tabs */}
         <div className="hidden lg:flex items-center space-x-1.5 text-[11px] uppercase font-semibold tracking-wider font-mono">
-          {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
+          {["Dashboard", "AI Console", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
             <button
               key={tab}
-              id={`nav-tab-${tab.toLowerCase()}`}
+              id={`nav-tab-${tab.toLowerCase().replace(" ", "-")}`}
               onClick={() => setActiveTab(tab)}
               className={`px-3 py-1.5 rounded transition duration-200 ${
                 activeTab === tab 
@@ -197,7 +198,7 @@ export default function App() {
 
       {/* MOBILE TABS MENU BAR */}
       <div className="lg:hidden bg-[#0c0c0e] border-b border-[#27272a] p-2 flex overflow-x-auto gap-1 scrollbar-none shrink-0 font-mono text-[10px] uppercase">
-        {["Dashboard", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
+        {["Dashboard", "AI Console", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -228,6 +229,17 @@ export default function App() {
             setAiVoice={setAiVoice}
             isMimicked={isMimicked}
             setIsMimicked={setIsMimicked}
+          />
+        )}
+
+        {/* TAB 1.5: AI CONSOLE */}
+        {activeTab === "AI Console" && (
+          <VekAiConsole 
+            latestReport={latestReport}
+            onVerificationSuccess={handleVerificationSuccess}
+            refreshLedger={fetchLedger}
+            aiVoice={aiVoice}
+            aiAvatar={aiAvatar}
           />
         )}
 

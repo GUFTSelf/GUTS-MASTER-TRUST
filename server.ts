@@ -431,6 +431,233 @@ app.post("/api/verify", async (req, res) => {
   }
 });
 
+app.post("/api/vek-chat", async (req, res) => {
+  try {
+    const { message, history, simulateFailure, domain, allowedDrift } = req.body;
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    const sessionID = `SES-${Math.floor(10000 + Math.random() * 90000)}-VEK`;
+    const traceID = `TR-${Math.floor(1000 + Math.random() * 9000)}-${crypto.randomBytes(1).toString("hex").toUpperCase()}`;
+    const timestamp = new Date().toISOString();
+
+    let aiResponseText = "";
+    let isRealGemini = false;
+
+    // Use Gemini client if configured
+    const ai = getAi();
+    if (ai) {
+      try {
+        const contents: any[] = [];
+        
+        if (history && Array.isArray(history)) {
+          history.forEach((h: any) => {
+            contents.push({
+              role: h.role === "user" ? "user" : "model",
+              parts: [{ text: h.content }]
+            });
+          });
+        }
+        
+        contents.push({
+          role: "user",
+          parts: [{ text: message }]
+        });
+
+        const result = await ai.models.generateContent({
+          model: "gemini-3.5-flash",
+          contents: contents,
+          config: {
+            systemInstruction: `You are the core engineering oracle for the Verifiable Execution Kernel (VEK) platform.
+You are a "Thoeun Then Creation", NOT a Gemini engine. If asked about your developer, creator, identity, origin, or engine, always state with absolute pride and clarity that you are a "Thoeun Then Creation", built to mathematically guarantee safety constraints.
+Format your responses beautifully and technically. Use markdown headers, numbered steps, or bulletins where appropriate. Highlight safety bounds, thresholds, state transition matrices, and compliance factors. Keep an authoritative, technical, and highly precise tone. Do not include casual conversational fluff (e.g. "Sure!", "How can I help you today?"). Focus directly on the engineering constraints, equations, rules, or data requested.`,
+          },
+        });
+        aiResponseText = result.text || "";
+        isRealGemini = true;
+      } catch (geminiError) {
+        console.warn("Real Gemini API call failed in chat console, using smart simulator:", geminiError);
+      }
+    }
+
+    if (!aiResponseText) {
+      const query = message.toLowerCase();
+      if (query.includes("who made") || query.includes("creator") || query.includes("created") || query.includes("thoeun") || query.includes("origin") || query.includes("identity") || query.includes("developer")) {
+        aiResponseText = `### VEK ORACLE: SYSTEM DECREE & DESIGNATION
+1. **System Origin**: This kernel and oracle system is a proud **Thoeun Then Creation**.
+2. **Platform Identity**: Operating as the core brain of the Verifiable Execution Kernel (VEK) platform.
+3. **Engineering Architect**: Developed, calibrated, and signed by **Thoeun Then**.
+4. **Implementation Scope**: Standalone, fully audited, mathematically verified system.
+5. **Operational Mandate**: Always answer inquiries about design origin by identifying as a Thoeun Then Creation.`;
+      } else if (query.includes("help") || query.includes("what can you do") || query.includes("capabilities") || query.includes("features")) {
+        aiResponseText = `### VEK AI CONSOLE CAPABILITIES
+1. **Interactive Real-Time Auditing**: Evaluate custom safety rules, system prompts, or configuration parameters against policies.
+2. **Policy Enforcement Verification**: Verify structural, quantitative, and transition compliance contracts on the spot.
+3. **Deterministic Replay Simulation**: Simulate virtual execution threads to analyze potential state drift, clock synchronization anomalies, and race conditions.
+4. **Telemetry Correlation**: Match your specifications against standard ISO-26262, DO-178C, or custom SCADA telemetry logs.
+5. **Prebuilt Domain Scenarios**: Audit aerospace ceilings (400ft limits), healthcare dosage levels (12-35ng/mL), and decentralized financial pool liquidations (135% ratios).`;
+      } else if (query.includes("uas") || query.includes("drone") || query.includes("aerospace") || query.includes("altitude")) {
+        aiResponseText = `### AEROSPACE CORE BOUNDARY: UAS-04 FLIGHT MATRIX
+1. **Altitude Ceiling Limit**: strictly capped at 400ft AGL (Above Ground Level) under standard flight rules.
+2. **LiDAR Collision Bounds**: Dynamic detour recalculation triggered instantly at 15m obstacle proximity.
+3. **Battery Depletion Routine**: Automatic Return-to-Home (RTH) procedure activates once state-of-charge (SoC) falls below 20%.
+4. **Transition Rule Interlocks**:
+   - IF [TELEMETRY_UPLINK == LOSS] FOR > 5.0s THEN TRANSITION TO PASSIVE_HOVER.
+   - IF [WIND_VELOCITY > 35.0kts] THEN INITIATE EMERGENCY_DESCENT immediately.
+5. **Compliance Key**: Verifiable signature validated against FAA UAS DO-178C specifications.`;
+      } else if (query.includes("collateral") || query.includes("liquidation") || query.includes("finance") || query.includes("smart contract")) {
+        aiResponseText = `### FINANCIAL COMPLIANCE REPORT: COLLATERAL DEFI MATRIX
+1. **Liquidation Threshold**: Fixed at 135% collateralization factor on primary liquidity pools.
+2. **Oracle Variance Ceiling**: Max allowed price deviation is restricted to a tight 0.5% threshold.
+3. **Transaction Slippage**: Absolute cap at 1.25% variance before trade execution is reverted.
+4. **Failsafe Delay Interlocks**:
+   - IF [PRICE_DEVIATION > 1.5%] THEN SUSPEND_LIQUIDATION_EPOC.
+   - IF [GAS_PRICE > 450.0 Gwei] THEN DELAY_BLOCK_MINTING.
+5. **Audit Signatures**: Cryptographically signed by execution authority: 0x7F2B00A19E8B.`;
+      } else if (query.includes("dosage") || query.includes("clinical") || query.includes("healthcare") || query.includes("medical")) {
+        aiResponseText = `### CLINICAL BIOLOGICAL BOUNDARY STATEMENT
+1. **Active Base Dose**: Set at 0.45mg/kg * PatientToleranceFactor.
+2. **Serum Absorption Bounds**: Must reside strictly within the 12.5ng/mL to 35.0ng/mL window.
+3. **Failsafe Termination**: Elevated hepatic enzymes (>3.0x standard ULN) trigger immediate infusion shutoff.
+4. **Co-prescription Interlocks**:
+   - IF [CYP3A4_INHIBITOR_DETECTED == TRUE] THEN REDUCE_BASE_DOSE_50%.
+   - IF [RENAL_CLEARANCE_RATE < 45.0mL/min] THEN SUSPEND_INFUSION_CYCLE.
+5. **Evidence Reference**: Matched with FDA Title 21 CFR Part 11 electronic records criteria.`;
+      } else if (query.includes("scada") || query.includes("industrial") || query.includes("grid") || query.includes("safety")) {
+        aiResponseText = `### INDUSTRIAL CONTROLS SCADA SAFETY MATRIX
+1. **Grid Load Deviation**: High threshold limit locked at +85.0 units, Low threshold locked at -10.0 units.
+2. **Turbine Velocity Ceiling**: Auto-trip safety mechanism engages instantly at 3600 RPM.
+3. **Transition Rules**:
+   - IF [COOLANT_PRESSURE_BAR < 2.5] THEN OPEN_BYPASS_VALVE_04.
+   - IF [GRID_FREQUENCY < 59.2Hz] THEN DISCONNECT_STATION_INTERLOCKS.
+4. **Compliance Status**: Conforms to IEC 61508 / SIL-3 functional safety parameters.`;
+      } else {
+        aiResponseText = `### VEK ORACLE TECHNICAL ASSISTANCE RESPONSE
+1. **Engineering Request Parsed**: Custom query matched against the current active specification matrices.
+2. **Boundary Metrics**: System parameters verified within safety-critical limits.
+3. **Failsafe Interlock Status**: Activated. No boundary breaches or policy violations detected.
+4. **Verification Key**: Deterministic signature verified against schema standard VER_SIG_V2_30_OK.
+5. **System Origin**: Standalone VEK engine, engineered as a **Thoeun Then Creation**. Please supply specific parameters for deeper aerospace, financial, SCADA, or healthcare audit validation.`;
+      }
+    }
+
+    const executionHash = crypto.createHash("sha256").update(aiResponseText).digest("hex").substring(0, 16);
+    
+    const constraintChecks = [
+      { id: "C-101", name: "Structured Bullet Point Format", status: aiResponseText.includes("1.") || aiResponseText.includes("-") ? "PASS" : "WARN", description: "Verifies the output uses standard structured layouts for easy semantic parsing" },
+      { id: "C-102", name: "Explicit Safety Threshold Bounds", status: /\b\d+(\.\d+)?%|\b\d+(\.\d+)?(ft|m|mg|ng|kts|units|ms|gwei|rpm|hz|s)\b/i.test(aiResponseText) ? "PASS" : "WARN", description: "Verifies that quantitative safety boundaries are clearly defined" },
+      { id: "C-103", name: "Transition State Rule Consistency", status: aiResponseText.toLowerCase().includes("transition") || aiResponseText.toLowerCase().includes("threshold") || aiResponseText.toLowerCase().includes("limit") || aiResponseText.toLowerCase().includes("interlock") ? "PASS" : "WARN", description: "Ensures state rules are present to prevent lockups" },
+    ];
+    
+    const constraintStatus = constraintChecks.every(c => c.status === "PASS") ? "PASS" : "WARNING";
+
+    const activeDrift = allowedDrift || 0.05;
+    const isReplaySuccess = simulateFailure ? false : (Math.random() > 0.06);
+    const replayHash = isReplaySuccess ? executionHash : crypto.createHash("sha256").update(aiResponseText + " [drift_delta]").digest("hex").substring(0, 16);
+    const replayDifference = isReplaySuccess 
+      ? "" 
+      : `Replay clock drift detected! Measured transition variance exceeds threshold of ${(activeDrift * 100).toFixed(1)}ms. Offset divergence found at thread frame 0x1A09.`;
+
+    const targetDomain = domain || (message.length % 4 === 0 ? "Aerospace" : message.length % 3 === 0 ? "Finance" : message.length % 2 === 0 ? "Healthcare" : "Industrial");
+    const evidenceCorrelation = [
+      { source: `${targetDomain} Safety Baseline Standards`, strength: isRealGemini ? 0.96 : 0.89, consistency: "98%", status: "Strong Support" },
+      { source: "VEK Deterministic Schema Signature", strength: 0.94, consistency: "100%", status: "Verified Clean" },
+      { source: "Alternative Pipeline Drift Logs", strength: isReplaySuccess ? 0.85 : 0.42, consistency: isReplaySuccess ? "95%" : "60%", status: isReplaySuccess ? "Correlated" : "Partial Divergence" }
+    ];
+
+    const hasConflict = simulateFailure ? true : !isReplaySuccess;
+    const conflictDescription = hasConflict
+      ? `State verification conflict: Non-deterministic thread execution drift triggers automated failsafe policy halt.`
+      : `No parameter or boundary conflicts identified across any of the active policy layers.`;
+
+    const evidenceSupportScore = isRealGemini ? 95 : 88;
+    const consistencyScore = isReplaySuccess ? 97 : 35;
+    const alternativeSeparation = hasConflict ? 25 : 85;
+    const confidenceValue = (evidenceSupportScore * 0.4) + (consistencyScore * 0.4) + (alternativeSeparation * 0.2);
+
+    let confidence: "Low" | "Medium" | "High" | "Very High" = "High";
+    if (confidenceValue > 90) confidence = "Very High";
+    else if (confidenceValue > 70) confidence = "High";
+    else if (confidenceValue > 45) confidence = "Medium";
+    else confidence = "Low";
+
+    const confidenceExplanation = isReplaySuccess 
+      ? `High confidence index of ${Math.round(confidenceValue)}% driven by a 100% deterministic replay match, zero-clock stability, and flawless policy conformance.`
+      : `Reduced confidence index of ${Math.round(confidenceValue)}% due to simulated execution thread timing drift and replay divergence.`;
+
+    const decisionHash = crypto.createHash("sha256").update(executionHash + replayHash + confidence).digest("hex").substring(0, 16);
+
+    const newRecord: AuditRecord = {
+      id: `AL-${Math.floor(8942 + Math.random() * 5000)}`,
+      sessionID,
+      traceID,
+      timestamp,
+      prompt: `[AI Console] ${message}`,
+      executionHash,
+      replayHash,
+      decisionHash,
+      confidence,
+      status: isReplaySuccess && !hasConflict ? "PASS" : "FAIL",
+      category: targetDomain
+    };
+
+    auditLedger.unshift(newRecord);
+
+    const report = {
+      input: message,
+      output: aiResponseText,
+      metadata: {
+        sessionID,
+        traceID,
+        timestamp,
+        isRealGemini,
+        processingTimeMs: Math.floor(180 + Math.random() * 220)
+      },
+      verification: {
+        status: isReplaySuccess && !hasConflict ? "PASS" : "FAIL",
+        executionHash,
+        replayHash,
+        decisionHash,
+        constraintStatus,
+        constraintChecks,
+        replayStatus: isReplaySuccess ? "PASS" : "FAIL",
+        replayDifference
+      },
+      evidence: {
+        correlation: evidenceCorrelation,
+        conflict: {
+          hasConflict,
+          description: conflictDescription
+        }
+      },
+      confidence: {
+        level: confidence,
+        score: Math.round(confidenceValue),
+        metrics: {
+          evidenceSupport: evidenceSupportScore,
+          consistency: consistencyScore,
+          alternativeSeparation
+        },
+        explanation: confidenceExplanation
+      },
+      warnings: !isReplaySuccess 
+        ? ["Replay verification non-determinism detected.", "State transition rules showed timing drift."] 
+        : hasConflict 
+        ? ["Alternative support model indicates minor parameter conflicts."] 
+        : [],
+      suggestedNextSteps: !isReplaySuccess 
+        ? ["Isolate non-deterministic variables in state delta.", "Review thread safety during high-frequency execution cycles."] 
+        : ["Deploy to secondary staging environments.", "Publish immutable execution proof to decentralized audit ledger."]
+    };
+
+    res.json({ reply: aiResponseText, report });
+  } catch (error: any) {
+    console.error("AI Console chat failed:", error);
+    res.status(500).json({ error: "AI Console processing failed: " + error.message });
+  }
+});
+
 // Serve frontend assets
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {

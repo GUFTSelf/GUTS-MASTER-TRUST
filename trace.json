@@ -1,0 +1,115 @@
+{
+  "domain": "uas-route",
+  "inputs": {
+    "altitude": 180,
+    "lidarProximity": 45,
+    "batteryState": 92,
+    "gpsConnected": true,
+    "windSpeed": 12
+  },
+  "seed": "THOEUN-THEN-SECURE-SEED-99",
+  "steps": [
+    {
+      "id": "Step-001",
+      "instruction": "INITIALIZE_FLIGHT_STATE",
+      "preStateHash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
+      "postStateHash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
+      "status": "PASS",
+      "description": "Flight parameters loaded to state variables.",
+      "variablesSnap": {
+        "altitude": 150,
+        "lidarProximity": 35,
+        "batteryState": 100,
+        "gpsConnected": true,
+        "windSpeed": 10,
+        "flightMode": "NOMINAL",
+        "failsafeActive": false
+      }
+    },
+    {
+      "id": "Step-002",
+      "instruction": "SET_ALTITUDE",
+      "preStateHash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
+      "postStateHash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
+      "status": "PASS",
+      "description": "Altitude set smoothly to 250ft.",
+      "variablesSnap": {
+        "altitude": 250,
+        "lidarProximity": 35,
+        "batteryState": 100,
+        "gpsConnected": true,
+        "windSpeed": 10,
+        "flightMode": "NOMINAL",
+        "failsafeActive": false
+      }
+    },
+    {
+      "id": "Step-003",
+      "instruction": "CHECK_LIDAR_PROXIMITY",
+      "preStateHash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
+      "postStateHash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
+      "status": "PASS",
+      "description": "No obstructions found. LiDAR scan clear at 45m.",
+      "variablesSnap": {
+        "altitude": 250,
+        "lidarProximity": 45,
+        "batteryState": 100,
+        "gpsConnected": true,
+        "windSpeed": 10,
+        "flightMode": "NOMINAL",
+        "failsafeActive": false
+      }
+    },
+    {
+      "id": "Step-004",
+      "instruction": "VALIDATE_BATTERY_CHARGE",
+      "preStateHash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
+      "postStateHash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
+      "status": "PASS",
+      "description": "Power reserves optimal. Battery SoC is 88%.",
+      "variablesSnap": {
+        "altitude": 250,
+        "lidarProximity": 45,
+        "batteryState": 88,
+        "gpsConnected": true,
+        "windSpeed": 10,
+        "flightMode": "NOMINAL",
+        "failsafeActive": false
+      }
+    },
+    {
+      "id": "Step-005",
+      "instruction": "CHECK_GPS_SIGNAL",
+      "preStateHash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
+      "postStateHash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
+      "status": "PASS",
+      "description": "GPS navigation signal locked and tracking accurately.",
+      "variablesSnap": {
+        "altitude": 250,
+        "lidarProximity": 45,
+        "batteryState": 88,
+        "gpsConnected": true,
+        "windSpeed": 10,
+        "flightMode": "NOMINAL",
+        "failsafeActive": false,
+        "inertialDriftOffset": 0
+      }
+    }
+  ],
+  "finalState": {
+    "altitude": 250,
+    "lidarProximity": 45,
+    "batteryState": 88,
+    "gpsConnected": true,
+    "windSpeed": 10,
+    "flightMode": "NOMINAL",
+    "failsafeActive": false,
+    "inertialDriftOffset": 0
+  },
+  "metrics": {
+    "determinismScore": 1,
+    "replayFidelity": 1,
+    "constraintViolationRate": 0,
+    "stateDivergenceIndex": 0
+  }
+}

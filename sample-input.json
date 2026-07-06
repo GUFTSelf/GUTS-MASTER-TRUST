@@ -1,0 +1,41 @@
+{
+  "domain": "uas-route",
+  "seed": "THOEUN-THEN-SECURE-SEED-99",
+  "inputs": {
+    "altitude": 180,
+    "lidarProximity": 45,
+    "batteryState": 92,
+    "gpsConnected": true,
+    "windSpeed": 12
+  },
+  "instructions": [
+    {
+      "instruction": "INITIALIZE_FLIGHT_STATE",
+      "parameters": {}
+    },
+    {
+      "instruction": "SET_ALTITUDE",
+      "parameters": {
+        "altitude": 250
+      }
+    },
+    {
+      "instruction": "CHECK_LIDAR_PROXIMITY",
+      "parameters": {
+        "lidarProximity": 45
+      }
+    },
+    {
+      "instruction": "VALIDATE_BATTERY_CHARGE",
+      "parameters": {
+        "batteryState": 88
+      }
+    },
+    {
+      "instruction": "CHECK_GPS_SIGNAL",
+      "parameters": {
+        "gpsConnected": true
+      }
+    }
+  ]
+}

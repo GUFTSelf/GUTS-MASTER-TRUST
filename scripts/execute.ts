@@ -94,6 +94,17 @@ try {
   fs.writeFileSync(traceFile, JSON.stringify(trace, null, 2));
   console.log(`\n\x1b[32m✔ Deterministic trace log written to: ${traceFile}\x1b[0m`);
 
+  // Write Execution Proof Object (EPO v1) out to epo_v1.json and evaluation-kit/output/epo_v1.json
+  if (trace.epo) {
+    const epoFile = "epo_v1.json";
+    fs.writeFileSync(epoFile, JSON.stringify(trace.epo, null, 2));
+    console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) written to: ${epoFile}\x1b[0m`);
+
+    fs.mkdirSync("evaluation-kit/output", { recursive: true });
+    fs.writeFileSync("evaluation-kit/output/epo_v1.json", JSON.stringify(trace.epo, null, 2));
+    console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) cloned to: evaluation-kit/output/epo_v1.json\x1b[0m`);
+  }
+
   // Format high-fidelity report and sign cryptographically
   const sessionID = `SES-${Math.floor(10000 + Math.random() * 90000)}-VEK`;
   const traceID = `TR-${Math.floor(1000 + Math.random() * 9000)}-CLI`;

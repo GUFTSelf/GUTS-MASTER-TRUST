@@ -1,12 +1,12 @@
 {
-  "report_id": "REP-872810",
-  "timestamp": "2026-07-06T18:31:41.210Z",
+  "report_id": "REP-283015",
+  "timestamp": "2026-07-06T18:45:22.946Z",
   "input": "{\"altitude\":180,\"lidarProximity\":45,\"batteryState\":92,\"gpsConnected\":true,\"windSpeed\":12}",
   "output": "GPS navigation signal locked and tracking accurately.",
   "metadata": {
-    "sessionID": "SES-63230-VEK",
-    "traceID": "TR-3147-CLI",
-    "timestamp": "6:31:41 PM",
+    "sessionID": "SES-43140-VEK",
+    "traceID": "TR-8043-CLI",
+    "timestamp": "6:45:22 PM",
     "isRealGemini": false,
     "processingTimeMs": 14
   },
@@ -69,9 +69,9 @@
     "Authorize autonomous maneuvers"
   ],
   "integrity_evidence": {
-    "signature": "1829d62fee06231fbc4fa666ff13bda8d54ed556adfe73d118eb983529efc637dbaba7c79818aebf2b651963afc2fb2fa01d35576bcf324d8d1c6118cfbe5c7300dd8c37074ce95b4381c9ccf7f901fb6a9a23d8812730a54666368aa5f835787d06d4966fc5f6596883d07e32a2c22ad4c6e1ee91bd967f5225a4946d241ed9aae981d7141e66cd475318fd355fb74fe6e8b21a95c7caf38cea23d49b875b5e75b366e20f3c1385a4158842308f83005faae2da1e24b84bcbeed86206c3950f8430a92033d5b38f56552c2914cd58ae7796e4a278ef919f0efb6f2d1804e8f1378e5d6c24206e53933c36eebe8b86d0e201ce1d49109e560511be14b83bb384",
+    "signature": "89be0d2d644fdf16b31fd5f5740e07d630c7e2e6d9ff6c88a763d6e4a2ed5dd769188eb32ca706b2078c9d1f73bca3ff81cb2a0b962371c00fd91822b4135d7b065b6bd9c0e53002521eddb169ba8f021626c32d08255de7e403d8e05435725e00eae45d26c3aa3a733336f6a084d94013d5670cb905c9851a9ffdc38ecebf4baa5fdf4f800d995828dd93745fad4ca5018b3b81a101c517e4292a63fa2ceff012eb456f62b0fa325cf10cd25fa01bce7eabc06a0b80f08ff99c54365a2bcff6e3b974a0b1984950f71f6dd1ca8e6afd35259906fa78c153b575c44ff0415088ce7c8517f5dfd738e005d73b4bf8a0a9db49aa6022ee1b395aa4cd52caee6cde",
     "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n",
-    "trace_hash": "083220d66816c6caa47c4b794e85c4421be35d80c2162bc1fa9dd9d8db107e97",
+    "trace_hash": "52f3e58f7ad5cb33dd5c607eb663fb305935bdc4395ce69ba7740159a35b2c87",
     "zk_proof": {
       "commitment_chain": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4:ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5:17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489:08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0:505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
       "witness_root": "64ad55d3f0fb657d340bc6b7c4bd27bd4f7a8165380ac7205490527d4dd73185"

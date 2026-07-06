@@ -2,12 +2,18 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { verifyReportSignature, hashReport } from "../src/crypto/report_signer";
+import { verifyEpoV1 } from "../src/lib/kernel";
 
 console.log("\x1b[32m┌────────────────────────────────────────────────────────┐\x1b[0m");
 console.log("\x1b[32m│              VEK AUDIT BUNDLE VERIFIER (CLI)           │\x1b[0m");
 console.log("\x1b[32m└────────────────────────────────────────────────────────┘\x1b[0m");
 
-const target = process.argv[2] || "evaluation-kit/output";
+let target = process.argv[2] || "evaluation-kit/output";
+
+// If invoked via the `./vek verify epo_v1.json` CLI pattern, shift the target
+if (target === "verify") {
+  target = process.argv[3] || "epo_v1.json";
+}
 
 try {
   let reportPath = target;
@@ -17,15 +23,41 @@ try {
   }
 
   if (!fs.existsSync(reportPath)) {
-    console.error(`\x1b[31m[ERROR] Report bundle file not found: ${reportPath}\x1b[0m`);
+    console.error(`\x1b[31m[ERROR] Verification target file not found: ${reportPath}\x1b[0m`);
     console.error("Please run execution first to generate it: \x1b[32mnpm run execute -- sample-input.json\x1b[0m");
     process.exit(1);
   }
 
-  console.log(`[VERIFY] Loading signed verification bundle: \x1b[1m${reportPath}\x1b[0m`);
+  console.log(`[VERIFY] Loading verification target: \x1b[1m${reportPath}\x1b[0m`);
   
   const rawReport = fs.readFileSync(reportPath, "utf-8");
   const report = JSON.parse(rawReport);
+
+  // Check if it is an Execution Proof Object (EPO v1)
+  if (report.epo_version === "1.0") {
+    console.log("\n\x1b[34m[SYSTEM] Detected Execution Proof Object (EPO v1) format.\x1b[0m");
+    console.log(`  - Kernel Version    : \x1b[1m${report.kernel_version}\x1b[0m`);
+    console.log(`  - Domain            : \x1b[1m${report.domain}\x1b[0m`);
+    console.log(`  - Execution ID      : \x1b[36m${report.execution_id}\x1b[0m`);
+    console.log(`  - Initial State Hash: \x1b[90m${report.initial_state_hash}\x1b[0m`);
+    console.log(`  - Final State Hash  : \x1b[36m${report.final_state_hash}\x1b[0m`);
+    console.log(`  - Total Steps       : \x1b[33m${report.inputs.length}\x1b[0m`);
+    console.log(`  - Stored Proof Hash : \x1b[35m${report.proof_hash}\x1b[0m`);
+
+    const result = verifyEpoV1(report);
+
+    console.log("\n\x1b[35m┌────────────────────────────────────────────────────────┐\x1b[0m");
+    console.log(`│             VERIFICATION RESULT: ${result.success ? "\x1b[32m\x1b[1m🟢 PASS\x1b[0m" : "\x1b[31m\x1b[1m🔴 FAIL\x1b[0m"}              │`);
+    console.log("\x1b[35m└────────────────────────────────────────────────────────┘\x1b[0m");
+
+    if (result.success) {
+      console.log(`\x1b[32m\x1b[1m[PASS] ${result.reason}\x1b[0m\n`);
+      process.exit(0);
+    } else {
+      console.log(`\x1b[31m\x1b[1m[FAIL] Verification Failed: ${result.reason}\x1b[0m\n`);
+      process.exit(1);
+    }
+  }
 
   if (!report.integrity_evidence || !report.integrity_evidence.signature) {
     console.log("\n  * Cryptographic Signature      : \x1b[31m🔴 MISSING\x1b[0m");

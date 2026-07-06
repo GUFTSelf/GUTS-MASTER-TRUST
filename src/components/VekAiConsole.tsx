@@ -374,6 +374,7 @@ export default function VekAiConsole({
 
             setCustomReport({
               ...finalReport,
+              epo: trace.epo,
               scenario: {
                 id: scenarioId,
                 name: finalReport.input,
@@ -495,6 +496,18 @@ Could not contact the core execution oracle. Check network connection.`,
     const downloadAnchor = document.createElement("a");
     downloadAnchor.setAttribute("href", dataStr);
     downloadAnchor.setAttribute("download", `VEK-Verification-Proof-${customReport.metadata.sessionID}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  // Export current Execution Proof Object (EPO v1) to a JSON file
+  const downloadEpoProof = () => {
+    if (!customReport || !customReport.epo) return;
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(customReport.epo, null, 2));
+    const downloadAnchor = document.createElement("a");
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", "epo_v1.json");
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -701,14 +714,26 @@ Could not contact the core execution oracle. Check network connection.`,
               </div>
 
               {customReport && (
-                <button
-                  onClick={downloadJsonProof}
-                  className="text-zinc-400 hover:text-zinc-200 transition py-2 font-mono text-[10px] uppercase flex items-center gap-1"
-                  title="Download signed JSON certificate proof"
-                >
-                  <Download className="w-3 h-3" />
-                  <span className="hidden sm:inline">Export Proof</span>
-                </button>
+                <div className="flex items-center space-x-3.5">
+                  {customReport.epo && (
+                    <button
+                      onClick={downloadEpoProof}
+                      className="text-blue-400 hover:text-blue-300 transition py-2 font-mono text-[10px] uppercase flex items-center gap-1 font-bold"
+                      title="Download Portable Truth Container (EPO v1)"
+                    >
+                      <Download className="w-3 h-3 text-blue-400" />
+                      <span className="hidden sm:inline">Export EPO v1</span>
+                    </button>
+                  )}
+                  <button
+                    onClick={downloadJsonProof}
+                    className="text-zinc-400 hover:text-zinc-200 transition py-2 font-mono text-[10px] uppercase flex items-center gap-1 font-bold"
+                    title="Download signed JSON certificate proof"
+                  >
+                    <Download className="w-3 h-3 text-zinc-500" />
+                    <span className="hidden sm:inline">Export Report</span>
+                  </button>
+                </div>
               )}
             </div>
 

@@ -1,4 +1,55 @@
 import { ConstraintCheck } from "../types";
+import { sha512 } from "js-sha512";
+
+export interface ExecutionProofObject {
+  epo_version: string;
+  kernel_version: string;
+  domain: string;
+  execution_id: string;
+  seed: string | number;
+  initial_state_hash: string;
+  final_state_hash: string;
+  inputs: {
+    step: number;
+    command: string;
+    payload_hash: string;
+    payload: Record<string, any>;
+  }[];
+  trace: {
+    step: number;
+    prev_hash: string;
+    state_hash: string;
+    input_hash: string;
+  }[];
+  proof_hash: string;
+}
+
+export function sha512Sync(str: string): string {
+  return sha512(str);
+}
+
+// Canonical JSON Stringifier to guarantee lexicographically sorted keys, no whitespace variance, and fixed number encoding.
+export function canonicalJsonStringify(val: any): string {
+  if (val === null) return "null";
+  if (typeof val === "number") {
+    return Number.isFinite(val) ? String(val) : "null";
+  }
+  if (typeof val === "boolean") return val ? "true" : "false";
+  if (typeof val === "string") {
+    return JSON.stringify(val);
+  }
+  if (Array.isArray(val)) {
+    return "[" + val.map(v => canonicalJsonStringify(v)).join(",") + "]";
+  }
+  if (typeof val === "object") {
+    const keys = Object.keys(val).sort();
+    const properties = keys.map(k => {
+      return JSON.stringify(k) + ":" + canonicalJsonStringify(val[k]);
+    });
+    return "{" + properties.join(",") + "}";
+  }
+  return "null";
+}
 
 // Pure JavaScript synchronous SHA-256 implementation
 export function sha256Sync(str: string): string {
@@ -115,6 +166,7 @@ export interface ExecutionTrace {
     constraintViolationRate: number;
     stateDivergenceIndex: number;
   };
+  epo?: ExecutionProofObject;
 }
 
 // 2. State Transition Spec and Rules Priority Matrices
@@ -376,9 +428,10 @@ export function executeVek(
 
   const steps: TraceStep[] = [];
   
-  // Hash inputs block canonically to lock the state start
-  const canonicalInputs = JSON.stringify(inputs, Object.keys(inputs).sort());
-  let lastHash = sha256Sync(canonicalInputs + seed);
+  // Hash inputs block canonically using the canonical JSON stringifier to guarantee absolute byte-for-byte correctness
+  const canonicalInputs = canonicalJsonStringify(inputs);
+  const initial_state_hash = sha256Sync(canonicalInputs + seed);
+  let lastHash = initial_state_hash;
 
   // Process sequential transitions
   for (let i = 0; i < instructions.length; i++) {
@@ -401,7 +454,7 @@ export function executeVek(
 
     // Capture snapshot of post variables
     const varsSnap = { ...nextState.variables };
-    const varsCanonical = JSON.stringify(varsSnap, Object.keys(varsSnap).sort());
+    const varsCanonical = canonicalJsonStringify(varsSnap);
     
     // Cryptographic witness generation: current hash depends on: last state hash + current instruction + post state values
     let postStateHash = sha256Sync(preStateHash + activeInst + varsCanonical);
@@ -441,6 +494,41 @@ export function executeVek(
   const replayFidelity = adversarialFault === "none" ? 1.0 : adversarialFault === "tamper_witness" ? 0.0 : 0.5;
   const stateDivergenceIndex = adversarialFault === "none" ? 0.0 : 1.0;
 
+  // Generate Execution Proof Object (EPO v1)
+  const execution_id = sha256Sync(domain + seed + canonicalInputs);
+  const epoInputs = instructions.slice(0, steps.length).map((inst, idx) => ({
+    step: idx + 1,
+    command: inst.instruction,
+    payload_hash: sha256Sync(canonicalJsonStringify(inst.parameters)),
+    payload: inst.parameters
+  }));
+
+  const epoTrace = steps.map((step, idx) => ({
+    step: idx + 1,
+    prev_hash: step.preStateHash,
+    state_hash: step.postStateHash,
+    input_hash: epoInputs[idx] ? epoInputs[idx].payload_hash : ""
+  }));
+
+  const epo_without_proof_hash = {
+    epo_version: "1.0",
+    kernel_version: "vek-2.4.0",
+    domain,
+    execution_id,
+    seed,
+    initial_state_hash,
+    final_state_hash: steps[steps.length - 1]?.postStateHash || initial_state_hash,
+    inputs: epoInputs,
+    trace: epoTrace
+  };
+
+  const proof_hash = sha512Sync(canonicalJsonStringify(epo_without_proof_hash));
+
+  const epo: ExecutionProofObject = {
+    ...epo_without_proof_hash,
+    proof_hash
+  };
+
   return {
     domain,
     inputs,
@@ -452,7 +540,8 @@ export function executeVek(
       replayFidelity,
       constraintViolationRate,
       stateDivergenceIndex
-    }
+    },
+    epo
   };
 }
 
@@ -482,7 +571,7 @@ export function replayVek(
     lastInstruction: "START"
   };
 
-  const canonicalInputs = JSON.stringify(inputs, Object.keys(inputs).sort());
+  const canonicalInputs = canonicalJsonStringify(inputs);
   let lastHash = sha256Sync(canonicalInputs + seed);
   
   const stepMatches: boolean[] = [];
@@ -503,7 +592,7 @@ export function replayVek(
     );
 
     const varsSnap = { ...nextState.variables };
-    const varsCanonical = JSON.stringify(varsSnap, Object.keys(varsSnap).sort());
+    const varsCanonical = canonicalJsonStringify(varsSnap);
     const postStateHash = sha256Sync(preStateHash + originalStep.instruction + varsCanonical);
 
     replayedSteps.push({
@@ -549,5 +638,113 @@ export function replayVek(
     reason,
     replayedSteps,
     correctnessMetrics
+  };
+}
+
+// 6. Portable Execution Proof Object Verification Engine
+export function verifyEpoV1(epo: ExecutionProofObject): { success: boolean; reason: string } {
+  // 1. Re-verify proof_hash to check if anything was tampered with
+  const epoCopy = {
+    epo_version: epo.epo_version,
+    kernel_version: epo.kernel_version,
+    domain: epo.domain,
+    execution_id: epo.execution_id,
+    seed: epo.seed,
+    initial_state_hash: epo.initial_state_hash,
+    final_state_hash: epo.final_state_hash,
+    inputs: epo.inputs,
+    trace: epo.trace
+  };
+  const computedProofHash = sha512Sync(canonicalJsonStringify(epoCopy));
+  if (computedProofHash !== epo.proof_hash) {
+    return {
+      success: false,
+      reason: `Proof hash mismatch. Expected ${epo.proof_hash}, but computed ${computedProofHash}. Proof object is corrupted or tampered.`
+    };
+  }
+
+  // 2. Recompute execution step-by-step
+  const rng = new LcgRandom(String(epo.seed));
+  let currentState: VekState = {
+    domain: epo.domain,
+    variables: {},
+    status: "INIT",
+    lastInstruction: "START"
+  };
+
+  let lastHash = epo.initial_state_hash;
+
+  for (let i = 0; i < epo.inputs.length; i++) {
+    const inputItem = epo.inputs[i];
+    const traceItem = epo.trace[i];
+
+    if (!traceItem) {
+      return {
+        success: false,
+        reason: `Replay failed: Trace step for step ${inputItem.step} is missing in the trace array.`
+      };
+    }
+
+    // Verify input payload hash match
+    const computedPayloadHash = sha256Sync(canonicalJsonStringify(inputItem.payload));
+    if (computedPayloadHash !== inputItem.payload_hash) {
+      return {
+        success: false,
+        reason: `Payload hash mismatch at step ${inputItem.step}. Stored: ${inputItem.payload_hash}, computed: ${computedPayloadHash}.`
+      };
+    }
+
+    // Re-execute step
+    const preStateHash = lastHash;
+    const { nextState, status } = executeStep(
+      currentState,
+      inputItem.command,
+      inputItem.payload,
+      rng
+    );
+
+    // Compute post state hash
+    const varsSnap = { ...nextState.variables };
+    const varsCanonical = canonicalJsonStringify(varsSnap);
+    const postStateHash = sha256Sync(preStateHash + inputItem.command + varsCanonical);
+
+    // Check step-by-step trace hash alignments
+    if (preStateHash !== traceItem.prev_hash) {
+      return {
+        success: false,
+        reason: `Trace alignment failure at step ${inputItem.step}. Expected prev hash ${traceItem.prev_hash}, but computed ${preStateHash}.`
+      };
+    }
+
+    if (postStateHash !== traceItem.state_hash) {
+      return {
+        success: false,
+        reason: `State divergence detected at step ${inputItem.step} (${inputItem.command}). Expected state hash ${traceItem.state_hash}, but computed ${postStateHash}.`
+      };
+    }
+
+    // Verify input_hash matches payload_hash
+    if (traceItem.input_hash !== inputItem.payload_hash) {
+      return {
+        success: false,
+        reason: `Input payload hash mismatch in trace step ${inputItem.step}. Expected ${inputItem.payload_hash}, but got ${traceItem.input_hash}.`
+      };
+    }
+
+    currentState = nextState;
+    lastHash = postStateHash;
+  }
+
+  // 3. Ensure final state hash matches
+  if (lastHash !== epo.final_state_hash) {
+    return {
+      success: false,
+      reason: `Final state hash mismatch. Expected ${epo.final_state_hash}, but computed ${lastHash}.`
+    };
+  }
+
+  return {
+    success: true,
+    reason: "Verification replay successful. Absolute bit-for-bit determinism verified."
   };
 }

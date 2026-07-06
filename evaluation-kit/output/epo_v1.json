@@ -1,0 +1,82 @@
+{
+  "epo_version": "1.0",
+  "kernel_version": "vek-2.4.0",
+  "domain": "uas-route",
+  "execution_id": "78dcce357bd19fa316beb9b078fbf2ab0c849207dd44123720f8898c41400a7f",
+  "seed": "THOEUN-THEN-SECURE-SEED-99",
+  "initial_state_hash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
+  "final_state_hash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
+  "inputs": [
+    {
+      "step": 1,
+      "command": "INITIALIZE_FLIGHT_STATE",
+      "payload_hash": "44699ca97fd77bd39d62e46b4f964f2630b373f7a125a120abf1e752071f1ad2",
+      "payload": {}
+    },
+    {
+      "step": 2,
+      "command": "SET_ALTITUDE",
+      "payload_hash": "0c415e083e3593642e64f5efb8c4d7017bb5e26b9778e675ec3c9758ffb4e657",
+      "payload": {
+        "altitude": 250
+      }
+    },
+    {
+      "step": 3,
+      "command": "CHECK_LIDAR_PROXIMITY",
+      "payload_hash": "020f93c5933ba462ffd030fb4a0c57af001ce0123e14974fa772d468aa0f479f",
+      "payload": {
+        "lidarProximity": 45
+      }
+    },
+    {
+      "step": 4,
+      "command": "VALIDATE_BATTERY_CHARGE",
+      "payload_hash": "c887f87431697a152aa8e9e79e4bfa87419c14492cb4f8f3220f3a3ed08dcffe",
+      "payload": {
+        "batteryState": 88
+      }
+    },
+    {
+      "step": 5,
+      "command": "CHECK_GPS_SIGNAL",
+      "payload_hash": "3fd2fb19b247ff43f45802f5ef2f132c6bf477d5d5ef918761ce6151eb4494fb",
+      "payload": {
+        "gpsConnected": true
+      }
+    }
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "prev_hash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
+      "state_hash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
+      "input_hash": "44699ca97fd77bd39d62e46b4f964f2630b373f7a125a120abf1e752071f1ad2"
+    },
+    {
+      "step": 2,
+      "prev_hash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
+      "state_hash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
+      "input_hash": "0c415e083e3593642e64f5efb8c4d7017bb5e26b9778e675ec3c9758ffb4e657"
+    },
+    {
+      "step": 3,
+      "prev_hash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
+      "state_hash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
+      "input_hash": "020f93c5933ba462ffd030fb4a0c57af001ce0123e14974fa772d468aa0f479f"
+    },
+    {
+      "step": 4,
+      "prev_hash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
+      "state_hash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
+      "input_hash": "c887f87431697a152aa8e9e79e4bfa87419c14492cb4f8f3220f3a3ed08dcffe"
+    },
+    {
+      "step": 5,
+      "prev_hash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
+      "state_hash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
+      "input_hash": "3fd2fb19b247ff43f45802f5ef2f132c6bf477d5d5ef918761ce6151eb4494fb"
+    }
+  ],
+  "proof_hash": "23642ceaf3859344c332f6b749e582bcc67678e4253d159a10c59839d5ce74861bcb9148f64c88e8fd8c6742d5e34d8a4aa8bbdc3462366c01e12c08a96c66d6"
+}

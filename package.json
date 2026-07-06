@@ -18,6 +18,8 @@
     "test-determinism": "tsx scripts/test-determinism.ts",
     "test-determinism-break": "tsx scripts/test-determinism-break.ts",
     "verify-audit": "tsx vek-verify/cli.ts",
+    "vek-verify": "tsx verifier/src/cli.ts",
+    "repro-test": "tsx repro-harness/harness.ts",
     "benchmark": "node examples/run_benchmarks.js",
     "stress-test": "node examples/run_stress_tests.js",
     "report": "tsx evaluation-kit/src/report/generate.ts",

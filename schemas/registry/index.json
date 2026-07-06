@@ -1,0 +1,17 @@
+{
+  "name": "Canonical Schema Registry",
+  "authority": "VEK-DVPS",
+  "updated": "2026-07-06",
+  "registry": {
+    "epo": {
+      "1.0": "schemas/registry/epo/v1.json",
+      "2.1": "schemas/registry/epo/v2.json"
+    },
+    "trace": {
+      "1.0": "schemas/registry/trace/v1.json"
+    },
+    "seal": {
+      "1.0": "schemas/registry/seal/v1.json"
+    }
+  }
+}

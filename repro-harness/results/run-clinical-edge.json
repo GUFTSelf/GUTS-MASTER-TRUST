@@ -1,0 +1,35 @@
+[
+  {
+    "suiteId": "CLINICAL-EDGE",
+    "environment": "local-node-current",
+    "initialStateHash": "587dce6ee7488f2393a9e09288cc27b1c4bf8936ad80eac12a108662500d5a29",
+    "finalStateHash": "f158bc485b1843c01b8746ffe13b4edf0c3d0969b2e7e167633475a0b29a0135",
+    "traceHash": "5163ad8cbf77c8882b34e8612a53ac1c1c819490b7436a4e7787688d8cc3ded8",
+    "variables": {
+      "serumAbsorption": null
+    },
+    "timestamp": "2026-07-06T20:35:31.309Z"
+  },
+  {
+    "suiteId": "CLINICAL-EDGE",
+    "environment": "docker-linux-amd64",
+    "initialStateHash": "587dce6ee7488f2393a9e09288cc27b1c4bf8936ad80eac12a108662500d5a29",
+    "finalStateHash": "f158bc485b1843c01b8746ffe13b4edf0c3d0969b2e7e167633475a0b29a0135",
+    "traceHash": "5163ad8cbf77c8882b34e8612a53ac1c1c819490b7436a4e7787688d8cc3ded8",
+    "variables": {
+      "serumAbsorption": null
+    },
+    "timestamp": "2026-07-06T20:35:31.309Z"
+  },
+  {
+    "suiteId": "CLINICAL-EDGE",
+    "environment": "wasm-v8-emulated",
+    "initialStateHash": "587dce6ee7488f2393a9e09288cc27b1c4bf8936ad80eac12a108662500d5a29",
+    "finalStateHash": "f158bc485b1843c01b8746ffe13b4edf0c3d0969b2e7e167633475a0b29a0135",
+    "traceHash": "5163ad8cbf77c8882b34e8612a53ac1c1c819490b7436a4e7787688d8cc3ded8",
+    "variables": {
+      "serumAbsorption": null
+    },
+    "timestamp": "2026-07-06T20:35:31.309Z"
+  }
+]

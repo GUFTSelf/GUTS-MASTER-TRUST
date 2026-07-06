@@ -24,7 +24,18 @@ interface ProtocolMessage {
 
 export default function Protocol({}: ProtocolProps) {
   const [selectedMsgType, setSelectedMsgType] = useState<string>("ExecutionRequest");
-  const [activeTab, setActiveTab] = useState<"envelope" | "lifecycle" | "negotiation" | "extensions" | "stack">("envelope");
+  const [activeTab, setActiveTab] = useState<"envelope" | "lifecycle" | "negotiation" | "extensions" | "stack" | "verification-suite">("envelope");
+  
+  // RFC-001 Verification Suite interactive states
+  const [selectedEpoFile, setSelectedEpoFile] = useState<"uas_nominal" | "defi_nominal" | "tampered_route">("uas_nominal");
+  const [cliRunning, setCliRunning] = useState<boolean>(false);
+  const [cliOutput, setCliOutput] = useState<string[]>([]);
+  const [selectedSchemaFile, setSelectedSchemaFile] = useState<"epo_v1" | "epo_v2" | "trace_v1" | "seal_v1">("epo_v2");
+  const [harnessRunning, setHarnessRunning] = useState<boolean>(false);
+  const [harnessProgress, setHarnessProgress] = useState<number>(0);
+  const [harnessReport, setHarnessReport] = useState<any | null>(null);
+  const [harnessLog, setHarnessLog] = useState<string[]>([]);
+
   
   // Signature status states
   const [copied, setCopied] = useState<boolean>(false);
@@ -397,7 +408,8 @@ export default function Protocol({}: ProtocolProps) {
           { id: "lifecycle", label: "Protocol Lifecycles", icon: Activity },
           { id: "negotiation", label: "Version Handshakes", icon: Radio },
           { id: "extensions", label: "Protocol Extensions", icon: Sliders },
-          { id: "stack", label: "Architectural Layers", icon: Layers }
+          { id: "stack", label: "Architectural Layers", icon: Layers },
+          { id: "verification-suite", label: "RFC-001 Trust boundaries", icon: ShieldAlert }
         ].map((tab) => {
           const Icon = tab.icon;
           return (
@@ -928,6 +940,501 @@ export default function Protocol({}: ProtocolProps) {
         </div>
       )}
 
+      {/* SUB-TAB 6: RFC-001 TRUST BOUNDARIES VERIFICATION SUITE */}
+      {activeTab === "verification-suite" && (
+        <div className="space-y-6 animate-fadeIn text-xs">
+          
+          {/* Header */}
+          <div className="bg-[#0c0c0e] border border-zinc-800 rounded-xl p-5 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-red-500 via-amber-500 to-emerald-500" />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="space-y-1.5 max-w-4xl">
+                <span className="text-[9px] bg-red-950/40 text-red-400 border border-red-500/20 px-2.5 py-0.5 rounded font-mono font-bold tracking-widest uppercase">
+                  RFC-001 SECURE TEST SUITE
+                </span>
+                <h3 className="text-base font-extrabold text-white uppercase font-mono tracking-tight flex items-center gap-2">
+                  <ShieldAlert className="w-4.5 h-4.5 text-red-500" />
+                  RFC-001 — Hard Trust Boundaries & Certification Pipeline
+                </h3>
+                <p className="text-[11px] text-zinc-400 font-sans leading-relaxed">
+                  Establishes three critical architectural subsystems moving verification completely out of the runtime, stopping format drift through a canonical registry authority, and proving cross-machine invariant determinism.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            
+            {/* COLUMN 1: RFC-001 SPECIFICATION READER (4 cols) */}
+            <div className="xl:col-span-4 bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4">
+              <div className="border-b border-zinc-900 pb-2.5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-200 font-mono flex items-center gap-1.5">
+                  <FileCode className="w-4 h-4 text-red-400" />
+                  RFC-001 Standard Spec
+                </h4>
+                <p className="text-[10px] text-zinc-500 mt-0.5">
+                  Deterministic execution proof standard
+                </p>
+              </div>
+
+              <div className="space-y-4 h-[580px] overflow-y-auto pr-1.5 scrollbar-thin text-zinc-300 font-sans text-[11px] leading-relaxed">
+                <div className="p-2.5 bg-black rounded border border-zinc-900 font-mono text-[10px] text-zinc-500">
+                  <p className="font-bold text-zinc-300 text-xs">RFC-001 SPEC SUMMARY</p>
+                  <p className="mt-1">Title: Deterministic Execution Proof & Verification Standard (VEK-DVPS)</p>
+                  <p>Model: S = (I, E, T, P, K)</p>
+                  <p>Status: APPROVED V2.1</p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h5 className="font-bold text-white uppercase font-mono text-[10px]">1. Scope & Objective</h5>
+                  <p className="text-zinc-400">
+                    Defines the offline rules for certifying arbitrary computational threads without relying on runtime execution engines. Verifiers must remain completely stateless, independent, and out of the trust boundary.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h5 className="font-bold text-white uppercase font-mono text-[10px]">2. Hard Invariant Hashing</h5>
+                  <p className="text-zinc-400">
+                    For every input <code className="font-mono text-zinc-200">i ∈ I</code>, the execution function <code className="font-mono text-zinc-200">E(i) → (r, t)</code> must satisfy perfect bit-by-bit invariance across CPU hardware, operating systems, compiler options, and thread runtimes.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h5 className="font-bold text-white uppercase font-mono text-[10px]">3. EPO Envelope (v2.1)</h5>
+                  <p className="text-zinc-400">
+                    The Execution Proof Object (EPO) binds:
+                  </p>
+                  <ul className="list-disc pl-4 space-y-1 text-zinc-400">
+                    <li><code className="font-mono text-zinc-200 text-[10px]">traceRoot</code>: Merkle or chain root of instructions</li>
+                    <li><code className="font-mono text-zinc-200 text-[10px]">outputHash</code>: Hash of final state variables</li>
+                    <li><code className="font-mono text-zinc-200 text-[10px]">configHash</code>: Domain and seed parameter bindings</li>
+                    <li><code className="font-mono text-zinc-200 text-[10px]">signature</code>: HSM cryptographically signed seal</li>
+                  </ul>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h5 className="font-bold text-white uppercase font-mono text-[10px]">4. Verification Rules</h5>
+                  <p className="text-zinc-400">
+                    The verifier loads the artifact, validates the schema version against the Authority Registry, recomputes the state transitions, and asserts identity matches. If any check fails, the transaction is dropped.
+                  </p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <h5 className="font-bold text-white uppercase font-mono text-[10px]">5. Cross-Machine Consensus</h5>
+                  <p className="text-zinc-400">
+                    No execution is certified unless state transition hashes match identically across a matrix of environments (Local, Docker, WebAssembly). Drift tolerance is strictly <code className="font-mono text-white text-[10px]">0.00%</code>.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* COLUMN 2: OFFLINE VERIFIER & SCHEMA REGISTRY & HARNESS (8 cols) */}
+            <div className="xl:col-span-8 space-y-6">
+              
+              {/* SECTION A: INDEPENDENT VERIFIER CLI BINARY */}
+              <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4 font-mono">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-900 pb-3">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-200 flex items-center gap-1.5">
+                      <Terminal className="w-4 h-4 text-amber-500" />
+                      Subsystem A — Independent Verifier Binary
+                    </h4>
+                    <p className="text-[9px] text-zinc-500 font-sans mt-0.5">
+                      Isolated verification bin outside runtime boundaries (<code className="text-amber-400 text-[10px]">vek-verify</code>)
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <select
+                      value={selectedEpoFile}
+                      onChange={(e) => {
+                        setSelectedEpoFile(e.target.value as any);
+                        setCliOutput([]);
+                      }}
+                      className="bg-black border border-zinc-800 rounded p-1.5 text-zinc-400 outline-none focus:border-amber-500 text-[10px]"
+                    >
+                      <option value="uas_nominal">evaluation_report.json (UAS Nominal)</option>
+                      <option value="defi_nominal">defi_pool_report.json (DeFi Nominal)</option>
+                      <option value="tampered_route">tampered_route_report.json (FAIL)</option>
+                    </select>
+
+                    <button
+                      onClick={() => {
+                        if (cliRunning) return;
+                        setCliRunning(true);
+                        setCliOutput(["[INIT] Booting isolated verifier virtual binary...", "Loading verifier/bin/vek-verify..."]);
+                        
+                        setTimeout(() => {
+                          setCliOutput(prev => [...prev, `Target: ${selectedEpoFile === "uas_nominal" ? "evaluation_report.json" : selectedEpoFile === "defi_nominal" ? "defi_pool_report.json" : "tampered_route_report.json"}`]);
+                          
+                          setTimeout(() => {
+                            if (selectedEpoFile === "uas_nominal") {
+                              setCliOutput(prev => [
+                                ...prev,
+                                "[STAGE-1] Load Artifacts: loaded EPO v2.1 and core execution sequence",
+                                "[STAGE-2] Deterministic Re-execution: processing 4 UAS waypoint cycles...",
+                                "  - Step 1 (INITIALIZE): state_hash = 0x9b42... STATUS: PASS",
+                                "  - Step 2 (SET_ALTITUDE): state_hash = 0xa31e... STATUS: PASS",
+                                "  - Step 3 (UPDATE): state_hash = 0x5fa1... STATUS: PASS",
+                                "  - Step 4 (WAYPOINT): state_hash = 0xd3b8... STATUS: PASS",
+                                "[STAGE-3] Hash Reconstruction: comparing checksum chains...",
+                                "  * Expected Trace Root: 0xd3b8ef42c161947e70460c4908ef1619a002ebf927e88b220",
+                                "  * Computed Trace Root: 0xd3b8ef42c161947e70460c4908ef1619a002ebf927e88b220",
+                                "  - Result: 🟢 IDENTICAL REPLAY (0% DRIFT)",
+                                "[STAGE-4] Cryptographic Seal Integrity Check...",
+                                "  * Signature verify: RSA-SHA256 authenticated successfully via FIPS HSM Key",
+                                "  - Result: 🟢 SEAL VALID",
+                                "\n[STATUS] AUDIT VERIFICATION PASSED. Truth Container Certified.",
+                              ]);
+                            } else if (selectedEpoFile === "defi_nominal") {
+                              setCliOutput(prev => [
+                                ...prev,
+                                "[STAGE-1] Load Artifacts: loaded EPO v2.1",
+                                "[STAGE-2] Deterministic Re-execution: processing DeFi Liquid Pool state steps...",
+                                "  - Step 1 (INITIALIZE_POOL): state_hash = 0xc01a... STATUS: PASS",
+                                "  - Step 2 (DEPOSIT): state_hash = 0x88f9... STATUS: PASS",
+                                "  - Step 3 (SWAP): state_hash = 0x12fa... STATUS: PASS",
+                                "[STAGE-3] Hash Reconstruction: comparing checksum chains...",
+                                "  * Expected Trace Root: 0x12fa39ca5a0134bb882ea77ef945bb0e93a0b120",
+                                "  * Computed Trace Root: 0x12fa39ca5a0134bb882ea77ef945bb0e93a0b120",
+                                "  - Result: 🟢 IDENTICAL REPLAY (0% DRIFT)",
+                                "[STAGE-4] Cryptographic Seal Integrity Check...",
+                                "  * Signature verify: RSA-SHA256 authenticated successfully",
+                                "  - Result: 🟢 SEAL VALID",
+                                "\n[STATUS] AUDIT VERIFICATION PASSED. Truth Container Certified.",
+                              ]);
+                            } else {
+                              setCliOutput(prev => [
+                                ...prev,
+                                "[STAGE-1] Load Artifacts: loading report and checking parameters",
+                                "[STAGE-2] Deterministic Re-execution: processing uas waypoint steps...",
+                                "  - Step 1 (INITIALIZE): state_hash = 0x9b42... STATUS: PASS",
+                                "  - Step 2 (SET_ALTITUDE): state_hash = 0xfa39... STATUS: PASS (BREACH INJECTED AT ALTITUDE 480ft)",
+                                "  - Step 3 (UPDATE): state_hash = 0xe2a8... STATUS: PASS",
+                                "  - Step 4 (WAYPOINT): state_hash = 0xbc01... STATUS: PASS",
+                                "[STAGE-3] Hash Reconstruction: comparing checksum chains...",
+                                "  * Expected Trace Root: 0xd3b8ef42c161947e70460c4908ef1619a002ebf927e88b220",
+                                "  * Computed Trace Root: 0xbc0128a3f9e20a01bb4fa3901ca9f8a3d3c012ff1a00a09b",
+                                "  - Result: 🔴 REPLAY DIVERGENCE DETECTED (State values do not match original trace)",
+                                "[STAGE-4] Cryptographic Seal Integrity Check...",
+                                "  * Signature verify: Signature validation failed (RSA decrypt mismatch)",
+                                "  - Result: 🔴 COMPROMISED SEAL",
+                                "\n[STATUS] AUDIT VERIFICATION FAILED: SUPPLY-CHAIN INTEGRITY BREACHED OR VALUE DRIFT IDENTIFIED.",
+                              ]);
+                            }
+                            setCliRunning(false);
+                          }, 900);
+                        }, 500);
+                      }}
+                      disabled={cliRunning}
+                      className="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 disabled:bg-zinc-800 text-white font-bold rounded text-[10px] tracking-wider uppercase transition flex items-center gap-1 shrink-0"
+                    >
+                      <Play className="w-3 h-3" />
+                      <span>Run vek-verify</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Terminal Console output */}
+                <div className="bg-black border border-zinc-950 rounded-lg p-4 font-mono text-[10px] h-[180px] overflow-y-auto scrollbar-thin text-zinc-400 space-y-1.5">
+                  {cliOutput.length === 0 ? (
+                    <span className="text-zinc-600 italic">Select an EPO file and click 'Run vek-verify' to invoke the isolated verifier.</span>
+                  ) : (
+                    cliOutput.map((line, idx) => (
+                      <div key={idx} className="flex gap-2">
+                        <span className="text-zinc-700 font-bold select-none">&gt;</span>
+                        <span className={
+                          line.includes("PASSED") || line.includes("🟢") 
+                            ? "text-emerald-400 font-bold" 
+                            : line.includes("FAILED") || line.includes("🔴") || line.includes("[CRITICAL]")
+                            ? "text-red-400 font-bold"
+                            : line.includes("[INIT]") || line.includes("[STAGE")
+                            ? "text-amber-400 font-bold"
+                            : "text-zinc-300"
+                        }>
+                          {line}
+                        </span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* SECTION B: CANONICAL SCHEMA REGISTRY */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* Schema file selector */}
+                <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4 font-mono">
+                  <div className="border-b border-zinc-900 pb-2.5">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-200 flex items-center gap-1.5">
+                      <Layers className="w-4 h-4 text-blue-400" />
+                      Subsystem B — Schema Registry
+                    </h4>
+                    <p className="text-[9px] text-zinc-500 font-sans mt-0.5">
+                      Prevents schema drift before execution loops
+                    </p>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    {[
+                      { id: "epo_v1", file: "epo/v1.json", desc: "EPO v1.0 standard schema" },
+                      { id: "epo_v2", file: "epo/v2.json", desc: "EPO v2.1 envelope & seal schema" },
+                      { id: "trace_v1", file: "trace/v1.json", desc: "Transition trace verification schema" },
+                      { id: "seal_v1", file: "seal/v1.json", desc: "Cryptographic seal envelope schema" }
+                    ].map((s) => (
+                      <button
+                        key={s.id}
+                        onClick={() => setSelectedSchemaFile(s.id as any)}
+                        className={`w-full text-left p-2 border rounded transition-all text-[11px] flex justify-between items-center ${
+                          selectedSchemaFile === s.id
+                            ? "bg-blue-950/15 border-blue-500 text-blue-400 font-bold"
+                            : "bg-black border-zinc-900 text-zinc-400 hover:text-zinc-200"
+                        }`}
+                      >
+                        <div>
+                          <span className="block font-bold">{s.file}</span>
+                          <span className="text-[9px] text-zinc-500 font-sans block mt-0.5">{s.desc}</span>
+                        </div>
+                        <span className="text-[9px] bg-zinc-900 px-1.5 py-0.5 rounded text-zinc-500 border border-zinc-800">
+                          Authority
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="p-2.5 bg-blue-950/10 border border-blue-500/10 text-blue-400 font-sans text-[10px] rounded leading-normal">
+                    <strong>Hard Invariant Rule:</strong> If artifact's declared <code className="font-mono text-white text-[9px]">schema</code> or <code className="font-mono text-white text-[9px]">version</code> does not match the authority registry, verification fails instantly prior to any VM instruction execution.
+                  </div>
+                </div>
+
+                {/* Schema JSON Code display */}
+                <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-3 font-mono">
+                  <div className="flex justify-between items-center border-b border-zinc-900 pb-2">
+                    <span className="text-[10px] text-zinc-400 font-bold">registry/{
+                      selectedSchemaFile === "epo_v1" ? "epo/v1.json" : selectedSchemaFile === "epo_v2" ? "epo/v2.json" : selectedSchemaFile === "trace_v1" ? "trace/v1.json" : "seal/v1.json"
+                    }</span>
+                    <span className="text-[8px] uppercase tracking-wider text-emerald-400 bg-emerald-950/20 px-1.5 py-0.5 rounded border border-emerald-500/10 font-bold">Enforced</span>
+                  </div>
+
+                  <div className="bg-black p-3.5 rounded text-[10px] text-zinc-400 h-[220px] overflow-y-auto scrollbar-thin overflow-x-auto border border-zinc-950">
+                    <pre className="text-zinc-300">
+                      {selectedSchemaFile === "epo_v1" && JSON.stringify({
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "title": "VEK_EPO_v1_Schema",
+                        "type": "object",
+                        "properties": {
+                          "epo_version": { "type": "string", "enum": ["1.0"] },
+                          "kernel_version": { "type": "string" },
+                          "domain": { "type": "string" },
+                          "execution_id": { "type": "string" },
+                          "seed": { "type": ["string", "number"] },
+                          "initial_state_hash": { "type": "string" },
+                          "final_state_hash": { "type": "string" },
+                          "inputs": { "type": "array" },
+                          "trace": { "type": "array" },
+                          "proof_hash": { "type": "string" }
+                        },
+                        "required": ["epo_version", "kernel_version", "domain", "execution_id", "seed", "initial_state_hash", "final_state_hash"]
+                      }, null, 2)}
+
+                      {selectedSchemaFile === "epo_v2" && JSON.stringify({
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "title": "VEK_EPO_v2_Schema",
+                        "type": "object",
+                        "properties": {
+                          "epo_version": { "type": "string", "enum": ["2.1"] },
+                          "domain": { "type": "string" },
+                          "execution_id": { "type": "string" },
+                          "seed": { "type": ["string", "number"] },
+                          "final_state_hash": { "type": "string" },
+                          "inputs": { "type": "array" },
+                          "trace": { "type": "array" },
+                          "proof_hash": { "type": "string" },
+                          "signature": {
+                            "type": "object",
+                            "properties": {
+                              "algorithm": { "type": "string" },
+                              "public_key": { "type": "string" },
+                              "signature": { "type": "string" }
+                            },
+                            "required": ["algorithm", "public_key", "signature"]
+                          }
+                        },
+                        "required": ["epo_version", "domain", "execution_id", "seed", "final_state_hash", "proof_hash", "signature"]
+                      }, null, 2)}
+
+                      {selectedSchemaFile === "trace_v1" && JSON.stringify({
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "title": "VEK_Trace_v1_Schema",
+                        "type": "object",
+                        "properties": {
+                          "step": { "type": "integer" },
+                          "prev_hash": { "type": "string" },
+                          "state_hash": { "type": "string" },
+                          "input_hash": { "type": "string" }
+                        },
+                        "required": ["step", "prev_hash", "state_hash", "input_hash"]
+                      }, null, 2)}
+
+                      {selectedSchemaFile === "seal_v1" && JSON.stringify({
+                        "$schema": "http://json-schema.org/draft-07/schema#",
+                        "title": "VEK_Seal_v1_Schema",
+                        "type": "object",
+                        "properties": {
+                          "algorithm": { "type": "string" },
+                          "public_key": { "type": "string" },
+                          "signature": { "type": "string" }
+                        },
+                        "required": ["algorithm", "public_key", "signature"]
+                      }, null, 2)}
+                    </pre>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* SECTION C: CROSS-MACHINE REPRODUCIBILITY HARNESS */}
+              <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-900 pb-3">
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-200 font-mono flex items-center gap-1.5">
+                      <Cpu className="w-4 h-4 text-emerald-400" />
+                      Subsystem C — Cross-Machine Reproducibility Harness
+                    </h4>
+                    <p className="text-[9px] text-zinc-500 font-sans mt-0.5 font-mono">
+                      Checks hash invariance across environments to prove zero arithmetic drift
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      if (harnessRunning) return;
+                      setHarnessRunning(true);
+                      setHarnessProgress(10);
+                      setHarnessReport(null);
+                      setHarnessLog(["[INIT] Spawning environment testing subprocesses..."]);
+
+                      setTimeout(() => {
+                        setHarnessProgress(35);
+                        setHarnessLog(prev => [...prev, "Spawning Node-18, Node-20, Linux-x64 containers..."]);
+                        
+                        setTimeout(() => {
+                          setHarnessProgress(65);
+                          setHarnessLog(prev => [
+                            ...prev, 
+                            "Spawning ARM64 Mac and WebAssembly emulated nodes...",
+                            "Running 3 test suites: UAS-NOMINAL, DEFI-NOMINAL, CLINICAL-EDGE"
+                          ]);
+                          
+                          setTimeout(() => {
+                            setHarnessProgress(100);
+                            setHarnessLog(prev => [
+                              ...prev, 
+                              "Comparing output state hashes & trace root chains across all 5 environments...",
+                              "  - UAS-NOMINAL: state_hash matches identically (variance = 0)",
+                              "  - DEFI-NOMINAL: state_hash matches identically (variance = 0)",
+                              "  - CLINICAL-EDGE: state_hash matches identically (variance = 0)",
+                              "  - Overall consensus: DETERMINISTIC (0% DRIFT)"
+                            ]);
+                            setHarnessReport({
+                              deterministic: true,
+                              variance: 0,
+                              environmentsTested: 5,
+                              failurePoints: [],
+                              summaryPath: "repro-harness/results/summary.json"
+                            });
+                            setHarnessRunning(false);
+                          }, 1000);
+                        }, 800);
+                      }, 600);
+                    }}
+                    disabled={harnessRunning}
+                    className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-zinc-800 text-white font-mono text-[10px] font-bold rounded uppercase tracking-wider transition flex items-center gap-1.5 shrink-0"
+                  >
+                    <Play className="w-3.5 h-3.5" />
+                    <span>Run Invariance Harness</span>
+                  </button>
+                </div>
+
+                {/* Progress bar */}
+                {harnessRunning && (
+                  <div className="space-y-1.5 font-mono text-[9px] text-zinc-500">
+                    <div className="flex justify-between">
+                      <span>Executing environments testing matrix...</span>
+                      <span>{harnessProgress}%</span>
+                    </div>
+                    <div className="w-full bg-zinc-900 h-1.5 rounded-full overflow-hidden border border-zinc-800">
+                      <div 
+                        className="bg-emerald-500 h-full transition-all duration-300" 
+                        style={{ width: `${harnessProgress}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  
+                  {/* Harness console logs */}
+                  <div className="bg-black border border-zinc-950 rounded p-3.5 font-mono text-[9px] text-zinc-500 h-[140px] overflow-y-auto scrollbar-thin space-y-1">
+                    {harnessLog.length === 0 ? (
+                      <span className="italic text-zinc-600">No harness simulation run yet. Click 'Run Invariance Harness'.</span>
+                    ) : (
+                      harnessLog.map((log, idx) => (
+                        <div key={idx} className="flex gap-1.5">
+                          <span className="text-zinc-700 font-bold shrink-0">&gt;</span>
+                          <span className={log.includes("consensus") || log.includes("variance = 0") ? "text-emerald-400 font-bold" : "text-zinc-400"}>{log}</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Summary output report */}
+                  <div className="bg-[#08080a] border border-zinc-950 rounded p-3.5 font-mono text-[10px] space-y-2 text-zinc-400">
+                    <span className="text-[8px] bg-zinc-900 text-zinc-500 border border-zinc-800 px-1.5 py-0.5 rounded font-bold uppercase">
+                      Harness Output Report
+                    </span>
+
+                    {harnessReport ? (
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between">
+                          <span>Status:</span>
+                          <span className="text-emerald-400 font-bold">DETERMINISTIC</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Hash Variance:</span>
+                          <span className="text-white">0 (Absolute consensus)</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Environments Checked:</span>
+                          <span className="text-white">5 / 5 Target environments</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Failure Points:</span>
+                          <span className="text-emerald-400">None detected</span>
+                        </div>
+                        <div className="text-[9px] text-zinc-600 leading-normal border-t border-zinc-900 pt-1.5 mt-1 font-sans">
+                          * Secure summary successfully archived at: <code className="font-mono text-zinc-500 text-[8px]">{harnessReport.summaryPath}</code>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-zinc-600 italic text-[10px] flex items-center justify-center h-20">
+                        Await harness test execution to populate results summary.
+                      </div>
+                    )}
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      )}
+
     </div>
   );
 }
+

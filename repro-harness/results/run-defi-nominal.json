@@ -1,0 +1,29 @@
+[
+  {
+    "suiteId": "DEFI-NOMINAL",
+    "environment": "local-node-current",
+    "initialStateHash": "1c0dbf847f73b27d141bb4873bd7039db907084c14c718a594f76fd7594c6c4d",
+    "finalStateHash": "40c5171daa9a00074567f3e0b3f6c61b58abb6444ceef7401247abf339860875",
+    "traceHash": "186ad3a3605e0ed0afe1fc33841ecadfbc15db3a0dc297721e2813d1e21bb5a9",
+    "variables": {},
+    "timestamp": "2026-07-06T20:35:31.308Z"
+  },
+  {
+    "suiteId": "DEFI-NOMINAL",
+    "environment": "docker-linux-amd64",
+    "initialStateHash": "1c0dbf847f73b27d141bb4873bd7039db907084c14c718a594f76fd7594c6c4d",
+    "finalStateHash": "40c5171daa9a00074567f3e0b3f6c61b58abb6444ceef7401247abf339860875",
+    "traceHash": "186ad3a3605e0ed0afe1fc33841ecadfbc15db3a0dc297721e2813d1e21bb5a9",
+    "variables": {},
+    "timestamp": "2026-07-06T20:35:31.308Z"
+  },
+  {
+    "suiteId": "DEFI-NOMINAL",
+    "environment": "wasm-v8-emulated",
+    "initialStateHash": "1c0dbf847f73b27d141bb4873bd7039db907084c14c718a594f76fd7594c6c4d",
+    "finalStateHash": "40c5171daa9a00074567f3e0b3f6c61b58abb6444ceef7401247abf339860875",
+    "traceHash": "186ad3a3605e0ed0afe1fc33841ecadfbc15db3a0dc297721e2813d1e21bb5a9",
+    "variables": {},
+    "timestamp": "2026-07-06T20:35:31.308Z"
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VEK_EPO_v1_Schema",
+  "description": "JSON schema for validating Execution Proof Object (EPO) v1.0 structures.",
+  "type": "object",
+  "properties": {
+    "epo_version": { "type": "string", "enum": ["1.0"] },
+    "kernel_version": { "type": "string" },
+    "domain": { "type": "string" },
+    "execution_id": { "type": "string" },
+    "seed": { "type": ["string", "number"] },
+    "initial_state_hash": { "type": "string" },
+    "final_state_hash": { "type": "string" },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": { "type": "integer" },
+          "command": { "type": "string" },
+          "payload_hash": { "type": "string" },
+          "payload": { "type": "object" }
+        },
+        "required": ["step", "command", "payload_hash", "payload"]
+      }
+    },
+    "trace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": { "type": "integer" },
+          "prev_hash": { "type": "string" },
+          "state_hash": { "type": "string" },
+          "input_hash": { "type": "string" }
+        },
+        "required": ["step", "prev_hash", "state_hash", "input_hash"]
+      }
+    },
+    "proof_hash": { "type": "string" }
+  },
+  "required": [
+    "epo_version",
+    "kernel_version",
+    "domain",
+    "execution_id",
+    "seed",
+    "initial_state_hash",
+    "final_state_hash",
+    "inputs",
+    "trace",
+    "proof_hash"
+  ]
+}

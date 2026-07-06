@@ -1,0 +1,41 @@
+{
+  "name": "VEK Cross-Machine Invariance Matrix",
+  "version": "1.0.0",
+  "test_suites": [
+    {
+      "id": "UAS-NOMINAL",
+      "domain": "uas-route",
+      "seed": "UAS-SEED-123",
+      "inputs": [
+        { "step": 1, "command": "INITIALIZE_FLIGHT_STATE", "payload": { "altitude": 150, "lidarProximity": 35, "batteryState": 100, "gpsConnected": true } },
+        { "step": 2, "command": "SET_ALTITUDE", "payload": { "altitude": 200 } },
+        { "step": 3, "command": "UPDATE_ENVIRONMENT", "payload": { "windSpeed": 12, "lidarProximity": 28 } },
+        { "step": 4, "command": "EXECUTE_WAYPOINT", "payload": { "waypointId": "WP-1", "batteryConsumed": 5.5 } }
+      ]
+    },
+    {
+      "id": "DEFI-NOMINAL",
+      "domain": "defi-pool",
+      "seed": "DEFI-SEED-456",
+      "inputs": [
+        { "step": 1, "command": "INITIALIZE_POOL", "payload": { "collateralRatio": 150.0, "oraclePrice": 1.0, "slippageLimit": 0.5 } },
+        { "step": 2, "command": "DEPOSIT_COLLATERAL", "payload": { "amount": 1000 } },
+        { "step": 3, "command": "SWAP_TOKENS", "payload": { "amountIn": 200, "expectedOut": 198.5 } }
+      ]
+    },
+    {
+      "id": "CLINICAL-EDGE",
+      "domain": "clinical-dose",
+      "seed": "CLINICAL-SEED-789",
+      "inputs": [
+        { "step": 1, "command": "INITIALIZE_DOSAGE_STATE", "payload": { "serumAbsorption": 15.2, "enzymes": 1.2, "cyp3a4Reduction": 65 } },
+        { "step": 2, "command": "SIMULATE_ABSORPTION_DRIVES", "payload": { "deltaSeconds": 300, "enzymesChange": 0.1 } }
+      ]
+    }
+  ],
+  "target_environments": [
+    "local-node-current",
+    "wasm-v8-emulated",
+    "docker-linux-amd64"
+  ]
+}

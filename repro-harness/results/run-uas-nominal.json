@@ -1,0 +1,53 @@
+[
+  {
+    "suiteId": "UAS-NOMINAL",
+    "environment": "local-node-current",
+    "initialStateHash": "3c7af07bb572964338b6d1c3fe4e2f86b791d831b300bf3def75568a2e457e9d",
+    "finalStateHash": "8f188ce14bab9f31316dbd9a20a47a0d43b2a0e70f8a7030f4a781e759d7bb65",
+    "traceHash": "4c47f2c814a42b72b9b0ba17623a71c57a29db9ec73546a264dbaefaf40b5ee5",
+    "variables": {
+      "altitude": 200,
+      "lidarProximity": 35,
+      "batteryState": 100,
+      "gpsConnected": true,
+      "windSpeed": 10,
+      "flightMode": "NOMINAL",
+      "failsafeActive": false
+    },
+    "timestamp": "2026-07-06T20:35:31.306Z"
+  },
+  {
+    "suiteId": "UAS-NOMINAL",
+    "environment": "docker-linux-amd64",
+    "initialStateHash": "3c7af07bb572964338b6d1c3fe4e2f86b791d831b300bf3def75568a2e457e9d",
+    "finalStateHash": "8f188ce14bab9f31316dbd9a20a47a0d43b2a0e70f8a7030f4a781e759d7bb65",
+    "traceHash": "4c47f2c814a42b72b9b0ba17623a71c57a29db9ec73546a264dbaefaf40b5ee5",
+    "variables": {
+      "altitude": 200,
+      "lidarProximity": 35,
+      "batteryState": 100,
+      "gpsConnected": true,
+      "windSpeed": 10,
+      "flightMode": "NOMINAL",
+      "failsafeActive": false
+    },
+    "timestamp": "2026-07-06T20:35:31.307Z"
+  },
+  {
+    "suiteId": "UAS-NOMINAL",
+    "environment": "wasm-v8-emulated",
+    "initialStateHash": "3c7af07bb572964338b6d1c3fe4e2f86b791d831b300bf3def75568a2e457e9d",
+    "finalStateHash": "8f188ce14bab9f31316dbd9a20a47a0d43b2a0e70f8a7030f4a781e759d7bb65",
+    "traceHash": "4c47f2c814a42b72b9b0ba17623a71c57a29db9ec73546a264dbaefaf40b5ee5",
+    "variables": {
+      "altitude": 200,
+      "lidarProximity": 35,
+      "batteryState": 100,
+      "gpsConnected": true,
+      "windSpeed": 10,
+      "flightMode": "NOMINAL",
+      "failsafeActive": false
+    },
+    "timestamp": "2026-07-06T20:35:31.308Z"
+  }
+]

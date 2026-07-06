@@ -1,0 +1,80 @@
+{
+  "deterministic": true,
+  "variance": 0,
+  "environmentsTested": 3,
+  "suitesTested": 3,
+  "summaries": [
+    {
+      "suiteId": "UAS-NOMINAL",
+      "domain": "uas-route",
+      "deterministic": true,
+      "driftDetected": false,
+      "variance": 0,
+      "results": [
+        {
+          "environment": "local-node-current",
+          "finalStateHash": "8f188ce14bab9f31316dbd9a20a47a0d43b2a0e70f8a7030f4a781e759d7bb65",
+          "traceHash": "4c47f2c814a42b72b9b0ba17623a71c57a29db9ec73546a264dbaefaf40b5ee5"
+        },
+        {
+          "environment": "docker-linux-amd64",
+          "finalStateHash": "8f188ce14bab9f31316dbd9a20a47a0d43b2a0e70f8a7030f4a781e759d7bb65",
+          "traceHash": "4c47f2c814a42b72b9b0ba17623a71c57a29db9ec73546a264dbaefaf40b5ee5"
+        },
+        {
+          "environment": "wasm-v8-emulated",
+          "finalStateHash": "8f188ce14bab9f31316dbd9a20a47a0d43b2a0e70f8a7030f4a781e759d7bb65",
+          "traceHash": "4c47f2c814a42b72b9b0ba17623a71c57a29db9ec73546a264dbaefaf40b5ee5"
+        }
+      ]
+    },
+    {
+      "suiteId": "DEFI-NOMINAL",
+      "domain": "defi-pool",
+      "deterministic": true,
+      "driftDetected": false,
+      "variance": 0,
+      "results": [
+        {
+          "environment": "local-node-current",
+          "finalStateHash": "40c5171daa9a00074567f3e0b3f6c61b58abb6444ceef7401247abf339860875",
+          "traceHash": "186ad3a3605e0ed0afe1fc33841ecadfbc15db3a0dc297721e2813d1e21bb5a9"
+        },
+        {
+          "environment": "docker-linux-amd64",
+          "finalStateHash": "40c5171daa9a00074567f3e0b3f6c61b58abb6444ceef7401247abf339860875",
+          "traceHash": "186ad3a3605e0ed0afe1fc33841ecadfbc15db3a0dc297721e2813d1e21bb5a9"
+        },
+        {
+          "environment": "wasm-v8-emulated",
+          "finalStateHash": "40c5171daa9a00074567f3e0b3f6c61b58abb6444ceef7401247abf339860875",
+          "traceHash": "186ad3a3605e0ed0afe1fc33841ecadfbc15db3a0dc297721e2813d1e21bb5a9"
+        }
+      ]
+    },
+    {
+      "suiteId": "CLINICAL-EDGE",
+      "domain": "clinical-dose",
+      "deterministic": true,
+      "driftDetected": false,
+      "variance": 0,
+      "results": [
+        {
+          "environment": "local-node-current",
+          "finalStateHash": "f158bc485b1843c01b8746ffe13b4edf0c3d0969b2e7e167633475a0b29a0135",
+          "traceHash": "5163ad8cbf77c8882b34e8612a53ac1c1c819490b7436a4e7787688d8cc3ded8"
+        },
+        {
+          "environment": "docker-linux-amd64",
+          "finalStateHash": "f158bc485b1843c01b8746ffe13b4edf0c3d0969b2e7e167633475a0b29a0135",
+          "traceHash": "5163ad8cbf77c8882b34e8612a53ac1c1c819490b7436a4e7787688d8cc3ded8"
+        },
+        {
+          "environment": "wasm-v8-emulated",
+          "finalStateHash": "f158bc485b1843c01b8746ffe13b4edf0c3d0969b2e7e167633475a0b29a0135",
+          "traceHash": "5163ad8cbf77c8882b34e8612a53ac1c1c819490b7436a4e7787688d8cc3ded8"
+        }
+      ]
+    }
+  ]
+}

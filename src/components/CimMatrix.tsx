@@ -28,11 +28,171 @@ interface ClaimMapping {
   sourceCodeSnippet: string;
 }
 
+const ipPortfolioApps = [
+  {
+    id: "19/679,674",
+    title: "Verifiable Execution Kernel",
+    tier: "Tier 1",
+    filingDate: "2025-10-12",
+    status: "Filed & Audited",
+    technology: "Cycle-accurate register state tracking, deterministic execution enclaves, and cryptographic attestation signatures.",
+    relation: "Directly implements the core VEK assembly sandboxing runtime engine.",
+    priority: "CRITICAL",
+    action: "Complete formal conformance suite evidence files for external audit log submission."
+  },
+  {
+    id: "19/541,415",
+    title: "Deterministic Validation of Stochastic AI",
+    tier: "Tier 1",
+    filingDate: "2025-09-04",
+    status: "Filed & Audited",
+    technology: "Dynamic invariant rulesets evaluating stochastic prompt sequences, token bounds, and bias limits.",
+    relation: "Implements the oracle guard rails and dynamic constraint checking layer.",
+    priority: "CRITICAL",
+    action: "File additional continuation application covering real-time context-window streaming constraints."
+  },
+  {
+    id: "19/564,148",
+    title: "Deterministic Validation Middleware (DVM)",
+    tier: "Tier 1",
+    filingDate: "2025-11-15",
+    status: "Filed & Active",
+    technology: "Pluggable middleware stack injecting deterministic validators between applications and kernels.",
+    relation: "Integrates standard enclaves with client-side applications via high-throughput messaging sockets.",
+    priority: "HIGH",
+    action: "Refine specifications to cover multi-tenant parallel execution sandboxes."
+  },
+  {
+    id: "19/882,901",
+    title: "Formal Verification and Replay Ledgering",
+    tier: "Tier 1",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Writing STARK-based polynomial commitments of register execution traces to tamper-proof WAL ledgers.",
+    relation: "Backbone of the evidence receipt ledger and auditing pipelines.",
+    priority: "HIGH",
+    action: "Finalize claims by Aug 2026. Target filing in Q3 2026."
+  },
+  {
+    id: "19/331,452",
+    title: "Lock-Step Memory Synchronization Module",
+    tier: "Tier 2",
+    filingDate: "2026-01-20",
+    status: "Filed & Pending",
+    technology: "Redundant hardware memory registers synchronized via atomic locks and clock-cycle consensus voting.",
+    relation: "Enforces physical memory safety and anti-tamper mechanisms under stress.",
+    priority: "MEDIUM",
+    action: "Monitor USPTO office actions; prepare responses for first office action expected Q1 2027."
+  },
+  {
+    id: "19/904,210",
+    title: "Sovereign Deterministic Quantum Enclaves",
+    tier: "Tier 2",
+    filingDate: "2026-03-05",
+    status: "Filed & Pending",
+    technology: "Post-quantum cryptographic key exchange integrated with deterministic execution boundary gates.",
+    relation: "Protects high-assurance communications against future quantum decryption threats.",
+    priority: "HIGH",
+    action: "Incorporate latest NIST post-quantum standard definitions into the pending specification."
+  },
+  {
+    id: "19/112,873",
+    title: "Identity-Locked Hardware/OS Secure Boot",
+    tier: "Tier 2",
+    filingDate: "2026-04-18",
+    status: "Filed & Pending",
+    technology: "Secure-boot ROM loader verifying identity signatures before booting enclaves.",
+    relation: "First stage of trust, confirming that host environment is clean and verified.",
+    priority: "HIGH",
+    action: "Incorporate real-time sensor attestation claims into secondary claims list."
+  },
+  {
+    id: "19/442,109",
+    title: "Real-Time Witness Verification & Proofs",
+    tier: "Tier 2",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Zero-knowledge witness proof generators compiling multi-cycle execution matrices into compact payloads.",
+    relation: "Optimizes client-side proof validation without raw data transmission.",
+    priority: "MEDIUM",
+    action: "Collaborate with academic cryptography partners to draft math-provable constraints."
+  },
+  {
+    id: "19/701,442",
+    title: "Closed-Loop Thermodynamic Battery Management",
+    tier: "Tier 3",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Real-time thermodynamic sensor feedback loops for safety in ultra-dense solid-state battery arrays.",
+    relation: "Applies VEK cycle-constraints to hardware power controller loops.",
+    priority: "LOW",
+    action: "Establish prototype test metrics before completing formal specification."
+  },
+  {
+    id: "19/883,112",
+    title: "Photonic Molecular Cracking Controller",
+    tier: "Tier 3",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "High-precision molecular alignment controls driven by deterministic execution timers.",
+    relation: "Protects ultra-precise chemical reactors from cyber-physical manipulation.",
+    priority: "LOW",
+    action: "Coordinate with materials engineering teams on precise timing requirements."
+  },
+  {
+    id: "19/551,902",
+    title: "Localized Autonomous Mesh Networks",
+    tier: "Tier 3",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Self-healing secure mesh topologies routing attestations locally without WAN dependencies.",
+    relation: "Guarantees evidence ledger delivery even under adversarial jam conditions.",
+    priority: "MEDIUM",
+    action: "Draft mesh routing protocol specifications by end of fiscal year."
+  },
+  {
+    id: "19/220,119",
+    title: "Micro-enclave Sensor Data Attestation Gateway",
+    tier: "Tier 3",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Firmware-level micro-gateways signing raw telemetry points on-chip.",
+    relation: "Provides authenticated ingestion streams directly to DVM middleware.",
+    priority: "MEDIUM",
+    action: "Submit utility draft targeting edge-computing and smart-grid security sectors."
+  },
+  {
+    id: "19/491,882",
+    title: "Decentralized Witness Registry with Replay Oracles",
+    tier: "Tier 3",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Distributed ledger registries verifying independent execution attestations.",
+    relation: "Public/private consortium consensus ledger validating master receipt roots.",
+    priority: "LOW",
+    action: "Analyze performance trade-offs against traditional public ledgers."
+  },
+  {
+    id: "19/602,510",
+    title: "High-Throughput Safe State-Machine Commit",
+    tier: "Tier 3",
+    filingDate: "In Prep",
+    status: "Drafting",
+    technology: "Optimistic transaction commit routines that verify determinism after execution batches.",
+    relation: "Accelerates high-volume trade transactions on VEK enclaves.",
+    priority: "MEDIUM",
+    action: "Write benchmark performance metrics to include as supporting evidence."
+  }
+];
+
 export default function CimMatrix() {
+  const [activePanel, setActivePanel] = useState<"cim" | "portfolio" | "gap">("cim");
   const [selectedPatent, setSelectedPatent] = useState<string>("19/541,415");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("All");
   const [selectedClaim, setSelectedClaim] = useState<ClaimMapping | null>(null);
+  const [portfolioTierFilter, setPortfolioTierFilter] = useState<string>("All");
+  const [selectedPortfolioApp, setSelectedPortfolioApp] = useState<string | null>(null);
   
   // Test simulation states
   const [testRunnerState, setTestRunnerState] = useState<"idle" | "running" | "success" | "failed">("idle");
@@ -660,331 +820,665 @@ impl AttestationQuote {
         </div>
       </div>
 
-      {/* Grid Filter Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Main Matrix view (Left column - 2 cols span) */}
-        <div className="lg:col-span-2 space-y-4">
+      {/* Panel switcher tabs */}
+      <div className="flex border-b border-zinc-900 gap-1 overflow-x-auto pb-px mb-6">
+        {[
+          { id: "cim", label: "Claim-to-Implementation Matrix (CIM)", icon: Scale },
+          { id: "portfolio", label: "Master IP Portfolio Map", icon: BookOpen },
+          { id: "gap", label: "Claim-by-Claim Gap Analysis", icon: GitBranch }
+        ].map((p) => {
+          const Icon = p.icon;
+          return (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => {
+                setActivePanel(p.id as any);
+              }}
+              className={`flex items-center gap-1.5 px-4 py-2.5 text-[11px] font-bold tracking-wider uppercase border-b-2 transition-all shrink-0 ${
+                activePanel === p.id
+                  ? "border-blue-500 text-blue-400 bg-blue-950/5 font-extrabold"
+                  : "border-transparent text-zinc-500 hover:text-zinc-300"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              <span>{p.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {activePanel === "cim" && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
           
-          {/* Filter Controls Bar */}
-          <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
+          {/* Main Matrix view (Left column - 2 cols span) */}
+          <div className="lg:col-span-2 space-y-4">
             
-            {/* Patent tab switchers */}
-            <div className="flex bg-black border border-zinc-900 rounded p-1 text-[10px] w-full sm:w-auto overflow-x-auto">
-              {[
-                { id: "19/541,415", label: "AI Determinism" },
-                { id: "19/679,674", label: "Execution Kernel" },
-                { id: "19/564,148", label: "Enclave Boundaries" },
-                { id: "All", label: "All Patents" }
-              ].map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => setSelectedPatent(p.id)}
-                  className={`px-3 py-1.5 rounded uppercase font-bold transition-all shrink-0 ${
-                    selectedPatent === p.id
-                      ? "bg-blue-950/20 text-blue-400 border border-blue-500/20 font-extrabold"
-                      : "text-zinc-500 hover:text-zinc-300"
-                  }`}
+            {/* Filter Controls Bar */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
+              
+              {/* Patent tab switchers */}
+              <div className="flex bg-black border border-zinc-900 rounded p-1 text-[10px] w-full sm:w-auto overflow-x-auto">
+                {[
+                  { id: "19/541,415", label: "AI Determinism" },
+                  { id: "19/679,674", label: "Execution Kernel" },
+                  { id: "19/564,148", label: "Enclave Boundaries" },
+                  { id: "All", label: "All Patents" }
+                ].map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => setSelectedPatent(p.id)}
+                    className={`px-3 py-1.5 rounded uppercase font-bold transition-all shrink-0 ${
+                      selectedPatent === p.id
+                        ? "bg-blue-950/20 text-blue-400 border border-blue-500/20 font-extrabold"
+                        : "text-zinc-500 hover:text-zinc-300"
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Status filters */}
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <div className="relative flex-1 sm:w-48 bg-black border border-zinc-900 rounded px-2 py-1 flex items-center gap-1.5">
+                  <Search className="w-3.5 h-3.5 text-zinc-500" />
+                  <input
+                    type="text"
+                    placeholder="Search claims..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-transparent text-[11px] text-zinc-200 outline-none w-full"
+                  />
+                </div>
+
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="bg-black border border-zinc-900 rounded text-[10px] text-zinc-400 py-1.5 px-2 outline-none cursor-pointer"
                 >
-                  {p.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Status filters */}
-            <div className="flex items-center gap-3 w-full sm:w-auto">
-              <div className="relative flex-1 sm:w-48 bg-black border border-zinc-900 rounded px-2 py-1 flex items-center gap-1.5">
-                <Search className="w-3.5 h-3.5 text-zinc-500" />
-                <input
-                  type="text"
-                  placeholder="Search claims..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent text-[11px] text-zinc-200 outline-none w-full"
-                />
+                  <option value="All">All Statuses</option>
+                  <option value="Complete">Complete</option>
+                  <option value="Partial">Partial</option>
+                  <option value="Planned">Planned</option>
+                </select>
               </div>
 
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="bg-black border border-zinc-900 rounded text-[10px] text-zinc-400 py-1.5 px-2 outline-none cursor-pointer"
-              >
-                <option value="All">All Statuses</option>
-                <option value="Complete">Complete</option>
-                <option value="Partial">Partial</option>
-                <option value="Planned">Planned</option>
-              </select>
             </div>
 
-          </div>
-
-          {/* Patent details header depending on tab */}
-          {selectedPatent !== "All" && (
-            <div className="bg-[#09090b]/40 border border-zinc-900/60 rounded-lg p-4 flex gap-4 items-start">
-              <Info className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
-              <div className="space-y-1">
-                <span className="text-[9px] text-zinc-500 uppercase font-bold">Currently Mapping Application: {selectedPatent}</span>
-                <h4 className="text-xs font-bold text-white uppercase tracking-wider">
-                  {claimMappings.find(c => c.patentApp === selectedPatent)?.patentTitle}
-                </h4>
-                <p className="text-[11px] text-zinc-400 leading-normal font-sans">
-                  {claimMappings.find(c => c.patentApp === selectedPatent)?.patentTechArea}
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Claims Grid list */}
-          <div className="space-y-3">
-            {filteredClaims.map((claim) => (
-              <div 
-                key={claim.claimId}
-                onClick={() => {
-                  setSelectedClaim(claim);
-                  setTestRunnerState("idle");
-                  setDemoState("idle");
-                }}
-                className={`bg-[#0c0c0e] border p-4 rounded-lg cursor-pointer transition-all flex flex-col md:flex-row gap-4 items-start justify-between hover:border-zinc-700 ${
-                  selectedClaim?.claimId === claim.claimId
-                    ? "border-blue-500/60 ring-1 ring-blue-500/10 shadow bg-blue-950/5"
-                    : "border-zinc-900"
-                }`}
-              >
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-blue-400 font-extrabold text-[10px]">{claim.claimId}</span>
-                    <span className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded ${
-                      claim.claimType === "Independent" 
-                        ? "bg-purple-950/20 text-purple-400 border border-purple-500/20" 
-                        : "bg-zinc-900 text-zinc-400 border border-zinc-800"
-                    }`}>
-                      {claim.claimType}
-                    </span>
-                    <span className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded ml-auto md:ml-0 ${
-                      claim.verificationStatus === "Complete" 
-                        ? "bg-emerald-950/20 text-emerald-400 border border-emerald-500/20" 
-                        : "bg-amber-950/20 text-amber-400 border border-amber-500/20"
-                    }`}>
-                      {claim.verificationStatus}
-                    </span>
-                  </div>
-
-                  <p className="text-zinc-200 text-xs font-semibold leading-relaxed leading-snug">
-                    {claim.functionalDesc}
+            {/* Patent details header depending on tab */}
+            {selectedPatent !== "All" && (
+              <div className="bg-[#09090b]/40 border border-zinc-900/60 rounded-lg p-4 flex gap-4 items-start">
+                <Info className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" />
+                <div className="space-y-1">
+                  <span className="text-[9px] text-zinc-500 uppercase font-bold">Currently Mapping Application: {selectedPatent}</span>
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">
+                    {claimMappings.find(c => c.patentApp === selectedPatent)?.patentTitle}
+                  </h4>
+                  <p className="text-[11px] text-zinc-400 leading-normal font-sans">
+                    {claimMappings.find(c => c.patentApp === selectedPatent)?.patentTechArea}
                   </p>
-
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-[10px] text-zinc-500 font-sans">
-                    <div>
-                      <span className="text-zinc-600 font-mono text-[9px] block uppercase">MODULE</span>
-                      <span className="text-zinc-400 font-mono text-[10px] truncate block">{claim.repositoryModule}</span>
-                    </div>
-                    <div>
-                      <span className="text-zinc-600 font-mono text-[9px] block uppercase">SPECIFICATION</span>
-                      <span className="text-zinc-400 font-mono text-[10px] truncate block">{claim.specificationRef}</span>
-                    </div>
-                    <div className="col-span-2 sm:col-span-1">
-                      <span className="text-zinc-600 font-mono text-[9px] block uppercase">BENCHMARK EVIDENCE</span>
-                      <span className="text-zinc-400 font-mono text-[10px] truncate block">{claim.benchmarkEvidence}</span>
-                    </div>
-                  </div>
                 </div>
-
-                <div className="shrink-0 flex items-center self-stretch justify-end">
-                  <div className="bg-black/40 border border-zinc-950 px-2 py-1 rounded text-zinc-500 text-[10px] group-hover:text-zinc-300">
-                    Trace Invariants &rarr;
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {filteredClaims.length === 0 && (
-              <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-10 text-center space-y-2 text-zinc-500">
-                <AlertTriangle className="w-8 h-8 text-zinc-600 mx-auto" />
-                <p>No claim mappings matching the active filters found.</p>
-                <button 
-                  onClick={() => { setSelectedPatent("All"); setStatusFilter("All"); setSearchQuery(""); }} 
-                  className="text-blue-500 hover:underline text-[11px] font-bold"
-                >
-                  Clear filter settings
-                </button>
               </div>
             )}
-          </div>
 
-        </div>
-
-        {/* Claim Detail Traceability Drawer (Right Column - 1 col) */}
-        <div className="lg:col-span-1">
-          <AnimatePresence mode="wait">
-            {selectedClaim ? (
-              <motion.div
-                key={selectedClaim.claimId}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-6 h-full flex flex-col justify-between"
-              >
-                <div className="space-y-5">
-                  <div className="border-b border-zinc-900 pb-3 flex justify-between items-start">
-                    <div>
-                      <span className="text-[8px] text-zinc-500 block font-bold uppercase">{selectedClaim.patentApp}</span>
-                      <h3 className="text-xs font-extrabold text-white uppercase tracking-tight mt-0.5">
-                        {selectedClaim.claimId}
-                      </h3>
-                    </div>
-                    <button 
-                      onClick={() => setSelectedClaim(null)}
-                      className="text-zinc-600 hover:text-zinc-400 text-[10px]"
-                    >
-                      [CLOSE]
-                    </button>
-                  </div>
-
-                  {/* Supporting Source files */}
-                  <div className="space-y-2">
-                    <span className="text-[9px] text-zinc-500 font-bold block uppercase">Physical Code Embodiment:</span>
-                    <div className="space-y-1.5">
-                      {selectedClaim.supportingFiles.map((file, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-[10px] text-zinc-300 bg-black p-2 rounded border border-zinc-900">
-                          <FileCode className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-                          <span className="truncate select-all">{file}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Source Code Snippet */}
-                  <div className="space-y-2">
-                    <span className="text-[9px] text-zinc-500 font-bold block uppercase">Source Implementation (Reference):</span>
-                    <div className="bg-[#050507] border border-zinc-950 p-3 rounded-lg overflow-x-auto max-h-48 scrollbar-thin">
-                      <pre className="text-[9px] text-zinc-400 font-mono leading-relaxed">
-                        <code>{selectedClaim.sourceCodeSnippet}</code>
-                      </pre>
-                    </div>
-                  </div>
-
-                  {/* Interactive Test Runner Simulator */}
-                  <div className="space-y-2.5 bg-black/40 border border-zinc-950 p-4 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[9px] text-zinc-400 font-bold uppercase">Automated Unit Test</span>
-                      <button
-                        onClick={() => runTestRunner(selectedClaim)}
-                        disabled={testRunnerState === "running"}
-                        className="bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/20 font-bold px-2.5 py-1 rounded text-[9px] uppercase tracking-wider transition flex items-center gap-1 shrink-0"
-                      >
-                        {testRunnerState === "running" ? (
-                          <RefreshCw className="w-3 h-3 animate-spin" />
-                        ) : (
-                          <Play className="w-3 h-3" />
-                        )}
-                        <span>{testRunnerState === "running" ? "Testing..." : "Verify Claim"}</span>
-                      </button>
+            {/* Claims Grid list */}
+            <div className="space-y-3">
+              {filteredClaims.map((claim) => (
+                <div 
+                  key={claim.claimId}
+                  onClick={() => {
+                    setSelectedClaim(claim);
+                    setTestRunnerState("idle");
+                    setDemoState("idle");
+                  }}
+                  className={`bg-[#0c0c0e] border p-4 rounded-lg cursor-pointer transition-all flex flex-col md:flex-row gap-4 items-start justify-between hover:border-zinc-700 ${
+                    selectedClaim?.claimId === claim.claimId
+                      ? "border-blue-500/60 ring-1 ring-blue-500/10 shadow bg-blue-950/5"
+                      : "border-zinc-900"
+                  }`}
+                >
+                  <div className="space-y-2 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-blue-400 font-extrabold text-[10px]">{claim.claimId}</span>
+                      <span className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded ${
+                        claim.claimType === "Independent" 
+                          ? "bg-purple-950/20 text-purple-400 border border-purple-500/20" 
+                          : "bg-zinc-900 text-zinc-400 border border-zinc-800"
+                      }`}>
+                        {claim.claimType}
+                      </span>
+                      <span className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded ml-auto md:ml-0 ${
+                        claim.verificationStatus === "Complete" 
+                          ? "bg-emerald-950/20 text-emerald-400 border border-emerald-500/20" 
+                          : "bg-amber-950/20 text-amber-400 border border-amber-500/20"
+                      }`}>
+                        {claim.verificationStatus}
+                      </span>
                     </div>
 
-                    <div className="text-[9px] text-zinc-500 font-sans">
-                      Target Assert: <code className="text-purple-400 text-[8px] bg-black px-1.5 py-0.5 rounded border border-zinc-900">{selectedClaim.testCoverage}</code>
-                    </div>
-
-                    {testRunnerState !== "idle" && (
-                      <div className="space-y-2 mt-2">
-                        <div className="w-full bg-zinc-950 h-1 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full bg-blue-500 transition-all duration-300"
-                            style={{ width: `${testProgress}%` }}
-                          />
-                        </div>
-                        <div className="bg-[#050507] p-2.5 rounded text-[8px] text-zinc-400 font-mono max-h-24 overflow-y-auto scrollbar-thin space-y-1">
-                          {testLogs.map((log, idx) => (
-                            <div key={idx} className={log.includes("[SUCCESS]") ? "text-emerald-400 font-bold" : "text-zinc-500"}>
-                              &gt; {log}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Live Simulation Playground */}
-                  <div className="space-y-2.5 bg-black/40 border border-zinc-950 p-4 rounded-lg">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[9px] text-zinc-400 font-bold uppercase">Simulation Demonstration</span>
-                      <button
-                        onClick={() => handleRunDemo(selectedClaim)}
-                        disabled={demoState === "running"}
-                        className="bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/20 font-bold px-2.5 py-1 rounded text-[9px] uppercase tracking-wider transition flex items-center gap-1 shrink-0"
-                      >
-                        {demoState === "running" ? (
-                          <RefreshCw className="w-3 h-3 animate-spin" />
-                        ) : (
-                          <Terminal className="w-3 h-3" />
-                        )}
-                        <span>{demoState === "running" ? "Simulating..." : "Run Demo"}</span>
-                      </button>
-                    </div>
-
-                    <p className="text-[10px] text-zinc-400 font-sans leading-relaxed">
-                      {selectedClaim.demonstrationDesc}
+                    <p className="text-zinc-200 text-xs font-semibold leading-relaxed leading-snug">
+                      {claim.functionalDesc}
                     </p>
 
-                    {demoState !== "idle" && (
-                      <div className="bg-[#050507] p-2.5 rounded text-[8px] font-mono max-h-36 overflow-y-auto scrollbar-thin space-y-1.5 mt-2">
-                        {demoLogs.map((log, idx) => (
-                          <div key={idx} className={
-                            log.includes("[ALERT_RAISED]") || log.includes("[WARNING]") || log.includes("[BOUNDARY]")
-                              ? "text-red-400 font-bold animate-pulse" 
-                              : log.includes("[SUCCESS]") || log.includes("[TRUST_CONFIRMED]")
-                              ? "text-emerald-400 font-bold" 
-                              : "text-zinc-300"
-                          }>
-                            {log}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2 text-[10px] text-zinc-500 font-sans">
+                      <div>
+                        <span className="text-zinc-600 font-mono text-[9px] block uppercase">MODULE</span>
+                        <span className="text-zinc-400 font-mono text-[10px] truncate block">{claim.repositoryModule}</span>
+                      </div>
+                      <div>
+                        <span className="text-zinc-600 font-mono text-[9px] block uppercase">SPECIFICATION</span>
+                        <span className="text-zinc-400 font-mono text-[10px] truncate block">{claim.specificationRef}</span>
+                      </div>
+                      <div className="col-span-2 sm:col-span-1">
+                        <span className="text-zinc-600 font-mono text-[9px] block uppercase">BENCHMARK EVIDENCE</span>
+                        <span className="text-zinc-400 font-mono text-[10px] truncate block">{claim.benchmarkEvidence}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="shrink-0 flex items-center self-stretch justify-end">
+                    <div className="bg-black/40 border border-zinc-950 px-2 py-1 rounded text-zinc-500 text-[10px] group-hover:text-zinc-300">
+                      Trace Invariants &rarr;
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {filteredClaims.length === 0 && (
+                <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-10 text-center space-y-2 text-zinc-500">
+                  <AlertTriangle className="w-8 h-8 text-zinc-600 mx-auto" />
+                  <p>No claim mappings matching the active filters found.</p>
+                  <button 
+                    type="button"
+                    onClick={() => { setSelectedPatent("All"); setStatusFilter("All"); setSearchQuery(""); }} 
+                    className="text-blue-500 hover:underline text-[11px] font-bold"
+                  >
+                    Clear filter settings
+                  </button>
+                </div>
+              )}
+            </div>
+
+          </div>
+
+          {/* Claim Detail Traceability Drawer (Right Column - 1 col) */}
+          <div className="lg:col-span-1">
+            <AnimatePresence mode="wait">
+              {selectedClaim ? (
+                <motion.div
+                  key={selectedClaim.claimId}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-6 h-full flex flex-col justify-between"
+                >
+                  <div className="space-y-5">
+                    <div className="border-b border-zinc-900 pb-3 flex justify-between items-start">
+                      <div>
+                        <span className="text-[8px] text-zinc-500 block font-bold uppercase">{selectedClaim.patentApp}</span>
+                        <h3 className="text-xs font-extrabold text-white uppercase tracking-tight mt-0.5">
+                          {selectedClaim.claimId}
+                        </h3>
+                      </div>
+                      <button 
+                        type="button"
+                        onClick={() => setSelectedClaim(null)}
+                        className="text-zinc-600 hover:text-zinc-400 text-[10px]"
+                      >
+                        [CLOSE]
+                      </button>
+                    </div>
+
+                    {/* Supporting Source files */}
+                    <div className="space-y-2">
+                      <span className="text-[9px] text-zinc-500 font-bold block uppercase">Physical Code Embodiment:</span>
+                      <div className="space-y-1.5">
+                        {selectedClaim.supportingFiles.map((file, idx) => (
+                          <div key={idx} className="flex items-center gap-2 text-[10px] text-zinc-300 bg-black p-2 rounded border border-zinc-900">
+                            <FileCode className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                            <span className="truncate select-all">{file}</span>
                           </div>
                         ))}
                       </div>
-                    )}
-                  </div>
-
-                  {/* Custom Hand-styled Metric spark bar */}
-                  <div className="space-y-2 bg-black/40 border border-zinc-950 p-4 rounded-lg">
-                    <div className="flex justify-between text-[9px] font-bold">
-                      <span className="text-zinc-500">BENCHMARK PERFORMANCE RATIO:</span>
-                      <span className="text-blue-400">{selectedClaim.benchmarkEvidence}</span>
                     </div>
-                    <div className="pt-1.5 flex items-center gap-3">
-                      <div className="flex-1 bg-zinc-950 h-2.5 rounded overflow-hidden relative">
-                        <div 
-                          className="h-full bg-gradient-to-r from-blue-500 to-indigo-500"
-                          style={{ width: `${selectedClaim.benchmarkValue === 0 ? 0.001 : Math.min(100, selectedClaim.benchmarkValue)}%` }}
-                        />
+
+                    {/* Source Code Snippet */}
+                    <div className="space-y-2">
+                      <span className="text-[9px] text-zinc-500 font-bold block uppercase">Source Implementation (Reference):</span>
+                      <div className="bg-[#050507] border border-zinc-950 p-3 rounded-lg overflow-x-auto max-h-48 scrollbar-thin">
+                        <pre className="text-[9px] text-zinc-400 font-mono leading-relaxed">
+                          <code>{selectedClaim.sourceCodeSnippet}</code>
+                        </pre>
                       </div>
-                      <span className="text-[10px] text-white font-bold shrink-0">{selectedClaim.benchmarkValue} {selectedClaim.benchmarkLabel.split(" ")[0]}</span>
                     </div>
+
+                    {/* Interactive Test Runner Simulator */}
+                    <div className="space-y-2.5 bg-black/40 border border-zinc-950 p-4 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[9px] text-zinc-400 font-bold uppercase">Automated Unit Test</span>
+                        <button
+                          type="button"
+                          onClick={() => runTestRunner(selectedClaim)}
+                          disabled={testRunnerState === "running"}
+                          className="bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/20 font-bold px-2.5 py-1 rounded text-[9px] uppercase tracking-wider transition flex items-center gap-1 shrink-0"
+                        >
+                          {testRunnerState === "running" ? (
+                            <RefreshCw className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <Play className="w-3 h-3" />
+                          )}
+                          <span>{testRunnerState === "running" ? "Testing..." : "Verify Claim"}</span>
+                        </button>
+                      </div>
+
+                      <div className="text-[9px] text-zinc-500 font-sans">
+                        Target Assert: <code className="text-purple-400 text-[8px] bg-black px-1.5 py-0.5 rounded border border-zinc-900">{selectedClaim.testCoverage}</code>
+                      </div>
+
+                      {testRunnerState !== "idle" && (
+                        <div className="space-y-2 mt-2">
+                          <div className="w-full bg-zinc-950 h-1 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-blue-500 transition-all duration-300"
+                              style={{ width: `${testProgress}%` }}
+                            />
+                          </div>
+                          <div className="bg-[#050507] p-2.5 rounded text-[8px] text-zinc-400 font-mono max-h-24 overflow-y-auto scrollbar-thin space-y-1">
+                            {testLogs.map((log, idx) => (
+                              <div key={idx} className={log.includes("[SUCCESS]") ? "text-emerald-400 font-bold" : "text-zinc-500"}>
+                                &gt; {log}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Live Simulation Playground */}
+                    <div className="space-y-2.5 bg-black/40 border border-zinc-950 p-4 rounded-lg">
+                      <div className="flex justify-between items-center">
+                        <span className="text-[9px] text-zinc-400 font-bold uppercase">Simulation Demonstration</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRunDemo(selectedClaim)}
+                          disabled={demoState === "running"}
+                          className="bg-purple-600/10 hover:bg-purple-600/20 text-purple-400 border border-purple-500/20 font-bold px-2.5 py-1 rounded text-[9px] uppercase tracking-wider transition flex items-center gap-1 shrink-0"
+                        >
+                          {demoState === "running" ? (
+                            <RefreshCw className="w-3 h-3 animate-spin" />
+                          ) : (
+                            <Terminal className="w-3 h-3" />
+                          )}
+                          <span>{demoState === "running" ? "Simulating..." : "Run Demo"}</span>
+                        </button>
+                      </div>
+
+                      <p className="text-[10px] text-zinc-400 font-sans leading-relaxed">
+                        {selectedClaim.demonstrationDesc}
+                      </p>
+
+                      {demoState !== "idle" && (
+                        <div className="bg-[#050507] p-2.5 rounded text-[8px] font-mono max-h-36 overflow-y-auto scrollbar-thin space-y-1.5 mt-2">
+                          {demoLogs.map((log, idx) => (
+                            <div key={idx} className={
+                              log.includes("[ALERT_RAISED]") || log.includes("[WARNING]") || log.includes("[BOUNDARY]")
+                                ? "text-red-400 font-bold animate-pulse" 
+                                : log.includes("[SUCCESS]") || log.includes("[TRUST_CONFIRMED]")
+                                ? "text-emerald-400 font-bold" 
+                                : "text-zinc-300"
+                            }>
+                              {log}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Custom Hand-styled Metric spark bar */}
+                    <div className="space-y-2 bg-black/40 border border-zinc-950 p-4 rounded-lg">
+                      <div className="flex justify-between text-[9px] font-bold">
+                        <span className="text-zinc-500">BENCHMARK PERFORMANCE RATIO:</span>
+                        <span className="text-blue-400">{selectedClaim.benchmarkEvidence}</span>
+                      </div>
+                      <div className="pt-1.5 flex items-center gap-3">
+                        <div className="flex-1 bg-zinc-950 h-2.5 rounded overflow-hidden relative">
+                          <div 
+                            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                            style={{ width: `${selectedClaim.benchmarkValue === 0 ? 0.001 : Math.min(100, selectedClaim.benchmarkValue)}%` }}
+                          />
+                        </div>
+                        <span className="text-[10px] text-white font-bold shrink-0">{selectedClaim.benchmarkValue} {selectedClaim.benchmarkLabel.split(" ")[0]}</span>
+                      </div>
+                    </div>
+
                   </div>
 
+                  <div className="pt-4 border-t border-zinc-900 flex justify-between items-center text-[9px] text-zinc-500">
+                    <span className="flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
+                      Verified Traceability
+                    </span>
+                    <span>IP Mapping Dossier v1.0.3</span>
+                  </div>
+                </motion.div>
+              ) : (
+                <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-8 text-center font-mono text-zinc-500 flex flex-col justify-center items-center gap-4 h-full">
+                  <Database className="w-10 h-10 text-zinc-800" />
+                  <div className="space-y-1">
+                    <h4 className="text-xs font-bold text-zinc-400 uppercase">Select Claim to Trace</h4>
+                    <p className="text-[11px] text-zinc-500 max-w-xs font-sans leading-normal mx-auto">
+                      Choose any dependent or independent claim in the list to inspect physical source-code files, execute verification tests, and run simulation demonstrations in real-time.
+                    </p>
+                  </div>
                 </div>
+              )}
+            </AnimatePresence>
+          </div>
 
-                <div className="pt-4 border-t border-zinc-900 flex justify-between items-center text-[9px] text-zinc-500">
-                  <span className="flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
-                    Verified Traceability
-                  </span>
-                  <span>IP Mapping Dossier v1.0.3</span>
-                </div>
-              </motion.div>
+        </div>
+      )}
+
+      {/* activePanel === "portfolio" rendering block */}
+      {activePanel === "portfolio" && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fadeIn">
+          
+          {/* Main Table Column (Left - 2 cols span) */}
+          <div className="lg:col-span-2 space-y-4">
+            
+            {/* Filter bar for portfolio */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
+              <div className="flex bg-black border border-zinc-900 rounded p-1 text-[10px]">
+                {["All", "Tier 1", "Tier 2", "Tier 3"].map((tier) => (
+                  <button
+                    key={tier}
+                    type="button"
+                    onClick={() => {
+                      setPortfolioTierFilter(tier);
+                      setSelectedPortfolioApp(null);
+                    }}
+                    className={`px-3 py-1.5 rounded uppercase font-bold transition-all ${
+                      portfolioTierFilter === tier
+                        ? "bg-blue-950/20 text-blue-400 border border-blue-500/20 font-extrabold"
+                        : "text-zinc-500 hover:text-zinc-300"
+                    }`}
+                  >
+                    {tier}
+                  </button>
+                ))}
+              </div>
+
+              <div className="text-[10px] text-zinc-500 font-sans">
+                Master IP Portfolio contains <span className="text-white font-bold">14 filings</span> under active evaluation.
+              </div>
+            </div>
+
+            {/* List of Applications */}
+            <div className="space-y-3">
+              {ipPortfolioApps
+                .filter((app) => portfolioTierFilter === "All" || app.tier === portfolioTierFilter)
+                .map((app) => (
+                  <div
+                    key={app.id}
+                    onClick={() => setSelectedPortfolioApp(app.id)}
+                    className={`bg-[#0c0c0e] border p-4 rounded-lg cursor-pointer transition-all flex flex-col md:flex-row gap-4 items-start justify-between hover:border-zinc-700 ${
+                      selectedPortfolioApp === app.id
+                        ? "border-blue-500/60 ring-1 ring-blue-500/10 shadow bg-blue-950/5"
+                        : "border-zinc-900"
+                    }`}
+                  >
+                    <div className="space-y-2 flex-1 font-mono text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="text-blue-400 font-extrabold text-[10px]">{app.id}</span>
+                        <span className="text-[8px] uppercase font-bold px-1.5 py-0.5 rounded bg-purple-950/20 text-purple-400 border border-purple-500/10">
+                          {app.tier}
+                        </span>
+                        <span className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded ${
+                          app.status.includes("Audited")
+                            ? "bg-emerald-950/20 text-emerald-400 border border-emerald-500/20"
+                            : app.status.includes("Pending")
+                            ? "bg-blue-950/20 text-blue-400 border border-blue-500/20"
+                            : "bg-zinc-900 text-zinc-400 border border-zinc-800"
+                        }`}>
+                          {app.status}
+                        </span>
+                        <span className={`text-[8px] uppercase font-bold px-1.5 py-0.5 rounded ml-auto md:ml-0 ${
+                          app.priority === "CRITICAL"
+                            ? "bg-red-950/20 text-red-400 border border-red-500/20"
+                            : app.priority === "HIGH"
+                            ? "bg-amber-950/20 text-amber-400 border border-amber-500/20"
+                            : "bg-zinc-900 text-zinc-500 border border-zinc-800"
+                        }`}>
+                          {app.priority}
+                        </span>
+                      </div>
+
+                      <h4 className="text-white font-bold uppercase text-[11px] tracking-tight">{app.title}</h4>
+                      <p className="text-zinc-400 text-[10px] font-sans leading-relaxed">{app.technology}</p>
+
+                      <div className="grid grid-cols-2 gap-3 pt-2 text-[9px] text-zinc-500 font-sans border-t border-zinc-900/40">
+                        <div>
+                          <span className="text-zinc-600 font-mono text-[8px] block uppercase">FILING DATE</span>
+                          <span className="text-zinc-400 font-mono block">{app.filingDate}</span>
+                        </div>
+                        <div>
+                          <span className="text-zinc-600 font-mono text-[8px] block uppercase">RELATION TO VEK</span>
+                          <span className="text-zinc-400 font-mono block truncate">{app.relation}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 flex items-center self-stretch justify-end">
+                      <div className="bg-black/40 border border-zinc-950 px-2 py-1 rounded text-zinc-500 text-[10px] hover:text-zinc-300">
+                        Details &rarr;
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+
+          </div>
+
+          {/* Side Drawer details */}
+          <div className="lg:col-span-1">
+            {selectedPortfolioApp ? (
+              (() => {
+                const app = ipPortfolioApps.find((a) => a.id === selectedPortfolioApp)!;
+                return (
+                  <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-6 flex flex-col justify-between h-full">
+                    <div className="space-y-5">
+                      <div className="border-b border-zinc-900 pb-3 flex justify-between items-start">
+                        <div>
+                          <span className="text-[8px] text-zinc-500 block font-bold uppercase">{app.tier} Application</span>
+                          <h3 className="text-xs font-extrabold text-white uppercase tracking-tight mt-0.5">
+                            {app.title}
+                          </h3>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setSelectedPortfolioApp(null)}
+                          className="text-zinc-600 hover:text-zinc-400 text-[10px]"
+                        >
+                          [CLOSE]
+                        </button>
+                      </div>
+
+                      <div className="space-y-1">
+                        <span className="text-[9px] text-zinc-500 font-bold block uppercase">Patent App ID:</span>
+                        <span className="text-zinc-300 text-[10px] font-mono font-bold block bg-black border border-zinc-900 p-2 rounded">{app.id}</span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <span className="text-[9px] text-zinc-500 font-bold block uppercase">Core Technology Covered:</span>
+                        <p className="text-zinc-300 text-[10px] font-sans leading-relaxed">{app.technology}</p>
+                      </div>
+
+                      <div className="space-y-1 bg-black/40 border border-zinc-950 p-3.5 rounded-lg">
+                        <span className="text-[9px] text-purple-400 font-bold block uppercase">Relationship to VEK Kernel:</span>
+                        <p className="text-zinc-400 text-[10px] font-sans leading-relaxed mt-1">{app.relation}</p>
+                      </div>
+
+                      <div className="space-y-2.5 bg-black/40 border border-zinc-950 p-4 rounded-lg">
+                        <span className="text-[9px] text-amber-400 font-bold block uppercase">Recommended Next Legal Action:</span>
+                        <p className="text-zinc-300 text-[10px] font-sans leading-relaxed leading-normal mt-1 italic">
+                          "{app.action}"
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-zinc-900 flex justify-between items-center text-[9px] text-zinc-500">
+                      <span className="flex items-center gap-1">
+                        <ShieldCheck className="w-3.5 h-3.5 text-blue-500" />
+                        IP Portfolio Active
+                      </span>
+                      <span>v2.4.0 Sealed</span>
+                    </div>
+                  </div>
+                );
+              })()
             ) : (
               <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-8 text-center font-mono text-zinc-500 flex flex-col justify-center items-center gap-4 h-full">
                 <Database className="w-10 h-10 text-zinc-800" />
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-zinc-400 uppercase">Select Claim to Trace</h4>
+                  <h4 className="text-xs font-bold text-zinc-400 uppercase">Select App to Inspect</h4>
                   <p className="text-[11px] text-zinc-500 max-w-xs font-sans leading-normal mx-auto">
-                    Choose any dependent or independent claim in the list to inspect physical source-code files, execute verification tests, and run simulation demonstrations in real-time.
+                    Select any of the 14 portfolio patent filings from the list to view exact technology descriptions, kernel relationship, and recommended legal actions.
                   </p>
                 </div>
               </div>
             )}
-          </AnimatePresence>
-        </div>
+          </div>
 
-      </div>
+        </div>
+      )}
+
+      {/* activePanel === "gap" rendering block */}
+      {activePanel === "gap" && (
+        <div className="space-y-6 animate-fadeIn font-mono text-xs">
+          
+          {/* Top visual summary card */}
+          <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5">
+            <h3 className="text-xs font-bold text-white uppercase tracking-wider mb-2">
+              CLAIM-BY-CLAIM SYSTEM GAP ANALYSIS
+            </h3>
+            <p className="text-zinc-400 text-[11px] font-sans leading-relaxed max-w-4xl">
+              Evaluates current production enclaves against the filed patents specification to identify fully-covered mechanisms, newly implemented features that represent patentable gaps, and strategic suggestions for additional continuation filings.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            {/* Covered Features Card */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 pb-2 border-b border-zinc-900 mb-3">
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
+                  <span className="text-[10px] font-extrabold text-zinc-300 uppercase tracking-wider">
+                    COVERED FEATURES (100% ALIGNED)
+                  </span>
+                </div>
+                <p className="text-zinc-500 text-[10px] font-sans leading-relaxed mb-4">
+                  The following production modules are fully described and claimed under current filed applications (App 19/679,674 & 19/541,415).
+                </p>
+
+                <div className="space-y-3">
+                  {[
+                    { title: "Deterministic VM registers", code: "crates/vek-core/src/registers.rs", claim: "Claim 1 (19/679,674)" },
+                    { title: "Dynamic Invariant Ruleset", code: "crates/vek-core/src/policy.rs", claim: "Claim 1 (19/541,415)" },
+                    { title: "Write-Ahead Proof Logging", code: "crates/vek-storage/src/wal.rs", claim: "Claim 2 (19/679,674)" },
+                    { title: "Consensus Drift Mitigation", code: "services/replay-service/src/reconciler.rs", claim: "Claim 3 (19/541,415)" }
+                  ].map((feat, idx) => (
+                    <div key={idx} className="bg-black/60 border border-zinc-900 p-2.5 rounded space-y-1.5">
+                      <div className="flex justify-between items-center text-[10px]">
+                        <span className="text-zinc-200 font-bold">{feat.title}</span>
+                        <span className="text-[8px] bg-emerald-950/20 text-emerald-400 border border-emerald-500/10 px-1 rounded font-bold">{feat.claim}</span>
+                      </div>
+                      <code className="text-zinc-500 text-[9px] block bg-black px-1 py-0.5 rounded border border-zinc-950">{feat.code}</code>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                Core virtual machine states and audit log chains are heavily locked under existing patents.
+              </div>
+            </div>
+
+            {/* Implemented New Features (Gaps) Card */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 pb-2 border-b border-zinc-900 mb-3">
+                  <AlertTriangle className="w-4 h-4 text-amber-400" />
+                  <span className="text-[10px] font-extrabold text-zinc-300 uppercase tracking-wider">
+                    IMPLEMENTED FEATURES (UNPATENTED GAPS)
+                  </span>
+                </div>
+                <p className="text-zinc-500 text-[10px] font-sans leading-relaxed mb-4">
+                  The following active features are operational in the codebase but are NOT covered by current patent specifications.
+                </p>
+
+                <div className="space-y-3">
+                  {[
+                    { title: "Hot-mounting dynamic plugins", code: "services/replay-service/src/plugins.rs", gap: "No claims cover dynamic attestation loader" },
+                    { title: "Deterministic PDF audit compiler", code: "src/lib/pdfGenerator.ts", gap: "No claims cover zero-trust PDF evidence generator" },
+                    { title: "Visual Telemetry Observability", code: "src/components/Platform.tsx", gap: "No claims cover visual state telemetry" },
+                    { title: "Metadata / Report export APIs", code: "server.ts", gap: "No claims cover raw JSON audit export structures" }
+                  ].map((feat, idx) => (
+                    <div key={idx} className="bg-black/60 border border-zinc-900 p-2.5 rounded space-y-1.5">
+                      <div className="flex justify-between items-center text-[10px]">
+                        <span className="text-zinc-200 font-bold">{feat.title}</span>
+                        <span className="text-[8px] bg-amber-950/20 text-amber-400 border border-amber-500/10 px-1 rounded font-bold uppercase">Uncovered</span>
+                      </div>
+                      <code className="text-zinc-500 text-[9px] block bg-black px-1 py-0.5 rounded border border-zinc-950">{feat.code}</code>
+                      <p className="text-zinc-500 text-[9px] font-sans">{feat.gap}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                These functional gaps represent highly valuable proprietary technology and intellectual property risks if left unclaimed.
+              </div>
+            </div>
+
+            {/* Recommended Additional Filings Card */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 pb-2 border-b border-zinc-900 mb-3">
+                  <GitBranch className="w-4 h-4 text-purple-400" />
+                  <span className="text-[10px] font-extrabold text-zinc-300 uppercase tracking-wider">
+                    RECOMMENDED ADDITIONAL FILINGS
+                  </span>
+                </div>
+                <p className="text-zinc-500 text-[10px] font-sans leading-relaxed mb-4">
+                  Highly recommended filings targeting newly implemented features to secure full defensive and licensing coverage.
+                </p>
+
+                <div className="space-y-3">
+                  {[
+                    { title: "Hot-Mounting Dynamic Plugins with Attestation Key Loader", action: "File Continuation of 19/564,148", desc: "Claiming hot-mounting and dynamic verified module loading under strict enclaved conditions." },
+                    { title: "Deterministic client-side PDF receipt generation", action: "File New Utility Patent", desc: "Claiming generation of self-contained signed PDF bundles that incorporate cryptographic witness chains." },
+                    { title: "Stochastic validation contexts", action: "File Continuation of 19/541,415", desc: "Claiming real-time streaming constraint evaluation on context-window segments." }
+                  ].map((feat, idx) => (
+                    <div key={idx} className="bg-black/60 border border-zinc-900 p-3 rounded-lg space-y-1.5 border-l-2 border-purple-500">
+                      <span className="text-zinc-200 font-bold text-[10px] block leading-tight">{feat.title}</span>
+                      <span className="text-purple-400 font-extrabold text-[8px] block uppercase tracking-wider">{feat.action}</span>
+                      <p className="text-zinc-500 text-[9px] font-sans leading-normal">{feat.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                Completing these continuations would achieve 100% strategic IP alignment across current features.
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      )}
 
     </div>
   );

@@ -126,6 +126,21 @@ app.get("/api/metadata", (req, res) => {
   }
 });
 
+app.get("/api/ecosystem-spec", (req, res) => {
+  const specPath = path.join(process.cwd(), "docs/VEK_ECOSYSTEM_GOVERNANCE.md");
+  if (fs.existsSync(specPath)) {
+    try {
+      const data = fs.readFileSync(specPath, "utf-8");
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.send(data);
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to read ecosystem specifications: " + err.message });
+    }
+  } else {
+    res.status(404).json({ error: "Ecosystem specification file not found." });
+  }
+});
+
 app.get("/api/evaluation-report", (req, res) => {
   const reportPath = path.join(process.cwd(), "evaluation-kit/output/evaluation_report.json");
   if (fs.existsSync(reportPath)) {

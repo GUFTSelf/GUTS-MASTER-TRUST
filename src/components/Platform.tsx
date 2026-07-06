@@ -25,9 +25,16 @@ interface Plugin {
 
 export default function Platform({}: PlatformProps) {
   // Tabs & Config states
-  const [activeSubTab, setActiveSubTab] = useState<"layers" | "services" | "deployment" | "plugins" | "observability">("layers");
+  const [activeSubTab, setActiveSubTab] = useState<"layers" | "services" | "deployment" | "plugins" | "ecosystem" | "observability">("layers");
   const [selectedLayer, setSelectedLayer] = useState<string>("Verification Services");
   const [activeProfile, setActiveProfile] = useState<"Developer" | "Enterprise" | "High Assurance">("Enterprise");
+
+  // Ecosystem / Dataset states
+  const [selectedDataset, setSelectedDataset] = useState<"ref_det_001" | "ref_rep_002" | "ref_con_003">("ref_det_001");
+  const [datasetVerifying, setDatasetVerifying] = useState(false);
+  const [datasetVerificationResult, setDatasetVerificationResult] = useState<string | null>(null);
+  const [selectedCampaignPhase, setSelectedCampaignPhase] = useState<number>(1);
+  const [copiedDatasetHash, setCopiedDatasetHash] = useState(false);
 
   // Telemetry Simulators
   const [queueDepth, setQueueDepth] = useState<number>(4);
@@ -196,6 +203,7 @@ export default function Platform({}: PlatformProps) {
           { id: "services", label: "Platform Services", icon: Server },
           { id: "deployment", label: "Deployment Profiles", icon: Network },
           { id: "plugins", label: "Plugin Ecosystem", icon: Box },
+          { id: "ecosystem", label: "Ecosystem Governance", icon: ShieldCheck },
           { id: "observability", label: "Real-time Observability", icon: BarChart3 }
         ].map((tab) => {
           const Icon = tab.icon;
@@ -837,6 +845,476 @@ export default function Platform({}: PlatformProps) {
                   Hot-Mount Custom Plugin
                 </button>
               </form>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* SUB-TAB: ECOSYSTEM GOVERNANCE */}
+      {activeSubTab === "ecosystem" && (
+        <div className="space-y-8 animate-fadeIn font-mono text-xs">
+          
+          {/* Section Header */}
+          <div className="border-b border-zinc-900 pb-3 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-200">
+                VEK Platform Ecosystem Governance & Rules
+              </h3>
+              <p className="text-[10px] text-zinc-500 font-sans">
+                Stable platform specifications (Documents 57–62) defining relationship frameworks, compatibility guidelines, repeatable datasets, and strict governance rules.
+              </p>
+            </div>
+            
+            <a 
+              href="/api/ecosystem-spec"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[9px] bg-purple-950/20 text-purple-400 border border-purple-500/20 px-3 py-1.5 rounded hover:bg-purple-950/40 transition flex items-center gap-1.5 font-bold uppercase shrink-0"
+            >
+              <Terminal className="w-3.5 h-3.5" />
+              <span>View Full spec File</span>
+            </a>
+          </div>
+
+          {/* Grid Layout: Document 57 Architecture & 60 Requirements */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* DOCUMENT 57 — VEK ECOSYSTEM ARCHITECTURE */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 flex flex-col justify-between space-y-4">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Network className="w-4.5 h-4.5 text-purple-400" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    DOCUMENT 57 — VEK ECOSYSTEM ARCHITECTURE
+                  </h4>
+                </div>
+                <p className="text-zinc-400 text-[11px] font-sans leading-relaxed mb-4">
+                  The specification is the stable center; SDK implementations are replaceable, fully conforming to strict automated suites.
+                </p>
+
+                {/* ASCII Diagram Visualizer */}
+                <div className="bg-black/80 border border-zinc-900 rounded p-4 text-[10px] text-zinc-300 space-y-2 select-none overflow-x-auto whitespace-pre">
+                  <div className="text-center font-bold text-purple-400 font-mono">VEK Specification (Stable Center)</div>
+                  <div className="text-center text-zinc-600">│</div>
+                  <div className="text-center text-zinc-600">┌───────────────┼───────────────┐</div>
+                  <div className="text-center text-zinc-600">│               │               │</div>
+                  <div className="flex justify-around font-mono text-[9px] text-zinc-400">
+                    <span className="bg-purple-950/10 border border-purple-500/10 px-2 py-0.5 rounded text-white font-bold">Rust Runtime</span>
+                    <span className="bg-purple-950/10 border border-purple-500/10 px-2 py-0.5 rounded text-white font-bold">TypeScript SDK</span>
+                    <span className="bg-purple-950/10 border border-purple-500/10 px-2 py-0.5 rounded text-white font-bold">Python SDK</span>
+                  </div>
+                  <div className="text-center text-zinc-600">│               │               │</div>
+                  <div className="text-center text-zinc-600">└───────────────┼───────────────┘</div>
+                  <div className="text-center text-zinc-600">▼</div>
+                  <div className="text-center text-purple-400 font-bold">Conformance Suite (Standardized Verification)</div>
+                  <div className="text-center text-zinc-600">▼</div>
+                  <div className="text-center text-zinc-400">Evidence Generation (EGAF Claim Ledgering)</div>
+                  <div className="text-center text-zinc-600">▼</div>
+                  <div className="text-center text-zinc-400">Verification & Attestation (Proof Logging)</div>
+                  <div className="text-center text-zinc-600">▼</div>
+                  <div className="text-center text-emerald-400 font-bold">External Audit / Licensing</div>
+                </div>
+              </div>
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                This unidirectional flow ensures that any language-specific engine can be verified identically.
+              </div>
+            </div>
+
+            {/* DOCUMENT 60 — IMPLEMENTATION REQUIREMENTS */}
+            <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 flex flex-col justify-between space-y-4">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <ShieldCheck className="w-4.5 h-4.5 text-purple-400" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    DOCUMENT 60 — IMPLEMENTATION REQUIREMENTS
+                  </h4>
+                </div>
+                <p className="text-zinc-400 text-[11px] font-sans leading-relaxed mb-4">
+                  To keep the framework minimal and secure, mandatory components are separated strictly from auxiliary client-side features.
+                </p>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-black/60 border border-zinc-900 p-3.5 rounded-lg space-y-2">
+                    <span className="text-[9px] text-purple-400 font-bold uppercase block tracking-wider">MANDATORY CORE (REQUIRED)</span>
+                    <ul className="space-y-1.5 text-[10px] text-zinc-300 font-sans">
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-purple-500 shrink-0" /><span>Deterministic execution</span></li>
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-purple-500 shrink-0" /><span>Canonical hashing</span></li>
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-purple-500 shrink-0" /><span>Evidence generation</span></li>
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-purple-500 shrink-0" /><span>Conformance support</span></li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-black/60 border border-zinc-900 p-3.5 rounded-lg space-y-2">
+                    <span className="text-[9px] text-zinc-500 font-bold uppercase block tracking-wider">AUXILIARY SERVICES (OPTIONAL)</span>
+                    <ul className="space-y-1.5 text-[10px] text-zinc-500 font-sans">
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-zinc-800 shrink-0" /><span>Ecosystem Dashboard</span></li>
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-zinc-800 shrink-0" /><span>Active Visualizations</span></li>
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-zinc-800 shrink-0" /><span>Benchmark UI Panels</span></li>
+                      <li className="flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-zinc-800 shrink-0" /><span>Enterprise Integrations</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                Any developer can build a certified VEK implementation by satisfying only the 4 mandatory requirements.
+              </div>
+            </div>
+
+          </div>
+
+          {/* DOCUMENT 59 — REFERENCE DATASETS & INTERACTIVE PLAYGROUND */}
+          <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-900 pb-3 mb-5">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Terminal className="w-4.5 h-4.5 text-blue-400" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    DOCUMENT 59 — REPEATABLE REFERENCE DATASETS
+                  </h4>
+                </div>
+                <p className="text-[10px] text-zinc-500 font-sans">
+                  Fixed datasets used as standard regressions tests across all implementations to verify deterministic compliance.
+                </p>
+              </div>
+
+              {/* Dataset Select tabs */}
+              <div className="flex bg-black border border-zinc-900 p-1 rounded text-[10px]">
+                {[
+                  { id: "ref_det_001", label: "ref_det_001" },
+                  { id: "ref_rep_002", label: "ref_rep_002" },
+                  { id: "ref_con_003", label: "ref_con_003" }
+                ].map((ds) => (
+                  <button
+                    key={ds.id}
+                    onClick={() => {
+                      setSelectedDataset(ds.id as any);
+                      setDatasetVerificationResult(null);
+                    }}
+                    className={`px-3 py-1.5 rounded uppercase font-bold transition-all ${
+                      selectedDataset === ds.id
+                        ? "bg-blue-950/20 text-blue-400 border border-blue-500/20"
+                        : "text-zinc-500 hover:text-zinc-300"
+                    }`}
+                  >
+                    {ds.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 font-mono text-xs">
+              
+              {/* Dataset Details Card */}
+              <div className="lg:col-span-2 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Inputs field */}
+                  <div className="space-y-1.5">
+                    <span className="text-zinc-500 text-[10px] font-bold uppercase block">Input State Payload:</span>
+                    <pre className="bg-black/60 border border-zinc-900 rounded p-3 h-32 overflow-auto text-zinc-300 text-[10px] font-mono leading-relaxed">
+                      {selectedDataset === "ref_det_001" ? (
+`{
+  "transaction_id": "TX-01",
+  "sequence_number": 4821,
+  "registers": [255, 12, 0, 84]
+}`
+                      ) : selectedDataset === "ref_rep_002" ? (
+`{
+  "drift_threshold_ms": 12.0,
+  "transition_log": [
+    "INIT_0x00",
+    "STEP_0x04",
+    "SEAL_0x08"
+  ]
+}`
+                      ) : (
+`{
+  "replicas": ["alpha", "beta"],
+  "voting_weight": 1.0,
+  "agreement_limit": 1.0
+}`
+                      )}
+                    </pre>
+                  </div>
+
+                  {/* Outputs field */}
+                  <div className="space-y-1.5">
+                    <span className="text-zinc-500 text-[10px] font-bold uppercase block">Expected Output Payload:</span>
+                    <pre className="bg-black/60 border border-zinc-900 rounded p-3 h-32 overflow-auto text-zinc-300 text-[10px] font-mono leading-relaxed">
+                      {selectedDataset === "ref_det_001" ? (
+`{
+  "status": "SUCCESS",
+  "transition_vector": "0x1A",
+  "cycle_overhead": 8
+}`
+                      ) : selectedDataset === "ref_rep_002" ? (
+`{
+  "drift_detected_ms": 0.042,
+  "state_variance": "CLEAN"
+}`
+                      ) : (
+`{
+  "consensus_state": "ATOMIC_LOCKED",
+  "quorum_signature": "Ed25519"
+}`
+                      )}
+                    </pre>
+                  </div>
+                </div>
+
+                {/* Canonical Hash and copy */}
+                <div className="bg-black/50 border border-zinc-900 p-3 rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  <div className="space-y-1 flex-1">
+                    <span className="text-[9px] text-zinc-500 font-bold uppercase block">Expected Canonical State Hash:</span>
+                    <span className="text-zinc-300 font-mono text-[10px] block break-all font-bold">
+                      {selectedDataset === "ref_det_001" 
+                        ? "e7a9b0d2f4c6e8a1b3d5f7c9e1a3b5d7f9c2e4a6b8d0f2c4e6a8b1d3f5c7e9a1"
+                        : selectedDataset === "ref_rep_002"
+                        ? "c4d8e7f9a2b1c0d3e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8"
+                        : "7a8c9b0e2f1d5c4b3a6e9d8f7c6b5a4d3e2f1c0b9a8d7f6e5d4c3b2a1f0e9d8c"
+                      }
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const h = selectedDataset === "ref_det_001" 
+                        ? "e7a9b0d2f4c6e8a1b3d5f7c9e1a3b5d7f9c2e4a6b8d0f2c4e6a8b1d3f5c7e9a1"
+                        : selectedDataset === "ref_rep_002"
+                        ? "c4d8e7f9a2b1c0d3e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6a7b8"
+                        : "7a8c9b0e2f1d5c4b3a6e9d8f7c6b5a4d3e2f1c0b9a8d7f6e5d4c3b2a1f0e9d8c";
+                      navigator.clipboard.writeText(h);
+                      setCopiedDatasetHash(true);
+                      setTimeout(() => setCopiedDatasetHash(false), 2000);
+                    }}
+                    className="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-3 py-1.5 rounded text-[10px] font-bold uppercase tracking-wider shrink-0"
+                  >
+                    {copiedDatasetHash ? "Copied!" : "Copy Hash"}
+                  </button>
+                </div>
+              </div>
+
+              {/* Simulation Verification Side card */}
+              <div className="lg:col-span-1 bg-black border border-zinc-900 rounded-lg p-4 flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1.5 pb-2 border-b border-zinc-900">
+                    <Activity className="w-4 h-4 text-purple-400" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-300">
+                      Harness Validator Unit
+                    </span>
+                  </div>
+                  <p className="text-zinc-500 text-[10px] font-sans leading-relaxed">
+                    Trigger regression validation checking candidate output hashes and state vectors against the canonical index.
+                  </p>
+
+                  {datasetVerifying && (
+                    <div className="space-y-2 p-2 bg-[#0c0c0e] border border-zinc-900 rounded animate-pulse">
+                      <div className="flex justify-between text-[9px] font-bold text-zinc-400">
+                        <span>PIPELINE VERIFYING...</span>
+                        <span>WAITING</span>
+                      </div>
+                      <div className="h-1 bg-zinc-900 w-full overflow-hidden rounded-full">
+                        <div className="h-full bg-purple-500 animate-pulse" style={{ width: "80%" }} />
+                      </div>
+                    </div>
+                  )}
+
+                  {datasetVerificationResult && (
+                    <div className="p-3 bg-emerald-950/20 border border-emerald-500/20 text-emerald-400 rounded space-y-1 font-mono text-[10px]">
+                      <div className="font-extrabold flex items-center gap-1">
+                        <CheckCircle className="w-3.5 h-3.5" />
+                        <span>VERIFICATION: {datasetVerificationResult}</span>
+                      </div>
+                      <p className="text-zinc-400 text-[9px] leading-relaxed font-sans mt-1">
+                        Output state match detected with zero drift. Deterministic execution witness hash verified successfully.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  disabled={datasetVerifying}
+                  onClick={() => {
+                    setDatasetVerifying(true);
+                    setDatasetVerificationResult(null);
+                    setTimeout(() => {
+                      setDatasetVerifying(false);
+                      setDatasetVerificationResult("VERIFIED_OK");
+                    }, 1200);
+                  }}
+                  className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded text-[10px] transition uppercase tracking-widest disabled:bg-[#18181b] disabled:text-zinc-600"
+                >
+                  {datasetVerifying ? "Verifying..." : "Run Dataset verification"}
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Grid Layout: Document 58 Compatibility & Document 61 Validation Timeline */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            
+            {/* DOCUMENT 58 — COMPATIBILITY POLICY (lg:col-span-2) */}
+            <div className="lg:col-span-2 bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 flex flex-col justify-between space-y-4">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <SlidersHorizontal className="w-4.5 h-4.5 text-purple-400" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    DOCUMENT 58 — COMPATIBILITY POLICY
+                  </h4>
+                </div>
+                <p className="text-zinc-400 text-[11px] font-sans leading-relaxed mb-4">
+                  Governs software boundaries across cycles. Establishes immutable rules for API, CLI and schemas.
+                </p>
+
+                <div className="space-y-2.5">
+                  {[
+                    { c: "Specification", rule: "Semantic Versioning", badge: "SEMVER" },
+                    { c: "Evidence Schema", rule: "Backward compatible in Major versions", badge: "BACKWARD_COMPAT" },
+                    { c: "Verification CLI", rule: "Supports prior format for 1 major release", badge: "N-1 SUPPORT" },
+                    { c: "REST / WS APIs", rule: "Versioned routes with formal deprecation", badge: "DEPRECATION_RULE" },
+                    { c: "Conformance Tests", rule: "Versioned independently from codebases", badge: "INDEPENDENT" }
+                  ].map((rule, idx) => (
+                    <div key={idx} className="bg-black/60 border border-zinc-900 p-2.5 rounded flex items-center justify-between text-[10px]">
+                      <div>
+                        <span className="text-zinc-400 font-extrabold block">{rule.c}</span>
+                        <span className="text-zinc-500 text-[9px] font-sans block mt-0.5">{rule.rule}</span>
+                      </div>
+                      <span className="text-[8px] bg-purple-950/20 text-purple-400 border border-purple-500/10 px-1.5 py-0.5 rounded font-bold uppercase shrink-0">
+                        {rule.badge}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                This matrix ensures enterprise evaluators that updates will not break active client-side workflows.
+              </div>
+            </div>
+
+            {/* DOCUMENT 61 — VALIDATION CAMPAIGN PLAN (lg:col-span-3) */}
+            <div className="lg:col-span-3 bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 flex flex-col justify-between space-y-4">
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Activity className="w-4.5 h-4.5 text-purple-400" />
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    DOCUMENT 61 — VALIDATION CAMPAIGN PLAN
+                  </h4>
+                </div>
+                <p className="text-zinc-400 text-[11px] font-sans leading-relaxed mb-4">
+                  A structured methodology executed before broader deployment inside aerospace and industrial partner pilots. Click phases to see criteria.
+                </p>
+
+                {/* Campaign Stepper Tabs */}
+                <div className="grid grid-cols-4 gap-1.5 mb-4 text-center">
+                  {[1, 2, 3, 4].map((ph) => (
+                    <button
+                      type="button"
+                      key={ph}
+                      onClick={() => setSelectedCampaignPhase(ph)}
+                      className={`p-2 rounded border uppercase font-bold text-[9px] transition ${
+                        selectedCampaignPhase === ph
+                          ? "bg-purple-950/25 border-purple-500 text-purple-400"
+                          : "bg-black/50 border-zinc-900 text-zinc-500 hover:text-zinc-300"
+                      }`}
+                    >
+                      Phase 0{ph}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Stepper Details */}
+                <div className="bg-black border border-zinc-900 p-3.5 rounded-lg space-y-3 min-h-[140px]">
+                  {selectedCampaignPhase === 1 && (
+                    <div className="space-y-2 animate-fadeIn">
+                      <span className="text-purple-400 font-extrabold uppercase text-[10px] block">PHASE 1: INTERNAL REPRODUCIBILITY</span>
+                      <p className="text-zinc-400 text-[10px] font-sans leading-relaxed">
+                        Validate core state replay bounds inside continuous integration containers. Requires 1,000 parallel test executions with zero register timing variance.
+                      </p>
+                      <div className="grid grid-cols-2 gap-3 text-[9px] text-zinc-500 pt-1.5 border-t border-zinc-900/60">
+                        <div><span className="font-bold text-zinc-400 block uppercase">Entrance:</span>Compiler pass on core Rust files</div>
+                        <div><span className="font-bold text-zinc-400 block uppercase">Exit:</span>0 trace drift on test harness</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedCampaignPhase === 2 && (
+                    <div className="space-y-2 animate-fadeIn">
+                      <span className="text-purple-400 font-extrabold uppercase text-[10px] block">PHASE 2: INDEPENDENT REPRODUCTION</span>
+                      <p className="text-zinc-400 text-[10px] font-sans leading-relaxed">
+                        Deploy clean conformance containers to third-party engineering units. Demonstrates modular codebase reuse and out-of-the-box configuration.
+                      </p>
+                      <div className="grid grid-cols-2 gap-3 text-[9px] text-zinc-500 pt-1.5 border-t border-zinc-900/60">
+                        <div><span className="font-bold text-zinc-400 block uppercase">Entrance:</span>Complete API docs and Docker files</div>
+                        <div><span className="font-bold text-zinc-400 block uppercase">Exit:</span>Independent signature sign-off</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedCampaignPhase === 3 && (
+                    <div className="space-y-2 animate-fadeIn">
+                      <span className="text-purple-400 font-extrabold uppercase text-[10px] block">PHASE 3: SECURITY-FOCUSED REVIEW</span>
+                      <p className="text-zinc-400 text-[10px] font-sans leading-relaxed">
+                        Execute vulnerability and stress review targeting malicious state injections, memory overflows, and timing-attack vectors in enclaves.
+                      </p>
+                      <div className="grid grid-cols-2 gap-3 text-[9px] text-zinc-500 pt-1.5 border-t border-zinc-900/60">
+                        <div><span className="font-bold text-zinc-400 block uppercase">Entrance:</span>Code freeze, complete threat model</div>
+                        <div><span className="font-bold text-zinc-400 block uppercase">Exit:</span>Zero high-risk findings remaining</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedCampaignPhase === 4 && (
+                    <div className="space-y-2 animate-fadeIn">
+                      <span className="text-purple-400 font-extrabold uppercase text-[10px] block">PHASE 4: PERFORMANCE EVALUATION</span>
+                      <p className="text-zinc-400 text-[10px] font-sans leading-relaxed">
+                        Run scale benchmarking on target clusters measuring memory footprint, network overhead, and continuous transaction throughput under peak stress.
+                      </p>
+                      <div className="grid grid-cols-2 gap-3 text-[9px] text-zinc-500 pt-1.5 border-t border-zinc-900/60">
+                        <div><span className="font-bold text-zinc-400 block uppercase">Entrance:</span>Deploy multi-enclave cluster node</div>
+                        <div><span className="font-bold text-zinc-400 block uppercase">Exit:</span>Verify throughput &gt; 10k TPS</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="text-[10px] text-zinc-500 font-sans italic pt-2 border-t border-zinc-900/60">
+                Each validation gateway ensures the platform moves safely towards commercial and sovereign readiness.
+              </div>
+            </div>
+
+          </div>
+
+          {/* DOCUMENT 62 — GOVERNANCE CHARTER */}
+          <div className="bg-[#0c0c0e] border border-zinc-900 rounded-lg p-5 space-y-4">
+            <div className="flex items-center gap-2 pb-2 border-b border-zinc-900">
+              <ShieldCheck className="w-4.5 h-4.5 text-purple-400" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                DOCUMENT 62 — GOVERNANCE CHARTER
+              </h4>
+            </div>
+            <p className="text-zinc-400 text-[11px] font-sans leading-relaxed max-w-4xl">
+              Establishes formal protocols for proposal submissions, audits, release cadences and documentation reviews, guaranteeing technical evolution remains transparent and predictable.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                { title: "Change proposal process", desc: "Modifications to the specification require a formal Verifiable Execution Proposal (VEP-RFC) detailing compatibility limits and complete reference models." },
+                { title: "Specification review process", desc: "VEPs are scrutinized by designated independent architectural partners. Approval requires consensus verification of deterministic correctness." },
+                { title: "Version release process", desc: "Minor updates maintain absolute backward compatibility. Major changes require a 120-day deprecation schedule to prevent downstream breakage." },
+                { title: "Conformance update policy", desc: "Any specification change triggers automatic synchronous regression test updates to the executable Conformance Suite." },
+                { title: "Documentation review policy", desc: "All files, guides, and formal threat models are subjected to audit reviews on every major/minor specification release." },
+                { title: "Evidence retention policy", desc: "Signed audit bundles, witness traces, and validator consensus hashes are archived permanently inside tamper-evident storage networks." }
+              ].map((policy, idx) => (
+                <div key={idx} className="bg-black/60 border border-zinc-900/60 p-4 rounded-lg space-y-2 hover:border-purple-500/30 transition-all duration-300">
+                  <span className="text-[9px] text-purple-400 font-bold uppercase block tracking-wider">{policy.title}</span>
+                  <p className="text-zinc-400 text-[10px] font-sans leading-relaxed">{policy.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
 

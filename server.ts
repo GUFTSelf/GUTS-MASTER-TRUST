@@ -112,6 +112,20 @@ app.get("/api/ledger", (req, res) => {
   res.json({ ledger: auditLedger });
 });
 
+app.get("/api/metadata", (req, res) => {
+  const metadataPath = path.join(process.cwd(), "evaluation-kit/output/metadata.json");
+  if (fs.existsSync(metadataPath)) {
+    try {
+      const data = fs.readFileSync(metadataPath, "utf-8");
+      res.json(JSON.parse(data));
+    } catch (err: any) {
+      res.status(500).json({ error: "Failed to parse metadata: " + err.message });
+    }
+  } else {
+    res.status(404).json({ error: "Metadata file not found." });
+  }
+});
+
 app.get("/api/evaluation-report", (req, res) => {
   const reportPath = path.join(process.cwd(), "evaluation-kit/output/evaluation_report.json");
   if (fs.existsSync(reportPath)) {

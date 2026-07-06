@@ -15,6 +15,8 @@ import CimMatrix from "./components/CimMatrix";
 import Contact from "./components/Contact";
 import { VerificationReport, AuditRecord } from "./types";
 import { AVATAR_PRESETS, getSvgDataUrl } from "./lib/avatarPresets";
+import { exportAuditReceipt, ProgressStep, MASTER_AUDIT_RECEIPT } from "./lib/pdfGenerator";
+import { runPdfGeneratorTests, TestCaseResult } from "./lib/pdfGenerator.test";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<string>("Dashboard");
@@ -41,6 +43,40 @@ export default function App() {
   const [apiEndpoint, setApiEndpoint] = useState<string>("/vek/verify");
   const [simApiLoading, setSimApiLoading] = useState(false);
   const [simApiResponse, setSimApiResponse] = useState<any>(null);
+
+  // PDF receipt generation & testing states
+  const [pdfProgress, setPdfProgress] = useState<ProgressStep | null>(null);
+  const [pdfGenerating, setPdfGenerating] = useState(false);
+  const [testResults, setTestResults] = useState<TestCaseResult[] | null>(null);
+  const [runningTests, setRunningTests] = useState(false);
+
+  // Handlers for PDF generation and compliance unit testing
+  const handleDownloadReceipt = async () => {
+    setPdfGenerating(true);
+    setPdfProgress({ percent: 0, message: "Initializing audit pipeline..." });
+    try {
+      await exportAuditReceipt(MASTER_AUDIT_RECEIPT, (step) => {
+        setPdfProgress(step);
+      });
+    } catch (err) {
+      console.error("PDF download failed:", err);
+    } finally {
+      setTimeout(() => {
+        setPdfGenerating(false);
+        setPdfProgress(null);
+      }, 1000);
+    }
+  };
+
+  const handleRunTests = () => {
+    setRunningTests(true);
+    setTestResults(null);
+    setTimeout(() => {
+      const results = runPdfGeneratorTests();
+      setTestResults(results);
+      setRunningTests(false);
+    }, 800);
+  };
 
   // Load audit ledger initial data
   const fetchLedger = async () => {
@@ -499,6 +535,128 @@ export default function App() {
                   </tbody>
                 </table>
               </div>
+            </div>
+
+            {/* Cryptographic Receipt & Unit Testing Suite */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
+              
+              {/* Receipt Generator Card */}
+              <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5 flex flex-col justify-between space-y-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="w-4 h-4 text-blue-500" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                      Master Audit Receipt Compiler
+                    </h3>
+                  </div>
+                  <p className="text-zinc-400 text-[11px] leading-relaxed">
+                    Compile the sealed VEK Truth Kernel execution state, root hashes, and environment variables into a formatted PDF document. Includes cryptographic signatures and full compliance indicators matching NIST and SLSA specifications.
+                  </p>
+                </div>
+
+                {/* Progress Indicator */}
+                {pdfGenerating && pdfProgress && (
+                  <div className="bg-black/60 border border-zinc-800 p-3.5 rounded space-y-2.5">
+                    <div className="flex justify-between items-center text-[10px]">
+                      <span className="text-blue-400 font-bold animate-pulse">
+                        {pdfProgress.message}
+                      </span>
+                      <span className="text-zinc-300 font-semibold font-mono">
+                        {pdfProgress.percent}%
+                      </span>
+                    </div>
+                    <div className="w-full bg-[#18181b] h-1.5 rounded-full overflow-hidden">
+                      <div 
+                        className="bg-blue-500 h-full transition-all duration-300 rounded-full" 
+                        style={{ width: `${pdfProgress.percent}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-2 border-t border-[#27272a]/60">
+                  <button
+                    id="download-receipt-btn"
+                    onClick={handleDownloadReceipt}
+                    disabled={pdfGenerating}
+                    className="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-[#18181b] disabled:text-zinc-600 text-white font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition duration-200 uppercase tracking-widest text-[11px]"
+                  >
+                    {pdfGenerating ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Generating Receipt...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-4 h-4" />
+                        <span>Download Audit Receipt</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Unit Testing Suite Card */}
+              <div className="bg-[#0c0c0e] border border-[#27272a] rounded-lg p-5 flex flex-col justify-between space-y-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Code className="w-4 h-4 text-emerald-500" />
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                      Audit Validator Unit Tests
+                    </h3>
+                  </div>
+                  <p className="text-zinc-400 text-[11px] leading-relaxed">
+                    Execute the verification test suite on the PDF generation parsing logic. Verifies zero-truncation hash splitters, NIST-compliant multi-framework JSON object traversal, and master state invariants.
+                  </p>
+                </div>
+
+                {/* Live Test Case Output */}
+                {testResults && (
+                  <div className="bg-black/55 border border-zinc-800 rounded p-3 space-y-2 max-h-[140px] overflow-y-auto scrollbar-thin">
+                    <div className="text-[10px] text-zinc-400 font-bold border-b border-zinc-800 pb-1 mb-1 flex justify-between">
+                      <span>TEST SPECIFICATION</span>
+                      <span className="text-emerald-400">CI READY</span>
+                    </div>
+                    {testResults.map((test, idx) => (
+                      <div key={idx} className="flex items-start justify-between gap-3 text-[10px] leading-tight py-0.5">
+                        <div className="space-y-0.5">
+                          <span className="text-zinc-200 font-semibold">{test.name}</span>
+                          <span className="text-zinc-500 text-[9px] block">{test.message}</span>
+                        </div>
+                        <span className={`px-1.5 py-0.5 rounded font-bold uppercase text-[8px] shrink-0 ${
+                          test.status === "PASS"
+                            ? "bg-emerald-950/20 text-emerald-400 border border-emerald-500/10"
+                            : "bg-red-950/20 text-red-400 border border-red-500/10"
+                        }`}>
+                          {test.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="pt-2 border-t border-[#27272a]/60">
+                  <button
+                    id="run-tests-btn"
+                    onClick={handleRunTests}
+                    disabled={runningTests}
+                    className="w-full bg-[#18181b] hover:bg-[#27272a] text-zinc-300 border border-[#27272a] font-bold py-2.5 px-4 rounded flex items-center justify-center gap-2 transition duration-200 uppercase tracking-widest text-[11px]"
+                  >
+                    {runningTests ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin text-emerald-500" />
+                        <span>Running Test Harness...</span>
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle className="w-4 h-4 text-emerald-500" />
+                        <span>Run Verification Tests</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
             </div>
           </div>
         )}

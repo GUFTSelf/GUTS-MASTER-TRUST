@@ -15,6 +15,7 @@
     "execute": "tsx scripts/execute.ts",
     "replay": "tsx scripts/replay.ts",
     "verify": "tsx scripts/verify-bundle.ts",
+    "test-determinism": "tsx scripts/test-determinism.ts",
     "verify-audit": "tsx vek-verify/cli.ts",
     "benchmark": "node examples/run_benchmarks.js",
     "stress-test": "node examples/run_stress_tests.js",

@@ -1,12 +1,12 @@
 {
-  "report_id": "REP-394071",
-  "timestamp": "2026-07-06T18:02:03.882Z",
+  "report_id": "REP-872810",
+  "timestamp": "2026-07-06T18:31:41.210Z",
   "input": "{\"altitude\":180,\"lidarProximity\":45,\"batteryState\":92,\"gpsConnected\":true,\"windSpeed\":12}",
   "output": "GPS navigation signal locked and tracking accurately.",
   "metadata": {
-    "sessionID": "SES-81603-VEK",
-    "traceID": "TR-7734-CLI",
-    "timestamp": "6:02:03 PM",
+    "sessionID": "SES-63230-VEK",
+    "traceID": "TR-3147-CLI",
+    "timestamp": "6:31:41 PM",
     "isRealGemini": false,
     "processingTimeMs": 14
   },
@@ -69,7 +69,7 @@
     "Authorize autonomous maneuvers"
   ],
   "integrity_evidence": {
-    "signature": "671561241a3c1526e02efbeae36e851cf7fe241b43bdd071cd11e89f2962bca3e5593cbbaa78229b9904412115987d89339dc549c6aa3bb9ae6db47cce097273e73c05c61079febd8dc6b0a78441bd3e1f7bd660454729db2ff50adebae2d353adaf784992be9f4050f70cb2a0a451e478fc54af70db0a9ddadfd448fc3be608f4b0654e2ee09dfc17fcb3413ac7fd87edbd56814cddacf37783afcb466565003294782ca9653f58d6ca93519b8675184a840d20462cfedcaf470f3774f26131e7ae619c98a00a2c3d74a96b7caae0e7e58135060a31684d2abd2ca567629c01265a60e92780f9cc0a135bda5bc4bcef1e7cfcabe04f64249940e7213aa68984",
+    "signature": "1829d62fee06231fbc4fa666ff13bda8d54ed556adfe73d118eb983529efc637dbaba7c79818aebf2b651963afc2fb2fa01d35576bcf324d8d1c6118cfbe5c7300dd8c37074ce95b4381c9ccf7f901fb6a9a23d8812730a54666368aa5f835787d06d4966fc5f6596883d07e32a2c22ad4c6e1ee91bd967f5225a4946d241ed9aae981d7141e66cd475318fd355fb74fe6e8b21a95c7caf38cea23d49b875b5e75b366e20f3c1385a4158842308f83005faae2da1e24b84bcbeed86206c3950f8430a92033d5b38f56552c2914cd58ae7796e4a278ef919f0efb6f2d1804e8f1378e5d6c24206e53933c36eebe8b86d0e201ce1d49109e560511be14b83bb384",
     "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n",
     "trace_hash": "083220d66816c6caa47c4b794e85c4421be35d80c2162bc1fa9dd9d8db107e97",
     "zk_proof": {

@@ -167,9 +167,11 @@ export function executeStep(
 
   // Simulate threat model injections if specified
   if (adversarialFault === "inject_fault" && instruction === "SET_ALTITUDE") {
+    parameters.altitude = 480;
     vars.altitude = 480; // Intentional ceiling breach
   }
   if (adversarialFault === "modify_transition" && instruction === "SIMULATE_ABSORPTION_DRIVES") {
+    parameters.serumAbsorption = 92.4;
     vars.serumAbsorption = 92.4; // Serum toxicity limit breach
   }
 

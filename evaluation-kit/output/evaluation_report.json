@@ -1,20 +1,20 @@
 {
-  "report_id": "REP-267181",
-  "timestamp": "2026-07-06T20:06:11.433Z",
+  "report_id": "REP-704655",
+  "timestamp": "2026-07-06T20:10:08.599Z",
   "input": "{\"altitude\":180,\"lidarProximity\":45,\"batteryState\":92,\"gpsConnected\":true,\"windSpeed\":12}",
   "output": "GPS navigation signal locked and tracking accurately.",
   "metadata": {
-    "sessionID": "SES-65356-VEK",
-    "traceID": "TR-1878-CLI",
-    "timestamp": "8:06:11 PM",
+    "sessionID": "SES-31386-VEK",
+    "traceID": "TR-8380-CLI",
+    "timestamp": "8:10:08 PM",
     "isRealGemini": false,
     "processingTimeMs": 14
   },
   "verification": {
     "status": "PASS",
-    "executionHash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
-    "replayHash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
-    "decisionHash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
+    "executionHash": "4d9db18e86c102d080ee176eaef1186f5b66f8a6dcdce75f505d0cfd935cd44b",
+    "replayHash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
+    "decisionHash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
     "constraintStatus": "PASS",
     "constraintChecks": [
       {
@@ -69,12 +69,12 @@
     "Authorize autonomous maneuvers"
   ],
   "integrity_evidence": {
-    "signature": "1d477433144521d9fd96d4261a275d5de21e156f817dc95d04f1fe8d0a9d1ed646e83270d86b99fa34efddfdcbc4a33359ac81733d67e67c9546966d2ffc1c6f1a4ab89ecbd51418d0df875c6308c5bab2eff89bef1dcc54d0e8f91e2670e9f5badf92e5ef9cdaed0f931e8c097bc18f3764ad7218dfacc6d1d069d1905582c2b535c4b074031d193ab78889cba94b6afa93f201a002006fc02a197743dbd1d30bf9ecccc55b68ef81bbfa9f187a4730a1977e697161a2887efebf51f26280d5fb638e6f6246dfbdeb99533f7e906b1927fa9cf5ec433c6cf7c6bfbbae3a6ff02e8b789dd7eab828ec01645c2975b0eda53ac6cee7121fe7caadf8365cea7c64",
+    "signature": "2f179381f65ee396a0ed20a6a4a0b451ce2c699442ace81600b010ed643121dc3c2024cf08ed3ef2dd8420b8e67d1379146b89a8bc1c6779c59465f6564839e811a39ea1e9bffbb196f786a6360d1b6ae8298390a7e8a0b961c3984288df6e5f02ff5c8a7021caf2835b0562c9ebe12e4416dfb4ceb6115931126a4334ca5d194b2b19d8ec815a5f597087e1f6cb001d753da8bbda1af7058ec6081777fc1803134148c846e88674b4bde20b0a814a8a824630d99a5b5bfd6c793161f849e3931a33670a24615d80ca6eca6cb32282891cad1246d8df74d1fb7d9fdb4328a48d4f22e09331f474e007de7a50ad19b75eb90d319fa7aceac1b9cb40c5bbaef52f",
     "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n",
-    "trace_hash": "2e765e1ca6003dc4638c84730ae6d2a2a7817b4ce1c5ba65439e4e31aee2887e",
+    "trace_hash": "57506d1e4669388c22923726c5164d5d3c2d704081279535c69a13df515f3774",
     "zk_proof": {
-      "commitment_chain": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4:ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5:17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489:08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0:505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
-      "witness_root": "64ad55d3f0fb657d340bc6b7c4bd27bd4f7a8165380ac7205490527d4dd73185"
+      "commitment_chain": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9:ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6:3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08:ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73:f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
+      "witness_root": "16a86147b6400d09dac7ff7e674f1f214b5630d58e31a57c4290d3b0488c8e2f"
     }
   }
 }

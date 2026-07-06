@@ -1,6 +1,12 @@
 import { ConstraintCheck } from "../types";
 import { sha512 } from "js-sha512";
 
+export interface EpoSignature {
+  algorithm: string;
+  public_key: string;
+  signature: string;
+}
+
 export interface ExecutionProofObject {
   epo_version: string;
   kernel_version: string;
@@ -22,7 +28,7 @@ export interface ExecutionProofObject {
     input_hash: string;
   }[];
   proof_hash: string;
-  signature?: string;
+  signature?: string | EpoSignature;
   publicKey?: string;
 }
 
@@ -85,13 +91,13 @@ export function sha256Sync(str: string): string {
 
   const hash = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
 
-  const words: number[] = [];
   const utf8 = unescape(encodeURIComponent(str));
+  const bits = utf8.length * 8;
+  const words: number[] = new Array((((bits + 64) >>> 9) << 4) + 16).fill(0);
   for (let i = 0; i < utf8.length; i++) {
     words[i >>> 2] |= utf8.charCodeAt(i) << (24 - (i % 4) * 8);
   }
 
-  const bits = utf8.length * 8;
   words[bits >>> 5] |= 0x80 << (24 - (bits % 32));
   words[(((bits + 64) >>> 9) << 4) + 15] = bits;
 
@@ -513,7 +519,7 @@ export function executeVek(
   }));
 
   const epo_without_proof_hash = {
-    epo_version: "1.0",
+    epo_version: "2.1",
     kernel_version: "vek-2.4.0",
     domain,
     execution_id,
@@ -666,8 +672,32 @@ export function verifyEpoV1(epo: ExecutionProofObject): { success: boolean; reas
   }
 
   // Cryptographic Signature verification
-  if (epo.signature && epo.publicKey) {
+  if (epo.signature) {
     let isSignatureValid = false;
+    let signatureStr: string | undefined;
+    let publicKeyStr: string | undefined;
+    let payloadToVerify: any;
+
+    if (epo.epo_version === "2.1" && typeof epo.signature === "object" && epo.signature !== null) {
+      const sigObj = epo.signature as EpoSignature;
+      signatureStr = sigObj.signature;
+      publicKeyStr = sigObj.public_key;
+      payloadToVerify = {
+        message: `${epo.execution_id}:${epo.proof_hash}:${epo.final_state_hash}`
+      };
+    } else if (typeof epo.signature === "string") {
+      signatureStr = epo.signature;
+      publicKeyStr = epo.publicKey;
+      payloadToVerify = { proof_hash: epo.proof_hash };
+    }
+
+    if (!signatureStr || !publicKeyStr) {
+      return {
+        success: false,
+        reason: "Unsealed EPO: Portable Truth Container signature structure is incomplete."
+      };
+    }
+
     try {
       // Dynamically load in Node environment to keep client/browser bundle clean
       let localRequire = require;
@@ -679,11 +709,12 @@ export function verifyEpoV1(epo: ExecutionProofObject): { success: boolean; reas
         // Fallback to global require if custom require creation fails
       }
       const cryptoMod = localRequire("../crypto/report_signer");
-      isSignatureValid = cryptoMod.verifyReportSignature({ proof_hash: epo.proof_hash }, epo.signature, epo.publicKey);
+      isSignatureValid = cryptoMod.verifyReportSignature(payloadToVerify, signatureStr, publicKeyStr);
     } catch (e) {
       // Fallback gracefully in browser/Vite context
       isSignatureValid = true;
     }
+
     if (!isSignatureValid) {
       return {
         success: false,

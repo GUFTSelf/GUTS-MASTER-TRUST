@@ -134,11 +134,17 @@ try {
 
   // === PIPELINE STEP 4: EPO SEALING ===
   if (trace.epo) {
-    console.log("[SECURITY] Cryptographically signing Portable Truth Container (EPO v1)...");
-    const { signature, publicKey } = signReport({ proof_hash: trace.epo.proof_hash });
-    trace.epo.signature = signature;
-    trace.epo.publicKey = publicKey;
-    console.log("\x1b[32m✔ [EPO SEAL] RSA signature seal appended to verification payload.\x1b[0m");
+    console.log("[SECURITY] Cryptographically signing Portable Truth Container (EPO v2.1)...");
+    const signPayload = {
+      message: `${trace.epo.execution_id}:${trace.epo.proof_hash}:${trace.epo.final_state_hash}`
+    };
+    const { signature, publicKey } = signReport(signPayload);
+    trace.epo.signature = {
+      algorithm: "rsa-sha256",
+      public_key: publicKey,
+      signature: signature
+    };
+    console.log("\x1b[32m✔ [EPO SEAL] RSA signature seal appended to verification payload under EPO v2.1 format.\x1b[0m");
   }
 
   // Write trace out to trace.json
@@ -151,19 +157,20 @@ try {
     console.log(`\x1b[32m✔ Deterministic trace log written to directory: ${path.join(outputDir, "trace.json")}\x1b[0m`);
   }
 
-  // Write Execution Proof Object (EPO v1) out to epo_v1.json and evaluation-kit/output/epo_v1.json
+  // Write Execution Proof Object (EPO v2.1) out to epo_v2.json, epo_v1.json and evaluation-kit/output
   if (trace.epo) {
-    const epoFile = "epo_v1.json";
-    fs.writeFileSync(epoFile, JSON.stringify(trace.epo, null, 2));
-    console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) written to: ${epoFile}\x1b[0m`);
+    fs.writeFileSync("epo_v2.json", JSON.stringify(trace.epo, null, 2));
+    fs.writeFileSync("epo_v1.json", JSON.stringify(trace.epo, null, 2));
+    console.log(`\x1b[32m✔ Execution Proof Object (EPO v2.1) written to: epo_v2.json and epo_v1.json\x1b[0m`);
 
     fs.mkdirSync("evaluation-kit/output", { recursive: true });
+    fs.writeFileSync("evaluation-kit/output/epo_v2.json", JSON.stringify(trace.epo, null, 2));
     fs.writeFileSync("evaluation-kit/output/epo_v1.json", JSON.stringify(trace.epo, null, 2));
-    console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) cloned to: evaluation-kit/output/epo_v1.json\x1b[0m`);
+    console.log(`\x1b[32m✔ Execution Proof Object (EPO v2.1) cloned to: evaluation-kit/output/epo_v2.json\x1b[0m`);
 
     if (outputDir) {
       fs.writeFileSync(path.join(outputDir, "epo.json"), JSON.stringify(trace.epo, null, 2));
-      console.log(`\x1b[32m✔ Execution Proof Object (EPO v1) written to directory: ${path.join(outputDir, "epo.json")}\x1b[0m`);
+      console.log(`\x1b[32m✔ Execution Proof Object (EPO v2.1) written to directory: ${path.join(outputDir, "epo.json")}\x1b[0m`);
       
       // Also write expected_epo.json and expected_trace.json just in case
       fs.writeFileSync(path.join(outputDir, "expected_epo.json"), JSON.stringify(trace.epo, null, 2));

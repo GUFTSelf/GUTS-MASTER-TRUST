@@ -91,11 +91,18 @@ if (hash1 && hash2 && hash1 === hash2) {
 console.log("\n\x1b[33m[TEST 4] Tampering with Cryptographic Signature / Public Key Seal... \x1b[0m");
 const tamperedEpo4 = JSON.parse(JSON.stringify(baseEpo));
 if (tamperedEpo4.signature) {
-  // Flip the last character of the signature string to invalidate it
-  const sigLen = tamperedEpo4.signature.length;
-  const lastChar = tamperedEpo4.signature[sigLen - 1];
-  const newChar = lastChar === "a" ? "b" : "a";
-  tamperedEpo4.signature = tamperedEpo4.signature.substring(0, sigLen - 1) + newChar;
+  if (typeof tamperedEpo4.signature === "object" && tamperedEpo4.signature !== null) {
+    const sigLen = tamperedEpo4.signature.signature.length;
+    const lastChar = tamperedEpo4.signature.signature[sigLen - 1];
+    const newChar = lastChar === "a" ? "b" : "a";
+    tamperedEpo4.signature.signature = tamperedEpo4.signature.signature.substring(0, sigLen - 1) + newChar;
+  } else if (typeof tamperedEpo4.signature === "string") {
+    // Flip the last character of the signature string to invalidate it
+    const sigLen = tamperedEpo4.signature.length;
+    const lastChar = tamperedEpo4.signature[sigLen - 1];
+    const newChar = lastChar === "a" ? "b" : "a";
+    tamperedEpo4.signature = tamperedEpo4.signature.substring(0, sigLen - 1) + newChar;
+  }
 }
 
 const verificationResult4 = verifyEpoV1(tamperedEpo4);

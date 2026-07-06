@@ -37,9 +37,9 @@ try {
   const rawReport = fs.readFileSync(reportPath, "utf-8");
   const report = JSON.parse(rawReport);
 
-  // Check if it is an Execution Proof Object (EPO v1)
-  if (report.epo_version === "1.0") {
-    console.log("\n\x1b[34m[SYSTEM] Detected Execution Proof Object (EPO v1) format.\x1b[0m");
+  // Check if it is an Execution Proof Object (EPO v1 or v2.1)
+  if (report.epo_version === "1.0" || report.epo_version === "2.1") {
+    console.log(`\n\x1b[34m[SYSTEM] Detected Execution Proof Object (EPO v${report.epo_version}) format.\x1b[0m`);
     console.log(`  - Kernel Version    : \x1b[1m${report.kernel_version}\x1b[0m`);
     console.log(`  - Domain            : \x1b[1m${report.domain}\x1b[0m`);
     console.log(`  - Execution ID      : \x1b[36m${report.execution_id}\x1b[0m`);

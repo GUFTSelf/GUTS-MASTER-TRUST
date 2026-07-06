@@ -1,0 +1,87 @@
+{
+  "epo_version": "2.1",
+  "kernel_version": "vek-2.4.0",
+  "domain": "uas-route",
+  "execution_id": "8934891a8ac328fa22637a65448fdf6db25e2e712d7c0ccf724835d3051ecdc5",
+  "seed": "THOEUN-THEN-SECURE-SEED-99",
+  "initial_state_hash": "4d9db18e86c102d080ee176eaef1186f5b66f8a6dcdce75f505d0cfd935cd44b",
+  "final_state_hash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
+  "inputs": [
+    {
+      "step": 1,
+      "command": "INITIALIZE_FLIGHT_STATE",
+      "payload_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "payload": {}
+    },
+    {
+      "step": 2,
+      "command": "SET_ALTITUDE",
+      "payload_hash": "185f0e626abb996a16fdbc570731590f24ffb5c27e21309e749b9e298a0209a6",
+      "payload": {
+        "altitude": 250
+      }
+    },
+    {
+      "step": 3,
+      "command": "CHECK_LIDAR_PROXIMITY",
+      "payload_hash": "4bb9105664be804fa8a3039dd222123b5a4b811d8a093f4a07a100709782352d",
+      "payload": {
+        "lidarProximity": 45
+      }
+    },
+    {
+      "step": 4,
+      "command": "VALIDATE_BATTERY_CHARGE",
+      "payload_hash": "2bdb6332fd7c12112784bbdd61e383b2e53b232d7c876156ed3a1781ac312e8d",
+      "payload": {
+        "batteryState": 88
+      }
+    },
+    {
+      "step": 5,
+      "command": "CHECK_GPS_SIGNAL",
+      "payload_hash": "5b609f0c6d58374040ade5baa897257137a95b594af9680fc0c919aa15b839aa",
+      "payload": {
+        "gpsConnected": true
+      }
+    }
+  ],
+  "trace": [
+    {
+      "step": 1,
+      "prev_hash": "4d9db18e86c102d080ee176eaef1186f5b66f8a6dcdce75f505d0cfd935cd44b",
+      "state_hash": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9",
+      "input_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "step": 2,
+      "prev_hash": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9",
+      "state_hash": "ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6",
+      "input_hash": "185f0e626abb996a16fdbc570731590f24ffb5c27e21309e749b9e298a0209a6"
+    },
+    {
+      "step": 3,
+      "prev_hash": "ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6",
+      "state_hash": "3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08",
+      "input_hash": "4bb9105664be804fa8a3039dd222123b5a4b811d8a093f4a07a100709782352d"
+    },
+    {
+      "step": 4,
+      "prev_hash": "3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08",
+      "state_hash": "ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73",
+      "input_hash": "2bdb6332fd7c12112784bbdd61e383b2e53b232d7c876156ed3a1781ac312e8d"
+    },
+    {
+      "step": 5,
+      "prev_hash": "ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73",
+      "state_hash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
+      "input_hash": "5b609f0c6d58374040ade5baa897257137a95b594af9680fc0c919aa15b839aa"
+    }
+  ],
+  "proof_hash": "361a44d7ce7405476c9be77df18034758eaf6b76f4db8e0e9d7dff1d527a68384b786940fbcb1feb81e314902999f33814ad8e7f429892a100ffdca6aee1db2c",
+  "signature": {
+    "algorithm": "rsa-sha256",
+    "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n",
+    "signature": "55385646db08f4e269248c3e4a227c1ec137233da03464ed340d90559f165f35247162ba92977d0daba09f49f79f92b5c59b03d91d0f94ed13bd1440b3763d64d260dc986e6db99012c90afd58c8ff721944c27d5a04610dd8d92db035198d22aad7c8c1e3358f770aa0c866c45c5e6e8e7ae8bd25e428cb72d58f6f0c84e591afb956e29bd4ed2f12bf38759e757b4327fa5f72f151a444a04addd71598e87a50c382514fc6aec54b3da605f02799fe89102048f7db50d368e4ba1e7187aa8eafae1be415be5ddfdf94abbbae4c0888519b86a12eed26605f87fd747f82122a573bdd54720dcb0275adaee49d0718bb6d7f2faa1011f140c1887a008077b38a"
+  }
+}

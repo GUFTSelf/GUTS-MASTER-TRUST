@@ -12,8 +12,8 @@
     {
       "id": "Step-001",
       "instruction": "INITIALIZE_FLIGHT_STATE",
-      "preStateHash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
-      "postStateHash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
+      "preStateHash": "4d9db18e86c102d080ee176eaef1186f5b66f8a6dcdce75f505d0cfd935cd44b",
+      "postStateHash": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9",
       "status": "PASS",
       "description": "Flight parameters loaded to state variables.",
       "variablesSnap": {
@@ -29,8 +29,8 @@
     {
       "id": "Step-002",
       "instruction": "SET_ALTITUDE",
-      "preStateHash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
-      "postStateHash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
+      "preStateHash": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9",
+      "postStateHash": "ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6",
       "status": "PASS",
       "description": "Altitude set smoothly to 250ft.",
       "variablesSnap": {
@@ -46,8 +46,8 @@
     {
       "id": "Step-003",
       "instruction": "CHECK_LIDAR_PROXIMITY",
-      "preStateHash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
-      "postStateHash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
+      "preStateHash": "ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6",
+      "postStateHash": "3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08",
       "status": "PASS",
       "description": "No obstructions found. LiDAR scan clear at 45m.",
       "variablesSnap": {
@@ -63,8 +63,8 @@
     {
       "id": "Step-004",
       "instruction": "VALIDATE_BATTERY_CHARGE",
-      "preStateHash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
-      "postStateHash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
+      "preStateHash": "3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08",
+      "postStateHash": "ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73",
       "status": "PASS",
       "description": "Power reserves optimal. Battery SoC is 88%.",
       "variablesSnap": {
@@ -80,8 +80,8 @@
     {
       "id": "Step-005",
       "instruction": "CHECK_GPS_SIGNAL",
-      "preStateHash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
-      "postStateHash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
+      "preStateHash": "ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73",
+      "postStateHash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
       "status": "PASS",
       "description": "GPS navigation signal locked and tracking accurately.",
       "variablesSnap": {
@@ -113,24 +113,24 @@
     "stateDivergenceIndex": 0
   },
   "epo": {
-    "epo_version": "1.0",
+    "epo_version": "2.1",
     "kernel_version": "vek-2.4.0",
     "domain": "uas-route",
-    "execution_id": "78dcce357bd19fa316beb9b078fbf2ab0c849207dd44123720f8898c41400a7f",
+    "execution_id": "8934891a8ac328fa22637a65448fdf6db25e2e712d7c0ccf724835d3051ecdc5",
     "seed": "THOEUN-THEN-SECURE-SEED-99",
-    "initial_state_hash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
-    "final_state_hash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
+    "initial_state_hash": "4d9db18e86c102d080ee176eaef1186f5b66f8a6dcdce75f505d0cfd935cd44b",
+    "final_state_hash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
     "inputs": [
       {
         "step": 1,
         "command": "INITIALIZE_FLIGHT_STATE",
-        "payload_hash": "44699ca97fd77bd39d62e46b4f964f2630b373f7a125a120abf1e752071f1ad2",
+        "payload_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
         "payload": {}
       },
       {
         "step": 2,
         "command": "SET_ALTITUDE",
-        "payload_hash": "0c415e083e3593642e64f5efb8c4d7017bb5e26b9778e675ec3c9758ffb4e657",
+        "payload_hash": "185f0e626abb996a16fdbc570731590f24ffb5c27e21309e749b9e298a0209a6",
         "payload": {
           "altitude": 250
         }
@@ -138,7 +138,7 @@
       {
         "step": 3,
         "command": "CHECK_LIDAR_PROXIMITY",
-        "payload_hash": "020f93c5933ba462ffd030fb4a0c57af001ce0123e14974fa772d468aa0f479f",
+        "payload_hash": "4bb9105664be804fa8a3039dd222123b5a4b811d8a093f4a07a100709782352d",
         "payload": {
           "lidarProximity": 45
         }
@@ -146,7 +146,7 @@
       {
         "step": 4,
         "command": "VALIDATE_BATTERY_CHARGE",
-        "payload_hash": "c887f87431697a152aa8e9e79e4bfa87419c14492cb4f8f3220f3a3ed08dcffe",
+        "payload_hash": "2bdb6332fd7c12112784bbdd61e383b2e53b232d7c876156ed3a1781ac312e8d",
         "payload": {
           "batteryState": 88
         }
@@ -154,7 +154,7 @@
       {
         "step": 5,
         "command": "CHECK_GPS_SIGNAL",
-        "payload_hash": "3fd2fb19b247ff43f45802f5ef2f132c6bf477d5d5ef918761ce6151eb4494fb",
+        "payload_hash": "5b609f0c6d58374040ade5baa897257137a95b594af9680fc0c919aa15b839aa",
         "payload": {
           "gpsConnected": true
         }
@@ -163,37 +163,40 @@
     "trace": [
       {
         "step": 1,
-        "prev_hash": "88e641cb1daa82f800dbf7c68c3da1234b90e0f27702d22c43754c28a200c3e7",
-        "state_hash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
-        "input_hash": "44699ca97fd77bd39d62e46b4f964f2630b373f7a125a120abf1e752071f1ad2"
+        "prev_hash": "4d9db18e86c102d080ee176eaef1186f5b66f8a6dcdce75f505d0cfd935cd44b",
+        "state_hash": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9",
+        "input_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
       },
       {
         "step": 2,
-        "prev_hash": "ac10f86c550720197ca7dc04acc7f6b525f06357c6a4d245083485ce2d5f17f4",
-        "state_hash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
-        "input_hash": "0c415e083e3593642e64f5efb8c4d7017bb5e26b9778e675ec3c9758ffb4e657"
+        "prev_hash": "9391550b188bb3d0be37917f3270600c14be80415625ece28d3459ecf3f0b2b9",
+        "state_hash": "ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6",
+        "input_hash": "185f0e626abb996a16fdbc570731590f24ffb5c27e21309e749b9e298a0209a6"
       },
       {
         "step": 3,
-        "prev_hash": "ca3607f40265e368235b1a16d1e45619cccde99a5e0eced94ea82b2b3748d2e5",
-        "state_hash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
-        "input_hash": "020f93c5933ba462ffd030fb4a0c57af001ce0123e14974fa772d468aa0f479f"
+        "prev_hash": "ff686b2ac3d4973fd319ba955ec00606a865948f403e7b69090fc57e9277dce6",
+        "state_hash": "3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08",
+        "input_hash": "4bb9105664be804fa8a3039dd222123b5a4b811d8a093f4a07a100709782352d"
       },
       {
         "step": 4,
-        "prev_hash": "17140556bd3a66ee7ff2b2bce2e85ab425ad5ae1b59ad078534f2300f3452489",
-        "state_hash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
-        "input_hash": "c887f87431697a152aa8e9e79e4bfa87419c14492cb4f8f3220f3a3ed08dcffe"
+        "prev_hash": "3e152858c7987abe1283973e3b7fdf63ed032c1b304bad451ecc6a4f11213a08",
+        "state_hash": "ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73",
+        "input_hash": "2bdb6332fd7c12112784bbdd61e383b2e53b232d7c876156ed3a1781ac312e8d"
       },
       {
         "step": 5,
-        "prev_hash": "08f3a3673899269e068ae6200e253dbd2bbfe2992e7d74ca8c1762bebc7bb6e0",
-        "state_hash": "505f3398f7bbf2d1e5b8f05e566d24f7d4c6c1e87a1380b390c74cc45d505c14",
-        "input_hash": "3fd2fb19b247ff43f45802f5ef2f132c6bf477d5d5ef918761ce6151eb4494fb"
+        "prev_hash": "ae2bbfb2af7612e2776a19584551708879c796d8b785238ee86cb86cdc6ceb73",
+        "state_hash": "f579aa0cef4bc8e30c16d9380f64b5bb8321b5684ca24f138378bc09ec2e6ac4",
+        "input_hash": "5b609f0c6d58374040ade5baa897257137a95b594af9680fc0c919aa15b839aa"
       }
     ],
-    "proof_hash": "23642ceaf3859344c332f6b749e582bcc67678e4253d159a10c59839d5ce74861bcb9148f64c88e8fd8c6742d5e34d8a4aa8bbdc3462366c01e12c08a96c66d6",
-    "signature": "1252a95a6b92ff5650914d8bc044ecd101bea3f1d954c7f68c32e94a1eae442d337b7bd4c74fe21423b9c995b31fd2e70ddd4ac44423646f93bf1d3ccb25079997d1c96e4d48debb145e7fdbcc87e6cc0d92c96a31e93fe3b7d10a1b33c6d85381f2c18d7fd88e8c11620117f3c6ae5f43e026392fe43e7f192821577348359c82bc29640802d7343fa0d1d74ad242f08d2bcbcf47e4795930e02cf44afa5aaf1850a01161d67aba3815c251c88dcf9551897d5c47467ed69eeb41a4c15dd06e721e9c9455e11901ee898b0603d40d3959cd6a7a2c73a83d640617559472c6a6549d678d96ae85faea6ba898bcff9a706c51f401a627d741eb99bb9b385e0adf",
-    "publicKey": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n"
+    "proof_hash": "361a44d7ce7405476c9be77df18034758eaf6b76f4db8e0e9d7dff1d527a68384b786940fbcb1feb81e314902999f33814ad8e7f429892a100ffdca6aee1db2c",
+    "signature": {
+      "algorithm": "rsa-sha256",
+      "public_key": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjmQmgm5tYhrNp7s54E7s\nMj0h66znkDDbeYSQUvc0DJQDIlWr1omWYZFh5W3TAIj1mlvHcNFJckYYp4SdFlfj\nc95fFkGc88livU1hkRQKrDX5ZB2+BroyJ/DEAk+LG7zA9XREKwaeXG2MWINgZNv6\nPil85be2uGN2UhUQwP8gSn57CEFw7PWv9cfmlWAbjNDgy8HSMKhx3usqbssobF/2\nAdqrZEXZL5wmuhrIfruO2HYqoNVl3FGN6lqwDg2n++xKCpqjwVQ2B+U4WJoOSa5V\npm/XEsyVPEyQwNEieBIhh/5YZBBMb29gCQTAGGGjEOFozmgkXZhjPA7DZRP1+uLC\naQIDAQAB\n-----END PUBLIC KEY-----\n",
+      "signature": "55385646db08f4e269248c3e4a227c1ec137233da03464ed340d90559f165f35247162ba92977d0daba09f49f79f92b5c59b03d91d0f94ed13bd1440b3763d64d260dc986e6db99012c90afd58c8ff721944c27d5a04610dd8d92db035198d22aad7c8c1e3358f770aa0c866c45c5e6e8e7ae8bd25e428cb72d58f6f0c84e591afb956e29bd4ed2f12bf38759e757b4327fa5f72f151a444a04addd71598e87a50c382514fc6aec54b3da605f02799fe89102048f7db50d368e4ba1e7187aa8eafae1be415be5ddfdf94abbbae4c0888519b86a12eed26605f87fd747f82122a573bdd54720dcb0275adaee49d0718bb6d7f2faa1011f140c1887a008077b38a"
+    }
   }
 }

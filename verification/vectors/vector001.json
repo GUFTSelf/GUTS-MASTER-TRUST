@@ -1,0 +1,30 @@
+{
+  "vector_id": "VEC-001",
+  "domain": "uas-route",
+  "name": "Aerospace UAV Flight Route Test Vector",
+  "seed": "VEK-UAS-SEED-999",
+  "initial_state": {
+    "altitude": 100,
+    "lidarProximity": 50,
+    "batteryState": 100,
+    "gpsConnected": true,
+    "clock": 1000
+  },
+  "instructions": [
+    {
+      "instruction": "INITIALIZE_FLIGHT_STATE",
+      "parameters": {
+        "altitude": 100,
+        "lidarProximity": 50,
+        "batteryState": 100,
+        "gpsConnected": true
+      }
+    },
+    {
+      "instruction": "SET_ALTITUDE",
+      "parameters": {
+        "altitude": 180
+      }
+    }
+  ]
+}

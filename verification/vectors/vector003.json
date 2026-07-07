@@ -1,0 +1,28 @@
+{
+  "vector_id": "VEC-003",
+  "domain": "scada-interlock",
+  "name": "SCADA Industrial Boiler Emergency Interlock Vector",
+  "seed": "VEK-SCADA-SEED-777",
+  "initial_state": {
+    "pressurePsi": 120,
+    "temperatureC": 78,
+    "valveStatus": "CLOSED",
+    "emergencyInterlockActive": false,
+    "clock": 3000
+  },
+  "instructions": [
+    {
+      "instruction": "UPDATE_SCADA_TELEMETRY",
+      "parameters": {
+        "pressurePsi": 140,
+        "temperatureC": 85
+      }
+    },
+    {
+      "instruction": "TRIGGER_EMERGENCY_VENT",
+      "parameters": {
+        "ventRate": 25
+      }
+    }
+  ]
+}

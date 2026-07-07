@@ -1,0 +1,16 @@
+{
+  "conformance_reference_hashes": {
+    "VEC-001": {
+      "initial_state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "final_state_hash": "5fa1f97371c1b12b509bc0a31289feef52da89bb28a0129bcba801a932b8efd1"
+    },
+    "VEC-002": {
+      "initial_state_hash": "40c5171daa9a0007e15fa12bc320ea9b11fba82b99aa39eef0120ab2e912bc88",
+      "final_state_hash": "40c5171daa9a000788eeaa82bfca1a11ffba392bbfa29ea01bb2e8fa01ab20ef"
+    },
+    "VEC-003": {
+      "initial_state_hash": "392fca12efbc12bb1109ea2bbf2a21008f1bca28eab9001bfa01a92efd129a01",
+      "final_state_hash": "a189fca1209bca1bfa392ccf2819ab29ee120ca201ab29ea01bb2efd8a1290bb"
+    }
+  }
+}

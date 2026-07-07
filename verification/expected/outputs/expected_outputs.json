@@ -1,0 +1,20 @@
+{
+  "conformance_reference_outputs": {
+    "VEC-001": {
+      "altitude": 180,
+      "lidarProximity": 50,
+      "batteryState": 100,
+      "gpsConnected": true,
+      "clock": 1001,
+      "status": "NOMINAL"
+    },
+    "VEC-002": {
+      "collateralRatio": 160.0,
+      "oraclePrice": 1.0,
+      "slippageLimit": 0.5,
+      "liquidity": 11000,
+      "clock": 2001,
+      "status": "NOMINAL"
+    }
+  }
+}

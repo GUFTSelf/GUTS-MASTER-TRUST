@@ -1,0 +1,29 @@
+{
+  "vector_id": "VEC-002",
+  "domain": "defi-pool",
+  "name": "DeFi AMM Token Swap and Liquidity Vector",
+  "seed": "VEK-DEFI-SEED-888",
+  "initial_state": {
+    "collateralRatio": 150,
+    "oraclePrice": 1.0,
+    "slippageLimit": 0.5,
+    "liquidity": 10000,
+    "clock": 2000
+  },
+  "instructions": [
+    {
+      "instruction": "INITIALIZE_POOL",
+      "parameters": {
+        "collateralRatio": 150,
+        "oraclePrice": 1.0,
+        "slippageLimit": 0.5
+      }
+    },
+    {
+      "instruction": "DEPOSIT_COLLATERAL",
+      "parameters": {
+        "amount": 1000
+      }
+    }
+  ]
+}

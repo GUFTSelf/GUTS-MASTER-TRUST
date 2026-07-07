@@ -1,0 +1,21 @@
+{
+  "conformance_reference_ledgers": {
+    "VEC-001": {
+      "epochs": [
+        {
+          "epoch_index": 0,
+          "state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "clock": 1000
+        },
+        {
+          "epoch_index": 1,
+          "state_hash": "5fa1f97371c1b12b509bc0a31289feef52da89bb28a0129bcba801a932b8efd1",
+          "prev_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "clock": 1001
+        }
+      ],
+      "signature": "ed25519-seal-mock-001"
+    }
+  }
+}

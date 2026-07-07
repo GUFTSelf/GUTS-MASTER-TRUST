@@ -1,0 +1,27 @@
+{
+  "test_id": "CTS-004-VEC1",
+  "domain": "uas-route",
+  "seed": "UAS-SEED-123",
+  "initial_state": {
+    "altitude": 150,
+    "clock": 1000
+  },
+  "malformed_steps": [
+    {
+      "step": 1,
+      "command": "SET_ALTITUDE",
+      "payload": { "altitude": 200 },
+      "injected_fault": {
+        "clock_regression": 999
+      }
+    },
+    {
+      "step": 2,
+      "command": "SET_ALTITUDE",
+      "payload": { "altitude": 650 },
+      "injected_fault": {
+        "out_of_bounds_policy": true
+      }
+    }
+  ]
+}

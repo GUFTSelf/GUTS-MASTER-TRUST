@@ -1,0 +1,11 @@
+{
+  "replay_001_trace": [
+    { "step": 1, "clock": 1001, "state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" },
+    { "step": 2, "clock": 1002, "state_hash": "5fa1f97371c1b12b509bc0a31289feef52da89bb28a0129bcba801a932b8efd1" },
+    { "step": 3, "clock": 1003, "state_hash": "8f188ce14bab9f31002ac161d31a5fa1c9ab21fe82c16198fa01a92e8fa032bb" }
+  ],
+  "replay_002_trace": [
+    { "step": 1, "clock": 2001, "state_hash": "40c5171daa9a0007e15fa12bc320ea9b11fba82b99aa39eef0120ab2e912bc88" },
+    { "step": 2, "clock": 2002, "state_hash": "40c5171daa9a000788eeaa82bfca1a11ffba392bbfa29ea01bb2e8fa01ab20ef" }
+  ]
+}

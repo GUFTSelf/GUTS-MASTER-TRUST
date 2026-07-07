@@ -1,0 +1,19 @@
+{
+  "test_id": "CTS-001-VEC2",
+  "domain": "defi-pool",
+  "seed": "DEFI-SEED-456",
+  "initial_state": {
+    "collateralRatio": 150.0,
+    "oraclePrice": 1.0,
+    "slippageLimit": 0.5,
+    "liquidity": 10000,
+    "clock": 2000
+  },
+  "input": {
+    "step": 1,
+    "command": "DEPOSIT_COLLATERAL",
+    "payload": {
+      "amount": 1000
+    }
+  }
+}

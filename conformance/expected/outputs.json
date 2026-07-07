@@ -1,0 +1,18 @@
+{
+  "state_transition_001_output": {
+    "altitude": 200,
+    "lidarProximity": 35,
+    "batteryState": 100,
+    "gpsConnected": true,
+    "clock": 1001,
+    "status": "NOMINAL"
+  },
+  "state_transition_002_output": {
+    "collateralRatio": 160.0,
+    "oraclePrice": 1.0,
+    "slippageLimit": 0.5,
+    "liquidity": 11000,
+    "clock": 2001,
+    "status": "NOMINAL"
+  }
+}

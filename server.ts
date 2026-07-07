@@ -8,6 +8,7 @@ import { promisify } from "util";
 import { GoogleGenAI } from "@google/genai";
 import { createServer as createViteServer } from "vite";
 import { verifyReportSignature } from "./src/crypto/report_signer";
+import { runCtsSuite } from "./conformance/runner/typescript/cts-runner";
 
 const execAsync = promisify(exec);
 
@@ -194,6 +195,15 @@ app.get("/api/verify-signature", (req, res) => {
     }
   } else {
     res.status(404).json({ error: "Evaluation report not found." });
+  }
+});
+
+app.get("/api/cts-report", (req, res) => {
+  try {
+    const report = runCtsSuite();
+    res.json(report);
+  } catch (err: any) {
+    res.status(500).json({ error: "Failed to run Conformance Test Suite: " + err.message });
   }
 });
 

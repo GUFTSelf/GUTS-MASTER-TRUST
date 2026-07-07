@@ -1,0 +1,7 @@
+{
+  "conformance_specification_version": "2.4.0",
+  "kernel_version": "2.4.0",
+  "hash_algorithms": ["SHA-256", "SHA-512"],
+  "signature_schemes": ["RSA-SHA256", "Ed25519"],
+  "supported_domains": ["uas-route", "defi-pool", "clinical-dose", "scada-interlock"]
+}

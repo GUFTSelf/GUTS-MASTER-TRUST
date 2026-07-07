@@ -1,0 +1,21 @@
+{
+  "test_id": "CTS-010-VEC1",
+  "domain": "uas-route",
+  "seed": "UAS-SEED-123",
+  "ledger_entries": [
+    {
+      "step": 0,
+      "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "state_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "input_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "clock": 1000
+    },
+    {
+      "step": 1,
+      "prev_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "state_hash": "5fa1f97371c1b12b509bc0a31289feef52da89bb28a0129bcba801a932b8efd1",
+      "input_hash": "f62649ca30fa1dbd83a1f8bb0203f9c6d36ea1bfa00d2e8bfa1ea09b2e8fa031",
+      "clock": 1001
+    }
+  ]
+}

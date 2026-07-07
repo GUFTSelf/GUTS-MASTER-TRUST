@@ -1,0 +1,17 @@
+{
+  "test_id": "CTS-002-VEC1",
+  "domain": "uas-route",
+  "seed": "UAS-SEED-123",
+  "initial_state": {
+    "altitude": 150,
+    "lidarProximity": 35,
+    "batteryState": 100,
+    "gpsConnected": true,
+    "clock": 1000
+  },
+  "steps": [
+    { "step": 1, "command": "INITIALIZE_FLIGHT_STATE", "payload": { "altitude": 150, "lidarProximity": 35, "batteryState": 100, "gpsConnected": true } },
+    { "step": 2, "command": "SET_ALTITUDE", "payload": { "altitude": 200 } },
+    { "step": 3, "command": "UPDATE_ENVIRONMENT", "payload": { "windSpeed": 12, "lidarProximity": 28 } }
+  ]
+}

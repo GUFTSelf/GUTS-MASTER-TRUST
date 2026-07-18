@@ -15,6 +15,7 @@ import CimMatrix from "./components/CimMatrix";
 import Contact from "./components/Contact";
 import VekAiConsole from "./components/VekAiConsole";
 import CtsSuite from "./components/CtsSuite";
+import IdentityGatePrototype from "./components/IdentityGatePrototype";
 import { VerificationReport, AuditRecord } from "./types";
 import { AVATAR_PRESETS, getSvgDataUrl } from "./lib/avatarPresets";
 import { exportAuditReceipt, ProgressStep, MASTER_AUDIT_RECEIPT } from "./lib/pdfGenerator";
@@ -172,7 +173,7 @@ export default function App() {
 
         {/* Navigation Tabs */}
         <div className="hidden lg:flex items-center space-x-1.5 text-[11px] uppercase font-semibold tracking-wider font-mono">
-          {["Dashboard", "AI Console", "Conformance CTS", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
+          {["Dashboard", "AI Console", "Identity Gate", "Conformance CTS", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
             <button
               key={tab}
               id={`nav-tab-${tab.toLowerCase().replace(" ", "-")}`}
@@ -199,7 +200,7 @@ export default function App() {
 
       {/* MOBILE TABS MENU BAR */}
       <div className="lg:hidden bg-[#0c0c0e] border-b border-[#27272a] p-2 flex overflow-x-auto gap-1 scrollbar-none shrink-0 font-mono text-[10px] uppercase">
-        {["Dashboard", "AI Console", "Conformance CTS", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
+        {["Dashboard", "AI Console", "Identity Gate", "Conformance CTS", "Execution", "Replay", "Evidence", "Audit", "Trust Stack", "Benchmarks", "Specification", "Protocol", "Platform", "Workspace", "Licensing", "API", "Settings"].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -242,6 +243,11 @@ export default function App() {
             aiVoice={aiVoice}
             aiAvatar={aiAvatar}
           />
+        )}
+
+        {/* TAB 1.55: IDENTITY GATE */}
+        {activeTab === "Identity Gate" && (
+          <IdentityGatePrototype />
         )}
 
         {/* TAB 1.6: CONFORMANCE CTS */}
